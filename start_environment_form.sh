@@ -1,15 +1,16 @@
 #!/bin/bash
 
-echo "Baixando FormDin FrameWork em www/formdin";
+echo -e '\033[01;32m Baixando FormDin FrameWork do github e colocando em www/formdin \033[00;37m!!!'
 cd www
 git clone https://github.com/bjverde/formDin.git
+chmod 777 formdin/base/tmp
 
-echo "Baixando SysGen - o sistema gerador de sistemas";
+echo -e '\033[01;32m Baixando SysGen (gerador de sistemas) do github e colocando em www/formdin/sysgen \033[00;37m!!!'
 cd formDin
 git clone https://github.com/bjverde/sysgen.git
 cd ../..
 
-echo "Instalando Docker";
+echo -e '\033[01;34m Instalando Docker \033[00;37m!!!'
 
 sudo apt-get remove docker docker-engine docker.io;
 sudo apt-get update;
@@ -21,5 +22,11 @@ sudo add-apt-repository \
    stable";
 sudo apt-get update;
 sudo apt-get install docker-ce;
+
+echo -e '\033[01;34m Instalando Docker Compose \033[00;37m!!!'
+sudo curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose;
+sudo chmod +x /usr/local/bin/docker-compose;
+
+echo -e '\033[01;34m Agora o Docker vai para baixar as imagens, gerar e levanta o ambiente \033[00;37m!!!'
 sudo docker-compose build;
 sudo docker-compose up;
