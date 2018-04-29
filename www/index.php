@@ -61,7 +61,7 @@ body {font-family: "Roboto", sans-serif}
 <hr>
 <h2 id="docker">Docker?</h2>
 <div class="w3-container w3-sand w3-leftbar">
-<p><i>Docker é container para montar de forma simples e rapida o Ambiente necessario para rodar o FormDin e suas aplições de exemplo. As configurações:</i></p>
+<p><i>Docker é container para montar de forma simples e rápida o Ambiente necessário para rodar o FormDin e suas aplicações de exemplo. As configurações:</i></p>
 <ul>
  <li>Sistema Operacional Debian 8</li>
  <li>Servidor Web Apache 2.4.</li>
