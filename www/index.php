@@ -56,7 +56,7 @@ body {font-family: "Roboto", sans-serif}
 <h2 id="sysgen">O que é o SysGen?</h2>
 <p>É um gerador de sistemas ! É Feito em formDin e gera sistema formDin</p>
 <p><b>Write less, do more. But "Talk is Cheap. Show me the Code"!</b></p>
-<p>O gerador de sistemas le um banco de dados e gera uma tela crud para cada uma das tabelas montando o esqueleto do sistema. O codigo gerado é de facil manutenção e modificação utilizando o como framework FormDin para o novo sistema.</p>
+<p>O gerador de sistemas lê um banco de dados e gera uma tela crud para cada uma das tabelas montando o esqueleto do sistema. O código gerado é de fácil manutenção e modificação utilizando o como framework FormDin para o novo sistema.</p>
 
 <hr>
 <h2 id="docker">Docker?</h2>
