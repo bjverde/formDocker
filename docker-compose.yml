@@ -1,0 +1,35 @@
+# sudo docker-compose build
+# sudo docker-compose up
+
+version: '3.2'
+services:
+  database:
+    image: mysql
+    environment:
+      - MYSQL_DATABASE=form
+      - MYSQL_USER=root
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes    
+    networks: 
+      - formdin-network
+    volumes:
+      - ./database/mysql:/var/lib/mysql    
+
+
+  apache_php:
+    build:
+      dockerfile: apache_php7.1.Dockerfile
+      context: .
+    image: bjverde/php
+    container_name: apache_php
+    ports:
+      - "80:80"
+    networks:
+      - formdin-network
+    volumes:
+      - ./www:/var/www/html
+    depends_on:
+      - database      
+
+networks: 
+    formdin-network:
+        driver: bridge
