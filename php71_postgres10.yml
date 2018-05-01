@@ -20,7 +20,7 @@ services:
 
   apache_php:
     build:
-      dockerfile: apache_php7.1_pod_postgres.Dockerfile
+      dockerfile: apache_php7.1.Dockerfile
       context: .
     image: bjverde/php
     container_name: apache_php
