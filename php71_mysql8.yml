@@ -5,10 +5,19 @@ version: '3.2'
 services:
   database:
     image: mysql
+    container_name: mysql
+    restart: always    
     environment:
+      # MYSQL_ROOT_PASSWORD: 123456
+      # MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      # MYSQL_DATABASE: wordpress
+      # MYSQL_USER: wordpress
+      # MYSQL_PASSWORD: wordpress    
       - MYSQL_DATABASE=form
       - MYSQL_USER=root
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes    
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "3306:3306"      
     networks: 
       - formdin-network
     volumes:
