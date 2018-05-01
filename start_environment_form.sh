@@ -3,7 +3,8 @@
 echo -e '\033[01;32m Baixando FormDin FrameWork do github e colocando em www/formdin \033[00;37m!!!'
 cd www
 git clone https://github.com/bjverde/formDin.git
-chmod 777 formdin/base/tmp
+chmod 777 formdin/
+chmod 777 formdin/base/tmp/
 
 echo -e '\033[01;32m Baixando SysGen (gerador de sistemas) do github e colocando em www/formdin/sysgen \033[00;37m!!!'
 cd formDin
