@@ -1,0 +1,33 @@
+# sudo docker-compose build
+# sudo docker-compose up
+
+version: '3.2'
+services:
+  mongo:
+    image: mongo
+    container_name: testemongo
+    restart: always
+    ports:
+      - "27017:27017"  
+    networks: 
+      - formdin-network 
+
+  apache_php:
+    build:
+      dockerfile: apache_php7.1_mongo.Dockerfile
+      context: .
+    image: apache_php71_mongo
+    container_name: apache_php71
+    ports:
+      - "80:80"
+    networks:
+      - formdin-network
+    volumes:
+       - "d:/formDocker/www:/var/www/html"
+#      - ./www:/var/www/html
+    depends_on:
+      - mongo      
+
+networks: 
+    formdin-network:
+        driver: bridge

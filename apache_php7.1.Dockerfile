@@ -1,3 +1,4 @@
+#How to build
 #docker build -f php.Dockerfile . -t bjverde/php7.1
 
 FROM php:7.1-apache 
