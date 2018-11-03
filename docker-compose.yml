@@ -1,30 +1,49 @@
 # sudo docker-compose build
 # sudo docker-compose up
 
+#Subir em background
+# sudo docker-compose -f docker-compose.yml up -d
+
 version: '3.2'
 services:
+  tika:
+    image: logicalspark/docker-tikaserver
+    container_name: tika
+    restart: always
+    ports:
+      - "9998:9998"
+    networks: 
+      - formdin-network       
+
   database:
-    image: postgres
-    container_name: postgres
+  database:
+    image: mysql
+    container_name: mysql
     restart: always
     environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      # MYSQL_ROOT_PASSWORD: 123456
+      # MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      # MYSQL_DATABASE: wordpress
+      # MYSQL_USER: wordpress
+      # MYSQL_PASSWORD: wordpress    
+      - MYSQL_DATABASE=form
+      - MYSQL_USER=root
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     ports:
-      - "5432:5432"        
+      - "3306:3306"      
     networks: 
       - formdin-network
-    #volumes:
-    #  - ./database/mysql:/var/lib/mysql    
+    volumes:
+      - ./www/database/mysql:/var/lib/mysql
 
 
   apache_php:
     build:
-      dockerfile: apache_php7.1_pod_postgres.Dockerfile
+      dockerfile: apache_php7.2.Dockerfile
       context: .
     image: bjverde/php
     container_name: apache_php
+    restart: always    
     ports:
       - "80:80"
     networks:
@@ -32,7 +51,8 @@ services:
     volumes:
       - ./www:/var/www/html
     depends_on:
-      - database      
+      - tika
+      - database
 
 networks: 
     formdin-network:
