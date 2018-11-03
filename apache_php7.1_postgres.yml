@@ -1,0 +1,43 @@
+# sudo docker-compose build
+# sudo docker-compose up
+
+#Subir em background
+# sudo docker-compose -f apache_php7.1_postgres.yml up -d
+
+
+version: '3.2'
+services:
+  database:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"        
+    networks: 
+      - formdin-network
+    #volumes:
+    #  - ./database/mysql:/var/lib/mysql    
+
+
+  apache_php:
+    build:
+      dockerfile: apache_php7.1_pod_postgres.Dockerfile
+      context: .
+    image: bjverde/php
+    container_name: apache_php
+    ports:
+      - "80:80"
+    networks:
+      - formdin-network
+    volumes:
+      - ./www:/var/www/html
+    depends_on:
+      - database      
+
+networks: 
+    formdin-network:
+        driver: bridge
