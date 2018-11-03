@@ -12,6 +12,8 @@ LABEL maintainer="bjverde@yahoo.com.br"
 #WORKDIR /var/www/html
 EXPOSE 80
 
+#PHP Modules : curl, date, dom, fileinfo, filter, ftp, hash, iconv, json, libxml, libxml, openssl, PDO, pdo_sqlite, Phar, posix, SimpleXML
+
 #Install GIT
 #RUN apt-get update && apt-get install -y git-core
 
@@ -23,10 +25,6 @@ RUN docker-php-ext-install pdo_mysql
 
 #PHP JSON
 RUN docker-php-ext-install json && docker-php-ext-enable json
-
-#PHP PDO SQLite
-# RUN apt-get install sqlite libsqlite3-dev
-#RUN docker-php-ext-install pdo_sqlite && docker-php-ext-enable pdo_sqlite
 
 #PHP PDO PostgreSql
 #RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo_pgsql

@@ -7,6 +7,5 @@
 /.project
 /.buildpath
 /formDin/
-/formDin/sysgen/
-/www/database/
+/database/mysql
 /www/.metadata/
