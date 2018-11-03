@@ -23,15 +23,11 @@ RUN docker-php-ext-install pdo
 #PHP PDO MySQL
 RUN docker-php-ext-install pdo_mysql
 
-#PHP JSON
-RUN docker-php-ext-install json && docker-php-ext-enable json
-
 #PHP PDO PostgreSql
 #RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo_pgsql
 
 #PHP Zip
 #RUN apt-get update && apt-get install -y zlib1g-dev && docker-php-ext-install zip
-
 
 
 #PHP X-Degub
