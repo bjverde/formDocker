@@ -4,8 +4,12 @@
 # https://github.com/docker-library/php/blob/master/7.2/stretch/apache/Dockerfile
 
 #How to build
-#docker build -f apache_php7.2.Dockerfile . -t bjverde/php7.2
+#sudo docker build -f apache_php7.2.Dockerfile . -t bjverde/php7.2
 
+#How use iterative mode
+#sudo docker exec -it apache_php /bin/bash
+
+#######################################
 FROM php:7.2-apache 
 LABEL maintainer="bjverde@yahoo.com.br"
 #COPY ./www /var/www/html
@@ -29,7 +33,5 @@ RUN docker-php-ext-install pdo_mysql
 #PHP Zip
 #RUN apt-get update && apt-get install -y zlib1g-dev && docker-php-ext-install zip
 
-
 #PHP X-Degub
-RUN pecl install xdebug \
-	&& docker-php-ext-enable xdebug
+RUN pecl install xdebug && docker-php-ext-enable xdebug
