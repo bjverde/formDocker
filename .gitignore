@@ -6,6 +6,6 @@
 /.settings/
 /.project
 /.buildpath
-/formDin/
 /database/mysql
-/www/.metadata/
+/www/formDin/
+/www/config/
