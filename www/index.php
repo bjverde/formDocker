@@ -63,11 +63,11 @@ body {font-family: "Roboto", sans-serif}
 <div class="w3-container w3-sand w3-leftbar">
 <p><i>Docker é container para montar de forma simples e rápida o Ambiente necessário para rodar o FormDin e suas aplicações de exemplo. As configurações:</i></p>
 <ul>
- <li>Sistema Operacional Debian 8</li>
- <li>Servidor Web Apache 2.4.</li>
- <li>PHP 7.1.</li>
- <li>Banco de dados MySQL.</li>
- <li>Banco de dados SQLite.</li>
+    <li>Sistema Operacional Debian 8</li>
+    <li>Servidor Web Apache 2.4.</li>
+    <li>PHP 7.1.</li>
+    <li>Banco de dados MySQL.</li>
+    <li>Banco de dados SQLite.</li>
 </ul>
 </div>
 
@@ -76,11 +76,11 @@ body {font-family: "Roboto", sans-serif}
 
 <p>Esse ambiente apresenta 5 aplicaçõs feitas em formDin que pode servir de exemplo</p>
 <ul>
- <li><a href="http://localhost/formDin/appexemplo_form_alone" target="_blank">Formulario simples apenas mostrando informações</a></li>
- <li><a href="http://localhost/formDin/appexemplo_v1.0" target="_blank">Aplicação de exemplo v1.0</a> - apresenta quase todos os recursos do formDin apenas para mostrar o que pode ser feito</li>
- <li><a href="http://localhost/formDin/appexemplo_v2.0" target="_blank">Aplicação de exemplo v2.0</a> - Uma Aplicação feita com MySQL com diversos formulario relacionados</li>
- <li><a href="http://localhost/formDin/appexemplo_v2.5" target="_blank">Aplicação de exemplo v2.5</a> - é a mesmo que aplicação v2.0 pora com login e perfil</li>
- <li><a href="http://localhost/formDin/sysgen" target="_blank">SysGen</a> - é um o sistema que gera sistema.</li>
+   <li><a href="http://localhost/formDin/appexemplo_form_alone" target="_blank">Formulario simples apenas mostrando informações</a></li>
+    <li><a href="http://localhost/formDin/appexemplo_v1.0" target="_blank">Aplicação de exemplo v1.0</a> - apresenta quase todos os recursos do formDin apenas para mostrar o que pode ser feito</li>
+    <li><a href="http://localhost/formDin/appexemplo_v2.0" target="_blank">Aplicação de exemplo v2.0</a> - Uma Aplicação feita com MySQL com diversos formulario relacionados</li>
+    <li><a href="http://localhost/formDin/appexemplo_v2.5" target="_blank">Aplicação de exemplo v2.5</a> - é a mesmo que aplicação v2.0 pora com login e perfil</li>
+    <li><a href="http://localhost/formDin/sysgen" target="_blank">SysGen</a> - é um o sistema que gera sistema.</li>
 </ul>
 
 </div>
