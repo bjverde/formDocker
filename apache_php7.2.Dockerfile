@@ -19,10 +19,13 @@ EXPOSE 80
 #PHP Modules : curl, date, dom, fileinfo, filter, ftp, hash, iconv, json, libxml, libxml, openssl, PDO, pdo_sqlite, Phar, posix, SimpleXML
 
 #Install facilitators
-RUN apt-get update && apt-get install locate mlocate
+RUN apt-get update && apt-get install -y locate mlocate curl nano
 
 #Install GIT
-#RUN apt-get update && apt-get install -y git-core
+RUN apt-get install -y git-core
+
+#PHP Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 #PHP PDO 
 RUN docker-php-ext-install pdo
@@ -34,7 +37,7 @@ RUN docker-php-ext-install pdo_mysql
 #RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo_pgsql
 
 #PHP Zip
-#RUN apt-get update && apt-get install -y zlib1g-dev && docker-php-ext-install zip
+RUN apt-get install -y zlib1g-dev && docker-php-ext-install zip
 
 ####
 # https://imasters.com.br/devsecops/como-usar-o-xdebug-dentro-de-um-container-docker
@@ -42,6 +45,9 @@ RUN docker-php-ext-install pdo_mysql
 # https://tsayao.com.br/735/docker-mysql-nginx-php-com-debug-visual-studio-code-e-intellij-idea-php-storm/
 # https://marketplace.visualstudio.com/items?itemName=felixfbecker.php-debug
 ####
+
+#Change PHP.INI for Desenv
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 #PHP X-Degub install
 RUN pecl install xdebug && docker-php-ext-enable xdebug
@@ -58,7 +64,7 @@ RUN echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/docker-php-ext-x
 RUN echo "xdebug.remote_log=/tmp/xdebug_log/xdebug.log" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 
+RUN cat /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
 #Creating index of files
 RUN updatedb
-
-RUN cat /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
