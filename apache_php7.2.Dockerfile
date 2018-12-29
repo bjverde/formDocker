@@ -26,7 +26,7 @@ EXPOSE 80
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 #Install facilitators
-RUN apt-get update && apt-get install -y locate mlocate curl nano
+RUN apt-get update && apt-get install -y locate mlocate curl nano wget
 
 #Install GIT
 RUN apt-get install -y git-core
@@ -36,7 +36,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 #PHP Install PHPUnit
 #https://phpunit.de/getting-started/phpunit-7.html
-#RUN wget -O /usr/local/bin/phpunit-7.phar https://phar.phpunit.de/phpunit-7.phar; chmod +x /usr/local/bin/phpunit-7.phar;
+RUN wget -O /usr/local/bin/phpunit-7.phar https://phar.phpunit.de/phpunit-7.phar; chmod +x /usr/local/bin/phpunit-7.phar; \
+ln -s /usr/local/bin/phpunit-7.phar /usr/local/bin/phpunit
 
 #PHP PDO 
 RUN docker-php-ext-install pdo
