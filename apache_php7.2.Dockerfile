@@ -6,8 +6,12 @@
 #How to build
 #sudo docker build -f apache_php7.2.Dockerfile . -t bjverde/php7.2
 
-#How use iterative mode
+#How use iterative mode container
 #sudo docker exec -it apache_php /bin/bash
+
+#How use iterative mode image
+#sudo docker run -p 80:80 -it devform:7.2-deb-apache /bin/bash
+#sudo docker run -d -p 80:80 devform:7.2-deb-apach
 
 #######################################
 FROM php:7.2-apache 
@@ -18,6 +22,9 @@ EXPOSE 80
 
 #PHP Modules : curl, date, dom, fileinfo, filter, ftp, hash, iconv, json, libxml, libxml, openssl, PDO, pdo_sqlite, Phar, posix, SimpleXML
 
+#Change PHP.INI for Desenv
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+
 #Install facilitators
 RUN apt-get update && apt-get install -y locate mlocate curl nano
 
@@ -26,6 +33,10 @@ RUN apt-get install -y git-core
 
 #PHP Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+#PHP Install PHPUnit
+#https://phpunit.de/getting-started/phpunit-7.html
+#RUN wget -O /usr/local/bin/phpunit-7.phar https://phar.phpunit.de/phpunit-7.phar; chmod +x /usr/local/bin/phpunit-7.phar;
 
 #PHP PDO 
 RUN docker-php-ext-install pdo
@@ -45,9 +56,6 @@ RUN apt-get install -y zlib1g-dev && docker-php-ext-install zip
 # https://tsayao.com.br/735/docker-mysql-nginx-php-com-debug-visual-studio-code-e-intellij-idea-php-storm/
 # https://marketplace.visualstudio.com/items?itemName=felixfbecker.php-debug
 ####
-
-#Change PHP.INI for Desenv
-RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 #PHP X-Degub install
 RUN pecl install xdebug && docker-php-ext-enable xdebug

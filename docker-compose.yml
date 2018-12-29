@@ -6,14 +6,6 @@
 
 version: '3.2'
 services:
-  tika:
-    image: logicalspark/docker-tikaserver
-    container_name: tika
-    restart: always
-    ports:
-      - "9998:9998"
-    networks: 
-      - formdin-network       
 
   database:
     image: mysql
@@ -35,12 +27,11 @@ services:
     volumes:
       - ./database/mysql:/var/lib/mysql
 
-
   apache_php:
     build:
       dockerfile: apache_php7.2.Dockerfile
       context: .
-    image: bjverde/php
+    image: devform:7.2-deb-apache
     container_name: apache_php
     restart: always    
     ports:
@@ -50,7 +41,6 @@ services:
     volumes:
       - ./www:/var/www/html
     depends_on:
-      - tika
       - database
 
 networks: 
