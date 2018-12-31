@@ -8,12 +8,11 @@ version: '3.2'
 services:
 
   database:
-    image: mysql:5.7
+    image: mysql
     container_name: mysql
     restart: always
     environment:
-      # MYSQL_ALLOW_EMPTY_PASSWORD: 1
-      # - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      # MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_DATABASE: form
       MYSQL_USER: form
