@@ -21,8 +21,9 @@ services:
       - "3306:3306"      
     networks: 
       - formdin-network
-    # volumes:
-    #  - ./database/mysql:/var/lib/mysql
+    #volumes:
+    # - ./data/db:/var/lib/mysql
+    # - ./database/mysql:/var/lib/mysql
 
   apache_php:
     build:
