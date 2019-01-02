@@ -46,7 +46,9 @@ function installFormDin(){
         if(empty($_POST)){
             echo "<h2>A Instalação não está completa !! Mas estamos quase lá :-) </h2>";
             echo "<br>";
-            echo "<br>Essa etapa pode demorar um pouco. Será preciso baixar e instalar o FormDin FrameWork PHP";
+            echo "<br>Essa etapa pode demorar um pouco. Pode levar 3 a 5 minutos dependendo da velocidade da internet.";
+            echo "<br>";
+            echo "<br>Será preciso baixar e instalar o FormDin FrameWork PHP";
             echo "<br>";
             echo '<form name="form" method="post">'; 
             echo '<button name="baixar" value="baixar" type="submit">Continuar a instalação</button>';
