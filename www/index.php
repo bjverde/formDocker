@@ -1,4 +1,5 @@
 <?php
+require_once 'tools.php';
 
 $code = '735utf8PHP7';
 $filename = 'formDin';

@@ -1,41 +1,6 @@
 <?php
 
-    /**
-     * Similar to array_key_exists. But it does not generate an error message
-     *
-     * Semelhante ao array_key_exists. Mas não gera mensagem de erro
-     *
-     * @param  string $atributeName
-     * @param  array  $array
-     * @return boolean
-     */
-    function has($atributeName,$array) 
-    {
-        $value = false;
-        if (is_array($array) && array_key_exists($atributeName, $array)) {
-            $value = true;
-        }
-        return $value;
-    }
-
-    /***
-     *
-     * @param array  $array
-     * @param string $atributeName
-     * @param mixed  $DefaultValue
-     * @return mixed
-     */
-    function getDefaultValeu($array,$atributeName,$DefaultValue) 
-    {
-        $value = $DefaultValue;
-        if(has($atributeName, $array) ) {
-            if(isset($array[$atributeName]) && ($array[$atributeName]<>'') ) {
-                $value = $array[$atributeName];
-            }
-        }
-        return $value;
-    }
-
+require_once 'tools.php';
 
 function installFormDin(){
     header('Content-Type: text/html; charset=utf-8');

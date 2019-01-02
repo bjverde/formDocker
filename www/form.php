@@ -1,4 +1,5 @@
 <?php
+require_once 'tools.php';
 $filename = 'formDin';
 if (!file_exists($filename)) {
     header('Location: index.php');
@@ -83,11 +84,11 @@ body {font-family: "Roboto", sans-serif}
 
 <p>Esse ambiente apresenta 5 aplicaçõs feitas em formDin que pode servir de exemplo</p>
 <ul>
-   <li><a href="http://localhost/formDin/appexemplo_form_alone" target="_blank">Formulario simples apenas mostrando informações</a></li>
-    <li><a href="http://localhost/formDin/appexemplo_v1.0" target="_blank">Aplicação de exemplo v1.0</a> - apresenta quase todos os recursos do formDin apenas para mostrar o que pode ser feito</li>
-    <li><a href="http://localhost/formDin/appexemplo_v2.0" target="_blank">Aplicação de exemplo v2.0</a> - Uma Aplicação feita com MySQL com diversos formulario relacionados</li>
-    <li><a href="http://localhost/formDin/appexemplo_v2.5" target="_blank">Aplicação de exemplo v2.5</a> - é a mesmo que aplicação v2.0 pora com login e perfil</li>
-    <li><a href="http://localhost/formDin/sysgen" target="_blank">SysGen</a> - é um o sistema que gera sistema.</li>
+    <li><?php showHref('formDin/appexemplo_form_alone','Formulario simples apenas mostrando informações'); ?></li>
+    <li><?php showHref('formDin/appexemplo_v1.0','Aplicação de exemplo v1.0'); ?> - apresenta quase todos os recursos do formDin apenas para mostrar o que pode ser feito</li>
+    <li><?php showHref('formDin/appexemplo_v2.0','Aplicação de exemplo v2.0'); ?> - Uma Aplicação feita com MySQL com diversos formulario relacionados</li>
+    <li><?php showHref('formDin/appexemplo_v2.5','Aplicação de exemplo v2.5'); ?> - é a mesmo que aplicação v2.0 pora com login e perfil</li>
+    <li><?php showHref('formDin/sysgen','SysGen'); ?> - é um o sistema que gera sistema.</li>
 </ul>
 
 </div>
