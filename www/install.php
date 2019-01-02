@@ -1,5 +1,42 @@
 <?php
 
+    /**
+     * Similar to array_key_exists. But it does not generate an error message
+     *
+     * Semelhante ao array_key_exists. Mas não gera mensagem de erro
+     *
+     * @param  string $atributeName
+     * @param  array  $array
+     * @return boolean
+     */
+    function has($atributeName,$array) 
+    {
+        $value = false;
+        if (is_array($array) && array_key_exists($atributeName, $array)) {
+            $value = true;
+        }
+        return $value;
+    }
+
+    /***
+     *
+     * @param array  $array
+     * @param string $atributeName
+     * @param mixed  $DefaultValue
+     * @return mixed
+     */
+    function getDefaultValeu($array,$atributeName,$DefaultValue) 
+    {
+        $value = $DefaultValue;
+        if(has($atributeName, $array) ) {
+            if(isset($array[$atributeName]) && ($array[$atributeName]<>'') ) {
+                $value = $array[$atributeName];
+            }
+        }
+        return $value;
+    }
+
+
 function installFormDin(){
     header('Content-Type: text/html; charset=utf-8');
     $filename = '/var/www/install_base_formdin.sh';
@@ -31,7 +68,12 @@ function installFormDin(){
 $filename = 'formDin';
 if (file_exists($filename)) {
     header('Location: form.php');
-} else {
-    installFormDin();
+} else { 
+    $code = getDefaultValeu($_GET,'cod',null);
+    if( $code =='735utf8PHP7' ){
+        installFormDin();
+    }else{
+        header('Location: index.php');
+    }
 }
 ?>

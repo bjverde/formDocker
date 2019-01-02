@@ -1,3 +1,10 @@
+<?php
+$filename = 'formDin';
+if (!file_exists($filename)) {
+    header('Location: index.php');
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <title>Ambiente FormDin</title>

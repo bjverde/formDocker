@@ -72,8 +72,10 @@ RUN echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/docker-php-ext-x
 #PHP X-Degub enable log
 RUN echo "xdebug.remote_log=/tmp/xdebug_log/xdebug.log" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
+#RUN cat /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-RUN cat /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+COPY --chown=www-data:www-data install_base_formdin.sh /var/www/install_base_formdin.sh
 
 #Creating index of files
 RUN updatedb
