@@ -4,6 +4,8 @@ require_once 'tools.php';
 
 function installFormDin(){
     header('Content-Type: text/html; charset=utf-8');
+    echo "<h2>A Instalação não está completa !! Processo em construção </h2>";
+/*
     $filename = '/var/www/install_base_formdin.sh';
     if (!file_exists($filename)) {
         echo "Falha na construção da imagem docker";
@@ -30,6 +32,7 @@ function installFormDin(){
             echo '</form>';            
         }
     }
+    */
 }
 
 $filename = 'formDin';

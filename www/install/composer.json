@@ -1,0 +1,8 @@
+{
+	"type": "project",
+	"description": "formDin FrameWork",
+    "require": {
+		"php": ">=7.0.0",
+		"daveismyname/sql-import": "^1.0.1"
+    }
+}
