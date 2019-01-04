@@ -1,0 +1,58 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "d946fd02a77340c6d355178c03116801",
+    "packages": [
+        {
+            "name": "daveismyname/sql-import",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/daveismyname/sql-import.git",
+                "reference": "bc5fd05bc59cc758120775507d4763064c7714b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/daveismyname/sql-import/zipball/bc5fd05bc59cc758120775507d4763064c7714b6",
+                "reference": "bc5fd05bc59cc758120775507d4763064c7714b6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Daveismyname\\SqlImport\\": "/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Carr",
+                    "email": "dave@daveismyname.com",
+                    "homepage": "http://daveismyname.blog",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Import .sql file into a database using PDO",
+            "time": "2018-07-29T09:40:45+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.0.0"
+    },
+    "platform-dev": []
+}
