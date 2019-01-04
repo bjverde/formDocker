@@ -1,6 +1,7 @@
 <?php
 
 require_once 'tools.php';
+require_once 'import.php';
 
 function installFormDin(){
     header('Content-Type: text/html; charset=utf-8');
@@ -37,13 +38,13 @@ function installFormDin(){
 
 $filename = 'formDin';
 if (file_exists($filename)) {
-    header('Location: form.php');
+    header('Location: ../form.php');
 } else { 
     $code = getDefaultValeu($_GET,'cod',null);
     if( $code =='735utf8PHP7' ){
         installFormDin();
     }else{
-        header('Location: index.php');
+        header('Location: ../index.php');
     }
 }
 ?>
