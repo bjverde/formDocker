@@ -1,12 +1,12 @@
 <?php
 
-require_once 'tools.php';
+require_once 'install/control/autoload_install.php';
 require_once 'import.php';
 
 function installFormDin(){
     header('Content-Type: text/html; charset=utf-8');
     //echo "<h2>A Instalação não está completa !! Processo em construção </h2>";
-    $filename = '/var/www/install_base_formdin_cp.sh';
+    $filename = '/var/www/install_base_formdin.sh';
     if (!file_exists($filename)) {
         echo "Falha na construção da imagem docker";
     } else {
@@ -21,12 +21,14 @@ function installFormDin(){
             echo '<button name="baixar" value="baixar" type="submit">Continuar a instalação</button>';
             echo '</form>';
         }else{
-            //$output = shell_exec($filename);
-            //echo "<pre>".var_dump($output)."</pre>";
+            $output = shell_exec($filename);
+            echo "<pre>".var_dump($output)."</pre>";
+            /*
             $return_var = null;
             exec ( $filename , $output , $return_var );        
             echo "<pre>".var_dump($output)."</pre>";
             echo "<pre>".var_dump($return_var)."</pre>";
+            */
             echo '<form name="form" method="post">'; 
             echo '<button type="submit">Recarregar</button>';
             echo '</form>';            

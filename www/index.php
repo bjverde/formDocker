@@ -1,5 +1,5 @@
 <?php
-require_once 'install/tools.php';
+require_once 'install/control/autoload_install.php';
 
 $code = '735utf8PHP7';
 $filename = 'formDin';

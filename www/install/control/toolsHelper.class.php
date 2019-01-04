@@ -1,4 +1,8 @@
 <?php
+
+class toolsHelper
+{
+
     /**
      * Similar to array_key_exists. But it does not generate an error message
      *
@@ -8,7 +12,7 @@
      * @param  array  $array
      * @return boolean
      */
-    function has($atributeName,$array) 
+    public static function has($atributeName,$array) 
     {
         $value = false;
         if (is_array($array) && array_key_exists($atributeName, $array)) {
@@ -24,10 +28,10 @@
      * @param mixed  $DefaultValue
      * @return mixed
      */
-    function getDefaultValeu($array,$atributeName,$DefaultValue) 
+    public static function getDefaultValeu($array,$atributeName,$DefaultValue) 
     {
         $value = $DefaultValue;
-        if(has($atributeName, $array) ) {
+        if(self::has($atributeName, $array) ) {
             if(isset($array[$atributeName]) && ($array[$atributeName]<>'') ) {
                 $value = $array[$atributeName];
             }
@@ -42,7 +46,7 @@
      * @param  boolean $trim_query_string
      * @return string|mixed
      */
-    function getServer() 
+    public static function getServer() 
     {
         $pageURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? "https://" : "http://";
         $pageURL = $pageURL.$_SERVER["SERVER_NAME"];
@@ -51,15 +55,16 @@
         return $pageURL;
     }
 
-    function getUrlOnServer($path) 
+    public static function getUrlOnServer($path) 
     {
-        $pageURL = getServer();
+        $pageURL = self::getServer();
         return $pageURL.$path;
     }
 
-    function showHref($url,$text) 
+    public static function showHref($url,$text) 
     {
-        $fullUrl = getUrlOnServer($url);
+        $fullUrl = self::getUrlOnServer($url);
         echo '<a href="'.$fullUrl.'" target="_blank">'.$text.'</a>';
         //<a href="http://localhost/formDin/appexemplo_form_alone" target="_blank">Formulario simples apenas mostrando informações</a>
     }
+}
