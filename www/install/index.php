@@ -5,9 +5,8 @@ require_once 'import.php';
 
 function installFormDin(){
     header('Content-Type: text/html; charset=utf-8');
-    echo "<h2>A Instalação não está completa !! Processo em construção </h2>";
-/*
-    $filename = '/var/www/install_base_formdin.sh';
+    //echo "<h2>A Instalação não está completa !! Processo em construção </h2>";
+    $filename = '/var/www/install_base_formdin_cp.sh';
     if (!file_exists($filename)) {
         echo "Falha na construção da imagem docker";
     } else {
@@ -32,8 +31,7 @@ function installFormDin(){
             echo '<button type="submit">Recarregar</button>';
             echo '</form>';            
         }
-    }
-    */
+    }    
 }
 
 $filename = 'formDin';
