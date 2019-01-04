@@ -1,5 +1,5 @@
 <?php
-require_once 'tools.php';
+require_once 'install/tools.php';
 $filename = 'formDin';
 if (!file_exists($filename)) {
     header('Location: index.php');
