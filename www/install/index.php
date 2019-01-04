@@ -1,7 +1,8 @@
 <?php
+define('DS'   , DIRECTORY_SEPARATOR);
 
-require_once 'control/autoload_install.php';
-require_once 'import.php';
+require_once ('vendor/autoload.php');
+require_once ('control/autoload_install.php');
 
 function installFormDin(){
     header('Content-Type: text/html; charset=utf-8');
@@ -21,8 +22,9 @@ function installFormDin(){
             echo '<button name="baixar" value="baixar" type="submit">Continuar a instalação</button>';
             echo '</form>';
         }else{
-            $output = shell_exec($filename);
-            echo "<pre>".var_dump($output)."</pre>";
+            files::copyFormDin2Apache();
+            //$output = shell_exec($filename);
+            //echo "<pre>".var_dump($output)."</pre>";
             /*
             $return_var = null;
             exec ( $filename , $output , $return_var );        

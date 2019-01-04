@@ -2,6 +2,8 @@
 
 class files
 {
+    const PATHOLD = '/opt/formDin';
+    const PATHNEW = '/var/www/html/formDin';
 
     public static function mkDir($path)
     {
@@ -10,12 +12,12 @@ class files
         }
     }
 
-    public static function copySystemSkeletonToNewSystem()
+    public static function copyFormDin2Apache()
     {
-        $pathNewSystem = self::getPathNewSystem();
-        $pathSkeleton  = 'system_skeleton';
+        $pathNew = self::PATHNEW;
+        $pathOld = self::PATHOLD;
         
-        $list = new RecursiveDirectoryIterator($pathSkeleton);
+        $list = new RecursiveDirectoryIterator($pathOld);
         $it   = new RecursiveIteratorIterator($list);
         
         foreach ($it as $file) {
@@ -23,7 +25,7 @@ class files
                 //echo ' SubPathName: ' . $it->getSubPathName();
                 //echo ' SubPath:     ' . $it->getSubPath()."<br>";
                 self::mkDir($pathNewSystem.DS.$it->getSubPath());
-                copy($pathSkeleton.DS.$it->getSubPathName(), $pathNewSystem.DS.$it->getSubPathName());
+                copy($pathOld.DS.$it->getSubPathName(), $pathNewSystem.DS.$it->getSubPathName());
             }
         }
     }
