@@ -16,9 +16,9 @@ services:
     environment:
       # MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: form
-      MYSQL_USER: form
-      MYSQL_PASSWORD: form
+      MYSQL_DATABASE: form_exemplo
+      MYSQL_USER: form_exemplo
+      MYSQL_PASSWORD: 123456
     ports:
       - "3306:3306"      
     networks: 
