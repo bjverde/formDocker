@@ -8,7 +8,7 @@ class files
     public static function mkDir($path)
     {
         if (!is_dir($path)) {
-            mkdir($path, 0744, true);
+            mkdir($path, 0766, true);
         }
     }
 
@@ -16,7 +16,8 @@ class files
     {
         $pathNew = self::PATHNEW;
         $pathOld = self::PATHOLD;
-        
+        self::mkDir($pathNew);
+
         $list = new RecursiveDirectoryIterator($pathOld);
         $it   = new RecursiveIteratorIterator($list);
         
