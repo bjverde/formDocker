@@ -4,6 +4,8 @@
 # Subir em background
 # sudo docker-compose -f docker-compose.yml up -d
 
+# How use iterative mode container
+# sudo docker-compose exec apache_php bash
 version: '3.2'
 services:
 

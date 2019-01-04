@@ -7,7 +7,7 @@
 #sudo docker build -f apache_php7.2.Dockerfile . -t bjverde/php7.2
 
 #How use iterative mode container
-#sudo docker exec -it devform:7.2-deb-apache /bin/bash
+#sudo docker run -it devform:7.2-deb-apache /bin/bash
 
 #How use iterative mode image
 #sudo docker run -p 80:80 -it devform:7.2-deb-apache /bin/bash
@@ -74,7 +74,8 @@ RUN echo "xdebug.remote_log=/tmp/xdebug_log/xdebug.log" >> /usr/local/etc/php/co
 #RUN cat /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 COPY --chown=www-data:www-data install_base_formdin.sh /var/www/install_base_formdin.sh
-RUN /var/www/install_base_formdin.sh
+RUN chmod 711 /var/www/install_base_formdin.sh
+RUN /bin/bash /var/www/install_base_formdin.sh
 
 #Creating index of files
 RUN updatedb
