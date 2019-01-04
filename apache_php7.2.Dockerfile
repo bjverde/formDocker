@@ -77,5 +77,8 @@ COPY --chown=www-data:www-data install_base_formdin.sh /var/www/install_base_for
 RUN chmod 711 /var/www/install_base_formdin.sh
 RUN /bin/bash /var/www/install_base_formdin.sh
 
+COPY --chown=www-data:www-data install_base_formdin_cp.sh /var/www/install_base_formdin_cp.sh
+RUN chmod 711 /var/www/install_base_formdin_cp.sh
+
 #Creating index of files
 RUN updatedb
