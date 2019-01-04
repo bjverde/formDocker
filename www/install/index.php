@@ -40,7 +40,7 @@ $filename = 'formDin';
 if (file_exists($filename)) {
     header('Location: ../form.php');
 } else { 
-    $code = getDefaultValeu($_GET,'cod',null);
+    $code = toolsHelper::getDefaultValeu($_GET,'cod',null);
     if( $code =='735utf8PHP7' ){
         installFormDin();
     }else{
