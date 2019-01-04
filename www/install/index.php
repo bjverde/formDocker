@@ -12,12 +12,13 @@ function installFormDin(){
         echo "Falha na construção da imagem docker";
     } else {
         if(empty($_POST)){
-            echo "<h2>A Instalação não está completa !! Mas estamos quase lá :-) </h2>";
+            echo "<h2>A Instalação não está completa !! Mas estamos quase lá ;-) </h2>";
             echo "<br>";
-            echo "<br>Essa etapa pode demorar um pouco. Pode levar 3 a 5 minutos dependendo da velocidade da internet.";
+            echo "<br>A copia do formDin será colocada na pasta WWW dentro do volume ou /var/www/html no Docker.";
             echo "<br>";
-            echo "<br>Será preciso baixar e instalar o FormDin FrameWork PHP";
+            echo "<br>Se estiver no Linux é recomendavel deixar a pasta WWW do volume com a permisão 777";
             echo "<br>";
+            echo "<br>Se estiver usado o <a href='https://github.com/bjverde/formDin/wiki/Usando-o-VS-Code'>VS Code poderá usar X-Debug com conexão remota</a>";           
             echo '<form name="form" method="post">'; 
             echo '<button name="baixar" value="baixar" type="submit">Continuar a instalação</button>';
             echo '</form>';

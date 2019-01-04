@@ -10,7 +10,7 @@ echo -e "${LIGHT_GREEN} essa etapa pode ser demorada !! :-( Vai depender da velo
 cd /opt/
 git clone https://github.com/bjverde/formDin.git
 
-echo -e "${LIGHT_GREEN} Baixando SysGen (gerador de sistemas) do github e colocando em www/formdin/sysgen ${NC}"
+echo -e "${LIGHT_GREEN} Baixando SysGen (gerador de sistemas) do github e colocando em /opt/formDin/sysgen ${NC}"
 cd formDin;
 git clone https://github.com/bjverde/sysgen.git
 
