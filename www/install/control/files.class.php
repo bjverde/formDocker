@@ -24,8 +24,8 @@ class files
             if ($it->isFile()) {
                 //echo ' SubPathName: ' . $it->getSubPathName();
                 //echo ' SubPath:     ' . $it->getSubPath()."<br>";
-                self::mkDir($pathNewSystem.DS.$it->getSubPath());
-                copy($pathOld.DS.$it->getSubPathName(), $pathNewSystem.DS.$it->getSubPathName());
+                self::mkDir($pathNew.DS.$it->getSubPath());
+                copy($pathOld.DS.$it->getSubPathName(), $pathNew.DS.$it->getSubPathName());
             }
         }
     }
