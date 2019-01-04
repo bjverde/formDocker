@@ -1,6 +1,6 @@
 <?php
 
-require_once 'install/control/autoload_install.php';
+require_once 'control/autoload_install.php';
 require_once 'import.php';
 
 function installFormDin(){
