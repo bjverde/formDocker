@@ -7,7 +7,7 @@ class importDb
         $username = 'form_exemplo';
         $password = '123456';
         $database = 'form_exemplo';
-        $dropTables = true;
+        $dropTables = false;
         new Import($filename, $username, $password, $database, $hostdb, $dropTables);
     }
 }
