@@ -89,6 +89,7 @@ body {font-family: "Roboto", sans-serif}
     <li><?php toolsHelper::showHref('formDin/appexemplo_v2.0','Aplicação de exemplo v2.0'); ?> - Uma Aplicação feita com MySQL com diversos formulario relacionados</li>
     <li><?php toolsHelper::showHref('formDin/appexemplo_v2.5','Aplicação de exemplo v2.5'); ?> - é a mesmo que aplicação v2.0 pora com login e perfil</li>
     <li><?php toolsHelper::showHref('formDin/sysgen','SysGen'); ?> - é um o sistema que gera sistema.</li>
+    <li><?php toolsHelper::showHref('phpinfo.php','PHP Info'); ?></li>
 </ul>
 
 </div>
