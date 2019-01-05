@@ -5,8 +5,7 @@ require_once ('vendor/autoload.php');
 require_once ('control/autoload_install.php');
 
 function updateDataBase(){
-    //$serverName = $_SERVER["SERVER_NAME"];
-    $serverName = 'mysql';
+    $serverName = $_SERVER["SERVER_NAME"];
     $filename = '/var/www/html/formDin/modelo_banco_exemplos/01_script_criacao_banco.sql';
     importDb::exec($filename,$serverName);
 
