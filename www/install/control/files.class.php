@@ -8,7 +8,7 @@ class files
     public static function mkDir($path)
     {
         if (!is_dir($path)) {
-            mkdir($path, 0766, true);
+            mkdir($path, 0777, true);
         }
     }
 
@@ -27,6 +27,7 @@ class files
                 //echo ' SubPath:     ' . $it->getSubPath()."<br>";
                 self::mkDir($pathNew.DS.$it->getSubPath());
                 copy($pathOld.DS.$it->getSubPathName(), $pathNew.DS.$it->getSubPathName());
+                chmod ($pathNew.DS.$it->getSubPathName(), 0777);
             }
         }
     }
