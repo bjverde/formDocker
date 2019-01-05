@@ -5,7 +5,7 @@ formDocker is
 
 There are several example Docker-compose files. Choose a folder as you wish. The default installation is:
 * Debian 9
-* Apahce 2.4
+* Apache 2.4
 * PHP 7.2
 * MySQL 5.7
 * [formDin latest version](https://github.com/bjverde/formDin/releases/latest)
@@ -17,7 +17,7 @@ formDocker são arquivos do Docker Compose para montar o ambiente do [FormDin Fr
 
 Existem diversos arquivos Docker-compose de exemplo. Escolha uma pasta conforme seu desejo. A instalação padrão é:
 * Debian 9
-* Apahce 2.4
+* Apache 2.4
 * PHP 7.2
 * MySQL 5.7
 * [formDin ultima versão](https://github.com/bjverde/formDin/releases/latest)
