@@ -1,7 +1,15 @@
 # About
+
+formDocker are files from the Docker Composer to mount the [FormDin FrameWork](https://github.com/bjverde/formDin) environment with: Apache / PHP, Database, [FormDin FrameWork](https://github.com/bjverde/formDin) and [SysGen System Generator](https://github.com/bjverde/sysgen/releases/latest)
 formDocker is
 
-Docker Compose files to mount the [FormDin FrameWork](https://github.com/bjverde/formDin) environment with: PHP and database. 
+There are several example Docker-compose files. Choose a folder as you wish. The default installation is:
+* Debian 9
+* Apahce 2.4
+* PHP 7.2
+* MySQL 5.7
+* [formDin latest version](https://github.com/bjverde/formDin/releases/latest)
+* [SysGen latest version](https://github.com/bjverde/sysgen/releases/latest)
 
 # PT-BR
 formDocker são arquivos do Docker Compose para montar o ambiente do [FormDin FrameWork](https://github.com/bjverde/formDin) com: Apache/PHP, Banco de dados, o [FormDin FrameWork](https://github.com/bjverde/formDin) e o [gerador de sistemas SysGen](https://github.com/bjverde/sysgen/releases/latest)
