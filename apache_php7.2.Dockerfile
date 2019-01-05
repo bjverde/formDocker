@@ -20,7 +20,7 @@ LABEL maintainer="bjverde@yahoo.com.br"
 #WORKDIR /var/www/html
 EXPOSE 80
 
-#PHP Modules : curl, date, dom, fileinfo, filter, ftp, hash, iconv, json, libxml, libxml, openssl, PDO, pdo_sqlite, Phar, posix, SimpleXML
+#PHP Modules : curl, date, dom, fileinfo, filter, ftp, hash, iconv, json, libxml, libxml, mbstring, openssl, PDO, pdo_sqlite, Phar, posix, SimpleXML
 
 #Change PHP.INI for Desenv
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
@@ -43,7 +43,7 @@ ln -s /usr/local/bin/phpunit-7.phar /usr/local/bin/phpunit
 RUN docker-php-ext-install pdo
 
 #PHP PDO MySQL
-RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-install pdo_mysql mysqli
 
 #PHP PDO PostgreSql
 #RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo_pgsql
