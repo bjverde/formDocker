@@ -4,6 +4,15 @@ define('DS'   , DIRECTORY_SEPARATOR);
 require_once ('vendor/autoload.php');
 require_once ('control/autoload_install.php');
 
+function updateDataBase(){
+    $serverName = $_SERVER["SERVER_NAME"];
+    //$filename = '/var/www/html/formDin/modelo_banco_exemplos/01_script_criacao_banco.sql';
+    $filename = '/var/www/html/modelo_banco_exemplos/01_script_criacao_banco.sql';
+    importDb::exec($filename,$serverName);
+    //$filename = '/var/www/html/formDin/modelo_banco_exemplos/02_script_inclusao_dados.sql';
+    $filename = '/var/www/html/modelo_banco_exemplos/02_script_inclusao_dados.sql';
+    importDb::exec($filename,$serverName);
+}
 function installFormDin(){
     header('Content-Type: text/html; charset=utf-8');
     //echo "<h2>A Instalação não está completa !! Processo em construção </h2>";
@@ -23,15 +32,11 @@ function installFormDin(){
             echo '<button name="baixar" value="baixar" type="submit">Continuar a instalação</button>';
             echo '</form>';
         }else{
-            files::copyFormDin2Apache();
-            //$output = shell_exec($filename);
-            //echo "<pre>".var_dump($output)."</pre>";
-            /*
-            $return_var = null;
-            exec ( $filename , $output , $return_var );        
-            echo "<pre>".var_dump($output)."</pre>";
-            echo "<pre>".var_dump($return_var)."</pre>";
-            */
+            //files::copyFormDin2Apache();
+            echo "<h2>Copia formDin Completa! \o/ Yeeeee !!</h2>";
+            updateDataBase();
+            echo "<h2>Bando de Dados Atualizado!</h2>";
+            echo "<br>";
             echo '<form name="form" method="post">'; 
             echo '<button type="submit">Recarregar</button>';
             echo '</form>';            
