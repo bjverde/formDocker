@@ -7,15 +7,13 @@ require_once ('control/autoload_install.php');
 function updateDataBase(){
     $serverName = $_SERVER["SERVER_NAME"];
     $filename = '/var/www/html/formDin/modelo_banco_exemplos/01_script_criacao_banco.sql';
-    //$filename = '/var/www/html/modelo_banco_exemplos/01_script_criacao_banco.sql';
     importDb::exec($filename,$serverName);
+
     $filename = '/var/www/html/formDin/modelo_banco_exemplos/02_script_inclusao_dados.sql';
-    //$filename = '/var/www/html/modelo_banco_exemplos/02_script_inclusao_dados.sql';
     importDb::exec($filename,$serverName);
 }
 function installFormDin(){
     header('Content-Type: text/html; charset=utf-8');
-    //echo "<h2>A Instalação não está completa !! Processo em construção </h2>";
     $filename = '/var/www/install_base_formdin.sh';
     if (!file_exists($filename)) {
         echo "Falha na construção da imagem docker";
