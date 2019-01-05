@@ -4,6 +4,16 @@ define('DS'   , DIRECTORY_SEPARATOR);
 require_once ('vendor/autoload.php');
 require_once ('control/autoload_install.php');
 
+function updateConfigFormAppExemplo(){
+    $pathOld = '/var/www/html/install/config/config_conexao.php';
+    $pathNew = '/var/www/html/formDin/appexemplo_v2.0/includes/config_conexao.php';
+    unlink($pathNew);
+    copy($pathOld, $pathNew);
+
+    $pathNew = '/var/www/html/formDin/appexemplo_v2.5/includes/config_conexao.php';
+    unlink($pathNew);
+    copy($pathOld, $pathNew);
+}
 function updateDataBase(){
     //$serverName = $_SERVER["SERVER_NAME"];
     $serverName = 'mysql';
@@ -32,6 +42,7 @@ function installFormDin(){
             echo '</form>';
         }else{
             files::copyFormDin2Apache();
+            updateConfigFormAppExemplo();
             echo "<h2>Copia formDin Completa! \o/ Yeeeee !!</h2>";
             updateDataBase();
             echo "<h2>Bando de Dados Atualizado!</h2>";
