@@ -13,6 +13,10 @@
 #sudo docker run -p 80:80 -it devform:7.2-deb-apache /bin/bash
 #sudo docker run -d -p 80:80 devform:7.2-deb-apache
 
+
+#How to remove all unused
+#https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes
+#docker system prune -a
 #######################################
 FROM php:7.2-apache 
 LABEL maintainer="bjverde@yahoo.com.br"
