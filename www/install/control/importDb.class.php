@@ -1,7 +1,7 @@
 <?php
 use Daveismyname\SqlImport\Import;
 
-class import
+class importDb
 {
     public static function exec($filename,$hostdb){
         $username = 'form_exemplo';
