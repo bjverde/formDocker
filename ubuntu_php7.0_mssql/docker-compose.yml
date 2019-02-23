@@ -18,7 +18,7 @@ services:
     build:
       dockerfile: ubuntu_apache_php70.Dockerfile
       context: .
-    image: ubuntu_apache_php70:latest
+    image: ubuntu_apache_php70:16.04
     container_name: ubuntu_php70
     restart: always    
     ports:
