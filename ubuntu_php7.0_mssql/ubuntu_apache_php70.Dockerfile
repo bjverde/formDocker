@@ -24,7 +24,7 @@ LABEL maintainer="bjverde@yahoo.com.br"
 RUN apt-get update && apt-get -y upgrade
 
 #Install facilitators
-RUN apt-get -y install locate mlocate curl wget
+RUN apt-get -y install locate mlocate wget
 
 #Install Apache2 + PHP 7.0.32 x86_64 
 # Thread Safety 	disabled 
@@ -33,19 +33,23 @@ RUN apt-get -y install locate mlocate curl wget
 #PHP Modules : ,sysvmsg,sysvsem,sysvshm,tokenizer,Zend OPcache,zlib
 RUN apt-get -y install apache2 php libapache2-mod-php php-mysql
 
-RUN apt-get -y install curl php-curl
+
+#apache2 php libapache2-mod-php php-curl php-dom php-gd php-json php-ldap php-mbstring php-pdo php-pdo-mysql php-pdo-sqlite php-xml php-zip php-tokenizer php-cli php-xdebug
+
+#PHP Install CURl
+#RUN apt-get -y install curl php-curl
 
 #PHP Install PDO SqLite
-RUN apt-get -y install php-sqlite3
+#RUN apt-get -y install php-pdo-sqlite php-sqlite3
 
 #PHP Install PDO PostGress
-RUN apt-get -y install php-pgsql
+#RUN apt-get -y install php-pgsql
 
 #PHP Install MbString
-RUN apt-get -y install php-mbstring
+#RUN apt-get -y install php-mbstring
 
 #PHP Install X-debug
-RUN apt-get -y install php-xdebug
+#RUN apt-get -y install php-xdebug
 
 RUN apt-get clean
 
