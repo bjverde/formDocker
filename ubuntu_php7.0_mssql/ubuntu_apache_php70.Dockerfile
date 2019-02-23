@@ -10,8 +10,8 @@
 #sudo docker exec -it ubuntu_apache_php70 /bin/bash
 
 #How use iterative mode image
-#sudo docker run -p 80:80 -it ubuntu_apache_php70:latest /bin/bash
-#sudo docker run -d -p 80:80 ubuntu_apache_php70:latest
+#sudo docker run -p 80:80 -it ubuntu_apache_php70:16.04 /bin/bash
+#sudo docker run -d -p 80:80 ubuntu_apache_php70:16.04
 
 #######################################
 FROM ubuntu:16.04
@@ -24,7 +24,7 @@ LABEL maintainer="bjverde@yahoo.com.br"
 RUN apt-get update && apt-get -y upgrade
 
 #Install facilitators
-RUN apt-get -y install locate mlocate
+RUN apt-get -y install locate mlocate curl wget
 
 #Install Apache2 + PHP 7.0.32 x86_64 
 # Thread Safety 	disabled 

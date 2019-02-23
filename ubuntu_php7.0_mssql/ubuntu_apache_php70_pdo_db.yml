@@ -4,6 +4,9 @@
 # Subir em background
 # sudo docker-compose -f ubuntu_apache_php70_pdo_db.yml up -d
 
+# How use iterative mode container
+# sudo docker-compose exec ubuntu_apache_php bash
+
 version: '3.2'
 services:
 
@@ -19,8 +22,8 @@ services:
     networks:
       - formdin-network
     volumes:
-      - "d:/wamp/www/formDocker:/var/www/html"  #windows    
-      #- ./www:/var/www/html                    #Linux
+      #- "d:/wamp/www/formDocker:/var/www/html"  #windows    
+      - ./www:/var/www/html                    #Linux
 
 
 networks: 
