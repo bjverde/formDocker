@@ -30,16 +30,35 @@ RUN apt-get -y install locate mlocate wget
 #Install Apache2 + PHP 7.0.32 x86_64 
 # Thread Safety 	disabled 
 
-#PHP Modules : calendar,Core,ctype,date,exif,fileinfo,filter,ftp,gettext,hash,iconv,json,libxml,mysqli,mysqlnd
-#PHP Modules : ,openssl,pcntl,pcre,PDO,pdo_mysql,Phar,posix,readline,Reflection,session,shmop,sockets,SPL,standard
+#PHP Modules : calendar,Core,ctype,date,exif,fileinfo,filter,ftp,gettext,hash,iconv,json,libxml
+#PHP Modules : ,openssl,pcntl,pcre,PDO,Phar,posix,readline,Reflection,session,shmop,sockets,SPL,standard
 #PHP Modules : ,sysvmsg,sysvsem,sysvshm,tokenizer,Zend OPcache,zlib
 RUN apt-get -y install apache2 php libapache2-mod-php php-cli
 
 
-#apache2 php libapache2-mod-php php-curl php-dom php-gd php-json php-ldap php-mbstring php-pdo php-pdo-mysql php-pdo-sqlite php-xml php-zip php-tokenizer php-cli php-xdebug
+#Install GIT
+RUN apt-get install -y git-core
+
+#PHP Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+#PHP Install PHPUnit
+#https://phpunit.de/getting-started/phpunit-7.html
+RUN wget -O /usr/local/bin/phpunit-7.phar https://phar.phpunit.de/phpunit-7.phar; chmod +x /usr/local/bin/phpunit-7.phar; \
+ln -s /usr/local/bin/phpunit-7.phar /usr/local/bin/phpunit
+
+
+#PHP Intall DOM, Json e XML
+#RUN apt-get -y php-dom php-json php-xml
+
+#PHP Install Ldap
+#RUN apt-get -y php-ldap
 
 #PHP Install CURl
 #RUN apt-get -y install curl php-curl
+
+#PHP Install MbString
+#RUN apt-get -y install php-mbstring
 
 #PHP Install PDO SqLite
 #RUN apt-get -y install php-pdo php-pdo-sqlite php-sqlite3
@@ -49,9 +68,6 @@ RUN apt-get -y install apache2 php libapache2-mod-php php-cli
 
 #PHP Install PDO PostGress
 #RUN apt-get -y install php-pdo php-pgsql
-
-#PHP Install MbString
-#RUN apt-get -y install php-mbstring
 
 #PHP Install X-debug
 #RUN apt-get -y install php-xdebug
