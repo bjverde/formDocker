@@ -81,7 +81,12 @@ RUN apt-get -y install curl php-curl
 #RUN updatedb
 
 
-##------------ Install Drive SQL Server -----------
+##------------ Install Precondition for Drive SQL Server -----------
+
+RUN apt-get -y install php-pear php-dev 
+#RUN apt-get -y install mcrypt php-mcrypt
+
+#RUN apt-get install libcurl3-openssl-dev
 
 ENV ACCEPT_EULA=Y
 
@@ -92,10 +97,22 @@ RUN apt-get install -y --no-install-recommends \
         apt-transport-https \
     && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
     && locale-gen \
-    && apt-get update \
-    && apt-get -y --no-install-recommends install msodbcsql17 mssql-tools
-RUN apt-get -y install unixodbc-dev
+    && apt-get update
+
+# install MSODBC 13
+RUN apt-get -y --no-install-recommends install msodbcsql mssql-tools
+
+RUN apt-get -y install unixodbc unixodbc-dev
 RUN apt-get -y install gcc g++ make autoconf libc-dev pkg-config
+
+
+##------------ Install Drive SQL Server -----------
+# The installation of Drive SQL Server for PHP on Linux is not so simple.
+# You should combine the PHP version with Drive PDO version with the ODBC version
+# with the SQL Server version. Complete information on:
+
+RUN pecl install sqlsrv-4.3.0
+RUN pecl install pdo_sqlsrv-4.3.0
 
 
 EXPOSE 80
