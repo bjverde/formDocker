@@ -39,15 +39,15 @@ RUN apt-get -y install apache2 php libapache2-mod-php php-cli
 RUN apt-get -y install curl php-curl
 
 #Install GIT
-RUN apt-get -y install -y git-core
+#RUN apt-get -y install -y git-core
 
 #PHP Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+#RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 #PHP Install PHPUnit
 #https://phpunit.de/getting-started/phpunit-7.html
-RUN wget -O /usr/local/bin/phpunit-7.phar https://phar.phpunit.de/phpunit-7.phar; chmod +x /usr/local/bin/phpunit-7.phar; \
-ln -s /usr/local/bin/phpunit-7.phar /usr/local/bin/phpunit
+#RUN wget -O /usr/local/bin/phpunit-7.phar https://phar.phpunit.de/phpunit-7.phar; chmod +x /usr/local/bin/phpunit-7.phar; \
+#ln -s /usr/local/bin/phpunit-7.phar /usr/local/bin/phpunit
 
 
 #PHP Intall DOM, Json e XML
@@ -75,18 +75,30 @@ ln -s /usr/local/bin/phpunit-7.phar /usr/local/bin/phpunit
 #PHP Install X-debug
 #RUN apt-get -y install php-xdebug
 
-RUN apt-get clean
+#RUN apt-get clean
 
 #Creating index of files
-RUN updatedb
+#RUN updatedb
 
 
 ##------------ Install Drive SQL Server -----------
 
-RUN curl -s https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-RUN curl -s https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list; \
-apt-get update; ACCEPT_EULA=Y apt-get -y install msodbcsql17 mssql-tools; \
-apt-get -y install unixodbc-dev
+ENV ACCEPT_EULA=Y
+
+RUN curl -s https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl -s https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+RUN apt-get install -y --no-install-recommends \
+        locales \
+        apt-transport-https \
+    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
+    && locale-gen \
+    && apt-get update \
+    && apt-get -y --no-install-recommends install msodbcsql17 mssql-tools
+
+##    && ACCEPT_EULA=Y apt-get -y --no-install-recommends install \
+##    && msodbcsql17 \
+##    && mssql-tools \
+##    && apt-get -y install unixodbc-dev
 
 
 EXPOSE 80
