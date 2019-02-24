@@ -25,7 +25,7 @@ LABEL maintainer="bjverde@yahoo.com.br"
 RUN apt-get update && apt-get -y upgrade
 
 #Install facilitators
-RUN apt-get -y install locate mlocate wget
+RUN apt-get -y install locate mlocate wget apt-utils
 
 #Install Apache2 + PHP 7.0.32 x86_64 
 # Thread Safety 	disabled 
@@ -35,9 +35,11 @@ RUN apt-get -y install locate mlocate wget
 #PHP Modules : ,sysvmsg,sysvsem,sysvshm,tokenizer,Zend OPcache,zlib
 RUN apt-get -y install apache2 php libapache2-mod-php php-cli
 
+#PHP Install CURl
+RUN apt-get -y install curl php-curl
 
 #Install GIT
-RUN apt-get install -y git-core
+RUN apt-get -y install -y git-core
 
 #PHP Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -51,11 +53,12 @@ ln -s /usr/local/bin/phpunit-7.phar /usr/local/bin/phpunit
 #PHP Intall DOM, Json e XML
 #RUN apt-get -y php-dom php-json php-xml
 
-#PHP Install Ldap
+#PHP Install LDAP
 #RUN apt-get -y php-ldap
+#Apache2 enebla LDAP
+#RUN sudo a2enmod authnz_ldap
+#RUN sudo a2enmod ldap
 
-#PHP Install CURl
-#RUN apt-get -y install curl php-curl
 
 #PHP Install MbString
 #RUN apt-get -y install php-mbstring
@@ -76,6 +79,14 @@ RUN apt-get clean
 
 #Creating index of files
 RUN updatedb
+
+
+##------------ Install Drive SQL Server -----------
+
+RUN curl -s https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+RUN curl -s https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list; \
+apt-get update; ACCEPT_EULA=Y apt-get -y install msodbcsql17 mssql-tools; \
+apt-get -y install unixodbc-dev
 
 
 EXPOSE 80
