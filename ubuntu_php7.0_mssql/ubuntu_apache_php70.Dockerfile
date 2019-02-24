@@ -17,8 +17,6 @@
 #######################################
 FROM ubuntu:16.04
 LABEL maintainer="bjverde@yahoo.com.br"
-#COPY ./www /var/www/html
-#WORKDIR /var/www/html
 
 
 #Install update
@@ -26,7 +24,6 @@ RUN apt-get update && apt-get -y upgrade
 
 #Install facilitators
 RUN apt-get -y install locate mlocate wget apt-utils
-
 
 ## ------------- Install Apache2 + PHP 7.0.32 x86_64  ------------------
 #Thread Safety 	disabled 
