@@ -94,11 +94,8 @@ RUN apt-get install -y --no-install-recommends \
     && locale-gen \
     && apt-get update \
     && apt-get -y --no-install-recommends install msodbcsql17 mssql-tools
-
-##    && ACCEPT_EULA=Y apt-get -y --no-install-recommends install \
-##    && msodbcsql17 \
-##    && mssql-tools \
-##    && apt-get -y install unixodbc-dev
+RUN apt-get -y install unixodbc-dev
+RUN apt-get -y install gcc g++ make autoconf libc-dev pkg-config
 
 
 EXPOSE 80
