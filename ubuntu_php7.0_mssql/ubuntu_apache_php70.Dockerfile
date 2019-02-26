@@ -101,7 +101,7 @@ RUN apt-get install -y --no-install-recommends \
     && apt-get update
 
 # install MSODBC 13
-RUN apt-get -y --no-install-recommends install msodbcsql mssql-tools
+RUN apt-get -y --no-install-recommends install msodbcsql mssql-tools=14.0.6.0-1
 
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
