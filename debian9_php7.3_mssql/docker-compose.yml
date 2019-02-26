@@ -35,7 +35,7 @@ services:
     build:
       dockerfile: debian9_apache_php73.Dockerfile
       context: .
-    image: debian9_apache_php73:18.04
+    image: debian9_apache_php73:last
     container_name: debian9_php73
     restart: always
     ports:
