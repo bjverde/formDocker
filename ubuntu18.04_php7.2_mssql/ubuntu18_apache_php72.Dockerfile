@@ -18,6 +18,7 @@
 FROM ubuntu:18.04
 LABEL maintainer="bjverde@yahoo.com.br"
 
+ENV DEBIAN_FRONTEND noninteractive
 
 #Install update
 RUN apt-get update && apt-get -y upgrade
@@ -31,10 +32,10 @@ RUN apt-get -y install locate mlocate wget apt-utils
 #PHP Modules : ,openssl,pcntl,pcre,PDO,Phar,posix,readline,Reflection,session,shmop,sockets,SPL,standard
 #PHP Modules : ,sysvmsg,sysvsem,sysvshm,tokenizer,Zend OPcache,zlib
 
-RUN apt-get -y install apache2 php libapache2-mod-php php-cli
+RUN apt-get -y -q install apache2 php libapache2-mod-php php-cli
 
 #PHP Install CURl
-RUN apt-get -y install curl php-curl
+RUN apt-get -y -q install curl php-curl
 
 #PHP Intall DOM, Json e XML
 #RUN apt-get -y php-dom php-json php-xml
@@ -84,7 +85,7 @@ RUN apt-get -y install curl php-curl
 #
 # This installation works with Ubuntu 16.04, PHP 7.0.32, Drive PDO_SQLSRV 4.3, MS ODBC 12, MS SQL Server 2008 R2 or higher
 
-RUN apt-get -y install php-pear php-dev 
+RUN apt-get -y -q install php-pear php-dev 
 #RUN apt-get -y install mcrypt php-mcrypt
 
 #RUN apt-get install libcurl3-openssl-dev
@@ -92,16 +93,16 @@ RUN apt-get -y install php-pear php-dev
 ENV ACCEPT_EULA=Y
 
 RUN curl -s https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-    && curl -s https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
-RUN apt-get install -y --no-install-recommends \
+    && curl -s https://packages.microsoft.com/config/ubuntu/18.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+RUN apt-get install -y -q --no-install-recommends \
         locales \
         apt-transport-https \
     && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
     && locale-gen \
     && apt-get update
 
-# install MSODBC 13
-RUN apt-get -y --no-install-recommends install msodbcsql mssql-tools
+# install MSODBC 17
+RUN apt-get -y -q --no-install-recommends install msodbcsql17 mssql-tools
 
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
@@ -111,12 +112,12 @@ RUN apt-get -y install unixodbc unixodbc-dev
 RUN apt-get -y install gcc g++ make autoconf libc-dev pkg-config
 
 
-##------------ Install Drive 4.3 for SQL Server -----------
+##------------ Install Drive 5.2 for SQL Server -----------
 # List version drive PDO https://pecl.php.net/package/pdo_sqlsrv
 # Install Drive: https://docs.microsoft.com/pt-br/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-2017
 
-#RUN pecl install sqlsrv
-#RUN pecl install pdo_sqlsrv
+RUN pecl install sqlsrv
+RUN pecl install pdo_sqlsrv
 
 #For PHP CLI
 #RUN echo extension=pdo_sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/30-pdo_sqlsrv.ini
