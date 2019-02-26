@@ -103,6 +103,10 @@ RUN apt-get install -y --no-install-recommends \
 # install MSODBC 13
 RUN apt-get -y --no-install-recommends install msodbcsql mssql-tools
 
+RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
+RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+RUN exec bash
+
 RUN apt-get -y install unixodbc unixodbc-dev
 RUN apt-get -y install gcc g++ make autoconf libc-dev pkg-config
 
@@ -125,10 +129,10 @@ RUN echo "extension=sqlsrv.so" >> /etc/php/7.0/apache2/conf.d/20-sqlsrv.ini
 
 
 ## ------------- Finishing ------------------
-#RUN apt-get clean
+RUN apt-get clean
 
 #Creating index of files
-#RUN updatedb
+RUN updatedb
 
 EXPOSE 80
 CMD apachectl -D FOREGROUND

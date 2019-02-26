@@ -14,13 +14,30 @@
 version: '3.2'
 services:
 
+
+  database:
+    image: mcr.microsoft.com/mssql/server:2017-GA-ubuntu
+    container_name: sqlserver
+    restart: always
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: 123456
+      MSSQL_PID: Developer
+    ports:
+      - "1433:1433"
+    networks: 
+      - formdin-network
+    #volumes:
+    # - ./data/db:/var/lib/mysql
+    # - ./database/mysql:/var/lib/mysq
+
   apache_php:
     build:
       dockerfile: ubuntu_apache_php70.Dockerfile
       context: .
     image: ubuntu_apache_php70:16.04
     container_name: ubuntu_php70
-    restart: always    
+    restart: always
     ports:
       - "80:80"
     networks:
@@ -28,6 +45,8 @@ services:
     volumes:
       #- "d:/wamp/www/formDocker:/var/www/html"  #windows    
       - ./www:/var/www/html                    #Linux
+    depends_on:
+      - database
 
 
 networks: 
