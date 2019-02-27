@@ -7,12 +7,12 @@
 #sudo docker build -f ubuntu18_apache_php72.Dockerfile . -t ubuntu18_apache_php72
 
 #How use iterative mode
-#sudo docker exec -it ubuntu18_apache_php72:16.04 /bin/bash
+#sudo docker exec -it ubuntu18_apache_php72:18.04 /bin/bash
 
 #How use iterative mode image
-#sudo docker run -it ubuntu18_apache_php72:16.04 /bin/bash           #only bash
-#sudo docker run -p 80:80 -it ubuntu18_apache_php72:16.04 /bin/bash
-#sudo docker run -d -p 80:80 ubuntu18_apache_php72:16.04
+#sudo docker run -it ubuntu18_apache_php72:18.04 /bin/bash           #only bash
+#sudo docker run -p 80:80 -it ubuntu18_apache_php72:18.04 /bin/bash
+#sudo docker run -d -p 80:80 ubuntu18_apache_php72:18.04
 
 #######################################
 FROM ubuntu:18.04
@@ -52,8 +52,13 @@ RUN apt-get -y -q install curl php-curl
 #PHP Install PDO PostGress
 #RUN apt-get -y install php-pdo php-pgsql
 
+## ------------- PHP Development ?? ------------------
+RUN cp -v /etc/php/7.2/apache2/php.ini /etc/php/7.2/apache2/php.ini.old
+RUN cp -v /usr/lib/php/7.2/php.ini-development /etc/php/7.2/apache2/php.ini
+
 #PHP Install X-debug
 #RUN apt-get -y install php-xdebug
+
 
 ## ------------- Add-ons ------------------
 #Install GIT
@@ -102,11 +107,13 @@ RUN apt-get install -y -q --no-install-recommends \
     && apt-get update
 
 # install MSODBC 17
-RUN apt-get -y -q --no-install-recommends install msodbcsql17 mssql-tools
+RUN apt-get -y -q --no-install-recommends install msodbcsql17 
 
-RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
-RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
-RUN exec bash
+# optional: for bcp and sqlcmd ( SQL Comand Line )
+# RUN apt-get -y -q --no-install-recommends install mssql-tools
+# RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
+# RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+# RUN exec bash
 
 RUN apt-get -y install unixodbc unixodbc-dev
 RUN apt-get -y install gcc g++ make autoconf libc-dev pkg-config
