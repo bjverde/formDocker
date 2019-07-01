@@ -40,13 +40,14 @@ services:
     restart: always
     ports:
       - "80:80"
+      - "9000:9000"
     networks:
       - formdin-network
     volumes:
       #- "d:/wamp/www/formDocker:/var/www/html"  #windows    
       - ./www:/var/www/html                    #Linux
     depends_on:
-      - database
+      - database      
 
 
 networks: 

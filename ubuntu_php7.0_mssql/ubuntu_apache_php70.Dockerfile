@@ -40,19 +40,17 @@ RUN apt-get -y install curl php-curl
 #RUN apt-get -y php-dom php-json php-xml
 
 #PHP Install MbString
-#RUN apt-get -y install php-mbstring
+RUN apt-get -y install php-mbstring
 
 #PHP Install PDO SqLite
-#RUN apt-get -y install php-pdo php-pdo-sqlite php-sqlite3
+RUN apt-get -y install php-pdo php-pdo-sqlite php-sqlite3
 
 #PHP Install PDO MySQL
-#RUN apt-get -y php-pdo php-pdo-mysql php-mysql 
+RUN apt-get -y php-pdo php-pdo-mysql php-mysql 
 
 #PHP Install PDO PostGress
 #RUN apt-get -y install php-pdo php-pgsql
 
-#PHP Install X-debug
-#RUN apt-get -y install php-xdebug
 
 ## ------------- Add-ons ------------------
 #Install GIT
@@ -128,6 +126,24 @@ RUN echo "extension=sqlsrv.so" >> /etc/php/7.0/apache2/conf.d/20-sqlsrv.ini
 
 
 
+##------------ Install XDebug for desenv -----------
+#PHP Install X-debug
+RUN echo "\033[0;32m Install PHP XDebug \033[0m"
+RUN apt-get -y install php-xdebug
+
+
+#PHP X-Degub Config remote 
+RUN echo "" >> /etc/php/7.0/mods-available/xdebug.ini
+RUN echo "xdebug.default_enable=on"   >> /etc/php/7.0/mods-available/xdebug.ini
+RUN echo "xdebug.remote_enable=on"    >> /etc/php/7.0/mods-available/xdebug.ini 
+RUN echo "xdebug.remote_autostart=on" >> /etc/php/7.0/mods-available/xdebug.ini 
+RUN echo "" >> /etc/php/7.0/mods-available/xdebug.ini
+RUN echo ";Config to Remote" >> /etc/php/7.0/mods-available/xdebug.ini
+RUN echo "xdebug.remote_connect_back=1" >> /etc/php/7.0/mods-available/xdebug.ini 
+RUN echo "xdebug.remote_handler=dbgp" >> /etc/php/7.0/mods-available/xdebug.ini 
+RUN echo "xdebug.remote_port=9000"    >> /etc/php/7.0/mods-available/xdebug.ini 
+RUN echo "xdebug.idekey=docker"       >> /etc/php/7.0/mods-available/xdebug.ini 
+
 ## ------------- Finishing ------------------
 RUN apt-get clean
 
@@ -135,4 +151,5 @@ RUN apt-get clean
 RUN updatedb
 
 EXPOSE 80
+EXPOSE 9000
 CMD apachectl -D FOREGROUND
