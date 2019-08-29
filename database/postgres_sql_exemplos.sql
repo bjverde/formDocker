@@ -26,6 +26,35 @@ COMMENT ON COLUMN vendors.vendor_code IS 'Pk vendors';
 COMMENT ON COLUMN vendors.vendor_name IS 'Nomes';
 
 
+DELETE FROM public.vendors;
+
+INSERT INTO public.vendors(vendor_code, vendor_name, vendor_city, vendor_country)
+VALUES (1, 'Joao A B', 'BR', 'BR');
+
+INSERT INTO public.vendors(vendor_code, vendor_name, vendor_city, vendor_country)
+VALUES (2, 'Joao A C', 'BR', 'BR');
+
+INSERT INTO public.vendors(vendor_code, vendor_name, vendor_city, vendor_country)
+VALUES (3, 'Joao A D', 'BR', 'BR');
+
+INSERT INTO public.vendors(vendor_code, vendor_name, vendor_city, vendor_country)
+VALUES (4, 'Joao A E', 'BR', 'BR');
+
+
+INSERT INTO public.vendors(vendor_code, vendor_name, vendor_city, vendor_country)
+VALUES (5, 'Joao B B', 'BR', 'BR');
+
+INSERT INTO public.vendors(vendor_code, vendor_name, vendor_city, vendor_country)
+VALUES (6, 'Joao B C', 'BR', 'BR');
+
+INSERT INTO public.vendors(vendor_code, vendor_name, vendor_city, vendor_country)
+VALUES (7, 'Joao B D', 'BR', 'BR');
+
+INSERT INTO public.vendors(vendor_code, vendor_name, vendor_city, vendor_country)
+VALUES (8, 'Joao B E', 'BR', 'BR');
+
+
+
 DROP TABLE IF EXISTS orders;
 CREATE TABLE orders(
 ord_no integer PRIMARY KEY
@@ -104,6 +133,7 @@ CREATE TABLE films (
 
 
 -----------------
+-----------------
 
 
 
@@ -115,25 +145,17 @@ FROM pg_catalog.pg_statio_all_tables as st
 
 
 
-https://stackoverflow.com/questions/343138/retrieving-comments-from-a-postgresql-db
-
-
-http://www.developerfiles.com/adding-and-retrieving-comments-on-postgresql-tables/
-
-
-https://www.postgresql.org/docs/9.1/static/sql-comment.html
-
-
-
-
+-- https://stackoverflow.com/questions/343138/retrieving-comments-from-a-postgresql-db
+-- http://www.developerfiles.com/adding-and-retrieving-comments-on-postgresql-tables/
+-- https://www.postgresql.org/docs/9.1/static/sql-comment.html
 
 
 COMMENT ON COLUMN company.age IS 'Idade';
 COMMENT ON COLUMN company.address IS 'Endereço da empresa';
 
-select * from pg_catalog.pg_description pgd
+select * from pg_catalog.pg_description pgd;
 
-select * from pg_catalog.pg_statio_all_tables
+select * from pg_catalog.pg_statio_all_tables;
 
 SELECT c.table_schema,c.table_name,c.column_name,pgd.description
 FROM pg_catalog.pg_statio_all_tables as st
@@ -145,7 +167,7 @@ FROM pg_catalog.pg_statio_all_tables as st
 	
 SELECT st.schemaname as table_schema, st.relname as table_name, pgd.objsubid,pgd.description
 FROM pg_catalog.pg_statio_all_tables as st
-  inner join pg_catalog.pg_description pgd on (pgd.objoid=st.relid)
+  inner join pg_catalog.pg_description pgd on (pgd.objoid=st.relid);
   
   
 SELECT column_name as COLUMN_NAME
@@ -160,7 +182,7 @@ SELECT column_name as COLUMN_NAME
 					,c.TABLE_SCHEMA
 					,c.table_name
 					,c.TABLE_CATALOG			
-					FROM information_schema.columns as c  
+					FROM information_schema.columns as c  ;
 					
 					
 https://www.w3resource.com/PostgreSQL/foreign-key-constraint.php

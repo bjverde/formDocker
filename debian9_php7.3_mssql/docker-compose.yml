@@ -2,7 +2,7 @@
 # sudo docker-compose up
 
 # Subir em background
-# sudo docker-compose -f ubuntu_apache_php70_pdo_db.yml up -d
+# sudo docker-compose -f docker-compose.yml up -d
 
 # How use iterative mode container
 # sudo docker-compose exec ubuntu_apache_php bash
