@@ -1,7 +1,7 @@
 # Source
 # https://hub.docker.com/_/php/
 # Docker File Source
-# https://hub.docker.com/_/ubuntu/
+# https://hub.docker.com/_/debian
 
 #How to build
 #sudo docker build -f debian9_apache_php73.Dockerfile . -t debian9_apache_php73
@@ -10,7 +10,7 @@
 #sudo docker exec -it debian9_apache_php73:last /bin/bash
 
 #How use iterative mode image
-#sudo docker run -it debian9_apache_php73:last/bin/bash           #only bash
+#sudo docker run -it debian9_apache_php73:last /bin/bash           #only bash
 #sudo docker run -p 80:80 -it debian9_apache_php73:last /bin/bash
 #sudo docker run -d -p 80:80 debian9_apache_php73:last
 
@@ -23,22 +23,24 @@ LABEL maintainer="bjverde@yahoo.com.br"
 RUN apt-get update
 
 #Install facilitators
-RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https lsb-release
+RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https lsb-release ca-certificates 
 
-## ------------- Install Apache2 + PHP 7.0.32 x86_64  ------------------
+## ------------- Install Apache2 + PHP 7.3  x86_64 ------------------
 #Thread Safety 	disabled 
 #PHP Modules : calendar,Core,ctype,date,exif,fileinfo,filter,ftp,gettext,hash,iconv,json,libxml
 #PHP Modules : ,openssl,pcntl,pcre,PDO,Phar,posix,readline,Reflection,session,shmop,sockets,SPL,standard
 #PHP Modules : ,sysvmsg,sysvsem,sysvshm,tokenizer,Zend OPcache,zlib
 
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
+RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php7.3.list
 
-RUN apt-get -y install php7.2 php7.2-dev php7.2-xml
+RUN apt update
+RUN apt -y install php7.3 php7.3-cli php7.3-common php7.3-opcache
 
+#php7.3-curl php7.3-mbstring php7.3-mysql php7.3-zip php7.3-xml
 
 #PHP Install CURl
-#RUN apt-get -y install curl php7.2-curl
+#RUN apt-get -y install curl php7.3-curl
 
 
 #PHP Intall DOM, Json e XML
@@ -58,6 +60,9 @@ RUN apt-get -y install php7.2 php7.2-dev php7.2-xml
 
 #PHP Install X-debug
 #RUN apt-get -y install php-xdebug
+
+
+#RUN apt-get -y -q install apache2 php libapache2-mod-php7.3
 
 ## ------------- Add-ons ------------------
 #Install GIT
@@ -89,47 +94,47 @@ RUN apt-get -y install php7.2 php7.2-dev php7.2-xml
 #
 # This installation works with Debian 9, PHP 7.2, Drive PDO_SQLSRV 4.3, MS ODBC 12, MS SQL Server 2008 R2 or higher
 
-RUN apt-get -y install php7.2-pear php7.2-dev 
+#RUN apt-get -y install php7.2-pear php7.2-dev 
 #RUN apt-get -y install mcrypt php-mcrypt
 
 #RUN apt-get install libcurl3-openssl-dev
 
-ENV ACCEPT_EULA=Y
+#ENV ACCEPT_EULA=Y
 
-RUN curl -s https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-    && curl -s https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list
-RUN apt-get install -y --no-install-recommends \
-        locales \
-        apt-transport-https \
-    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
-    && locale-gen \
-    && apt-get update
+#RUN curl -s https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+#    && curl -s https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list
+#RUN apt-get install -y --no-install-recommends \
+#        locales \
+#        apt-transport-https \
+#    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
+#    && locale-gen \
+#    && apt-get update
 
 # install MSODBC 17
-RUN apt-get -y --no-install-recommends install msodbcsql17 mssql-tools
+#RUN apt-get -y --no-install-recommends install msodbcsql17 mssql-tools
 
-RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
-RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
-RUN exec bash
+#RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
+#RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+#RUN exec bash
 
-RUN apt-get -y install unixodbc unixodbc-dev
-RUN apt-get -y install gcc g++ make autoconf libc-dev pkg-config
+#RUN apt-get -y install unixodbc unixodbc-dev
+#RUN apt-get -y install gcc g++ make autoconf libc-dev pkg-config
 
 
 ##------------ Install Drive 4.3 for SQL Server -----------
 # List version drive PDO https://pecl.php.net/package/pdo_sqlsrv
 # Install Drive: https://docs.microsoft.com/pt-br/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-2017
 
-RUN pecl install sqlsrv
-RUN pecl install pdo_sqlsrv
+#RUN pecl install sqlsrv
+#RUN pecl install pdo_sqlsrv
 
 #For PHP CLI
-RUN echo extension=pdo_sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/30-pdo_sqlsrv.ini
-RUN echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/20-sqlsrv.ini
+#RUN echo extension=pdo_sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/30-pdo_sqlsrv.ini
+#RUN echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/20-sqlsrv.ini
 
 #For PHP WEB
-RUN echo "extension=pdo_sqlsrv.so" >> /etc/php/7.2/apache2/conf.d/30-pdo_sqlsrv.ini
-RUN echo "extension=sqlsrv.so" >> /etc/php/7.2/apache2/conf.d/20-sqlsrv.ini
+#RUN echo "extension=pdo_sqlsrv.so" >> /etc/php/7.2/apache2/conf.d/30-pdo_sqlsrv.ini
+#RUN echo "extension=sqlsrv.so" >> /etc/php/7.2/apache2/conf.d/20-sqlsrv.ini
 
 
 
