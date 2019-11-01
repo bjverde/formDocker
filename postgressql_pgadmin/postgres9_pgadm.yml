@@ -4,6 +4,11 @@
 #Subir em background
 # sudo docker-compose -f postgres9_pgadm.yml up -d
 
+#How use iterative mode
+#docker exec -it pgAdmin sh
+#docker exec -it postgres /bin/bash
+
+
 version: '3.2'
 services:
   database:
