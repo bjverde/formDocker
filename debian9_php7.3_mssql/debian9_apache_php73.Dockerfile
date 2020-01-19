@@ -41,7 +41,6 @@ RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https ls
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php7.3.list
 
-RUN apt-get update
 RUN apt-get -y install php7.3 php7.3-cli php7.3-common php7.3-opcache
 
 #PHP Install CURl
@@ -97,7 +96,7 @@ RUN apt-get -y -q install apache2 php libapache2-mod-php7.3
 # with the SQL Server version. Complete information on:
 # https://docs.microsoft.com/pt-br/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-2017#installing-the-drivers-on-debian-8-and-9
 #
-# This installation works with Debian 9, PHP 7.3, Drive PDO_SQLSRV , Microsoft ODBC Driver 17 for SQL Server , MS SQL Server 2008 R2 or higher
+# This installation works with Debian 9, PHP 7.3, Drive PDO_SQLSRV 5.6.1, Microsoft ODBC Driver 17 for SQL Server , MS SQL Server 2008 R2 or higher
 
 RUN apt-get -y install php7.3-dev 
 
@@ -109,8 +108,7 @@ RUN apt-get install -y --no-install-recommends \
         locales \
         apt-transport-https \
     && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
-    && locale-gen \
-    && apt-get update
+    && locale-gen
 
 # install MSODBC 17
 RUN apt-get -y --no-install-recommends install msodbcsql17 mssql-tools
@@ -138,7 +136,8 @@ RUN echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini file
 RUN echo "extension=pdo_sqlsrv.so" >> /etc/php/7.3/apache2/conf.d/30-pdo_sqlsrv.ini
 RUN echo "extension=sqlsrv.so" >> /etc/php/7.3/apache2/conf.d/20-sqlsrv.ini
 
-RUN phpenmod sqlsrv pdo_sqlsrv
+#RUN phpenmod -v 7.3 sqlsrv pdo_sqlsrv
+#RUN apt-get install libapache2-mod-php7.3 apache2
 RUN a2dismod mpm_event
 RUN a2enmod mpm_prefork
 RUN a2enmod php7.3
