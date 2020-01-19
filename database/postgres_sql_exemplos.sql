@@ -1,3 +1,19 @@
+/*
+DROP DATABASE exemplo;
+
+CREATE DATABASE exemplo
+    WITH 
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'en_US.utf8'
+    LC_CTYPE = 'en_US.utf8'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+
+COMMENT ON DATABASE exemplo
+    IS 'exemplo to FormDocker';
+*/
+
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS items;
 CREATE TABLE items(
@@ -75,7 +91,7 @@ COMMENT ON COLUMN orders.ord_amount IS 'Montante e valor ação';
 
 
 
-
+DROP TABLE IF EXISTS public.company;
 CREATE TABLE public.company
 (
     id integer NOT NULL,
@@ -89,6 +105,7 @@ COMMENT ON COLUMN company.name IS 'Name of company';
 COMMENT ON COLUMN company.age IS 'Idade';
 COMMENT ON COLUMN company.address IS 'Endereço da empresa';
 
+DROP TABLE IF EXISTS public.department;
 CREATE TABLE public.department
 (
     id integer NOT NULL,
@@ -100,9 +117,10 @@ CREATE TABLE public.department
 COMMENT ON COLUMN department.id IS 'PK do departamento';
 COMMENT ON COLUMN department.emp_id IS 'FK que não existe';
 
+DROP TABLE IF EXISTS public.sisgen;
 CREATE TABLE public.sisgen
 (
-    id integer NOT NULL DEFAULT nextval('sisgen_id_seq'::regclass),
+    id serial NOT NULL,
     nome text COLLATE pg_catalog."default" NOT NULL,
     qtd integer,
     CONSTRAINT sisgen_pkey PRIMARY KEY (id)
@@ -112,6 +130,7 @@ CREATE VIEW COMPANY_VIEW AS
 SELECT ID, NAME, AGE
 FROM  COMPANY;
 
+DROP TABLE IF EXISTS pg_equipment;
 CREATE TABLE pg_equipment (
 	equip_id serial PRIMARY KEY,
 	type varchar (50) NOT NULL,
@@ -121,6 +140,7 @@ CREATE TABLE pg_equipment (
 	);
 
 
+DROP TABLE IF EXISTS films;
 CREATE TABLE films (
     code        char(5) CONSTRAINT firstkey PRIMARY KEY,
     title       varchar(40) NOT NULL,
@@ -185,7 +205,7 @@ SELECT column_name as COLUMN_NAME
 					FROM information_schema.columns as c  ;
 					
 					
-https://www.w3resource.com/PostgreSQL/foreign-key-constraint.php
+-- https://www.w3resource.com/PostgreSQL/foreign-key-constraint.php
 
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS items;
