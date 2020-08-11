@@ -65,7 +65,7 @@ RUN apt-get -y install php7.3-pdo php7.3-pgsql
 #RUN apt-get -y install php-xdebug
 
 
-RUN apt-get -y -q install apache2 php libapache2-mod-php7.3
+RUN apt-get -y -q install apache2 php7.3 libapache2-mod-php7.3
 
 ## ------------- Add-ons ------------------
 #Install GIT
