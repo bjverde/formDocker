@@ -42,8 +42,8 @@ RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https ls
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php7.3.list
 
+#Install update
 RUN apt-get update
-RUN apt-get upgrade -y
 
 RUN apt-get -y install php7.3 php7.3-cli php7.3-common php7.3-opcache
 
@@ -102,12 +102,15 @@ RUN apt-get -y -q install apache2 php7.3 libapache2-mod-php7.3
 #
 # This installation works with Debian 9, PHP 7.3, Drive PDO_SQLSRV 5.6.1, Microsoft ODBC Driver 17 for SQL Server , MS SQL Server 2008 R2 or higher
 
-RUN apt-get -y install php7.3-dev 
+RUN apt-get -y install php7.3-dev php7.3-xml php7.3-intl
 
 ENV ACCEPT_EULA=Y
 
 RUN curl -s https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
     && curl -s https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list
+
+RUN apt-get update
+
 RUN apt-get install -y --no-install-recommends \
         locales \
         apt-transport-https \
