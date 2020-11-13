@@ -28,6 +28,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 #Install update
 RUN apt-get update
+RUN apt-get upgrade -y
 
 #Install facilitators
 RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https lsb-release ca-certificates 
