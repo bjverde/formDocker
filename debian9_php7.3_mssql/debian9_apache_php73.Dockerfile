@@ -42,6 +42,9 @@ RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https ls
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php7.3.list
 
+RUN apt-get update
+RUN apt-get upgrade -y
+
 RUN apt-get -y install php7.3 php7.3-cli php7.3-common php7.3-opcache
 
 #PHP Install CURl
