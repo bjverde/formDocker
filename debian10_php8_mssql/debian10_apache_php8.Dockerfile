@@ -40,36 +40,36 @@ RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https ls
 #PHP Modules : ,sysvmsg,sysvsem,sysvshm,tokenizer,Zend OPcache,zlib
 
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php8.list
+RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
 
 #Install update
 RUN apt-get update
 
-RUN apt-get -y install php8 php8-cli php8-common php8-opcache
+RUN apt-get -y install php8.0 php8.0-cli php8.0-common php8.0-opcache
 
 #PHP Install CURl
-RUN apt-get -y install curl php8-curl
+RUN apt-get -y install curl php8.0-curl
 
 #PHP Intall DOM, Json, XML e Zip
-RUN apt-get -y install php8-dom php8-json php8-xml php8-zip
+RUN apt-get -y install php8.0-dom php8.0-json php8.0-xml php8.0-zip
 
 #PHP Install MbString
-RUN apt-get -y install php8-mbstring
+RUN apt-get -y install php8.0-mbstring
 
 #PHP Install PDO SqLite
-RUN apt-get -y install php8-pdo php8-pdo-sqlite php8-sqlite3
+RUN apt-get -y install php8.0-pdo php8.0-pdo-sqlite php8.0-sqlite3
 
 #PHP Install PDO MySQL
-RUN apt-get -y install php8-pdo php8-pdo-mysql php8-mysql 
+RUN apt-get -y install php8.0-pdo php8.0-pdo-mysql php8.0-mysql 
 
 #PHP Install PDO PostGress
-RUN apt-get -y install php8-pdo php8-pgsql
+RUN apt-get -y install php8.0-pdo php8.0-pgsql
 
 #PHP Install X-debug
 #RUN apt-get -y install php-xdebug
 
 
-RUN apt-get -y -q install apache2 php8 libapache2-mod-php8
+RUN apt-get -y -q install apache2 php8.0 libapache2-mod-php8.0
 
 ## ------------- Add-ons ------------------
 #Install GIT
@@ -102,7 +102,7 @@ RUN apt-get -y -q install apache2 php8 libapache2-mod-php8
 #
 # This installation works with Debian 9, PHP 7.3, Drive PDO_SQLSRV 5.6.1, Microsoft ODBC Driver 17 for SQL Server , MS SQL Server 2008 R2 or higher
 
-RUN apt-get -y install php7.3-dev php7.3-xml php7.3-intl
+RUN apt-get -y install php8.0-dev php8.0-xml php8.0-intl
 
 ENV ACCEPT_EULA=Y
 
