@@ -51,7 +51,7 @@ RUN apt-get -y install php8.0 php8.0-cli php8.0-common php8.0-opcache
 RUN apt-get -y install curl php8.0-curl
 
 #PHP Intall DOM, Json, XML e Zip
-RUN apt-get -y install php8.0-dom php8.0-json php8.0-xml php8.0-zip
+RUN apt-get -y install php8.0-dom php8.0-xml php8.0-zip
 
 #PHP Install MbString
 RUN apt-get -y install php8.0-mbstring
@@ -66,88 +66,32 @@ RUN apt-get -y install php8.0-pdo php8.0-pdo-mysql php8.0-mysql
 RUN apt-get -y install php8.0-pdo php8.0-pgsql
 
 #PHP Install X-debug
-#RUN apt-get -y install php-xdebug
+RUN apt-get -y install php8.0-xdebug
 
 
 RUN apt-get -y -q install apache2 php8.0 libapache2-mod-php8.0
 
 ## ------------- Add-ons ------------------
 #Install GIT
-#RUN apt-get -y install -y git-core
+RUN apt-get -y install -y git-core
 
 #PHP Install Composer
-#RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 #PHP Install PHPUnit
-#https://phpunit.de/getting-started/phpunit-8.html
-#RUN wget -O /usr/local/bin/phpunit-8.phar https://phar.phpunit.de/phpunit-8.phar; chmod +x /usr/local/bin/phpunit-8.phar; \
-#ln -s /usr/local/bin/phpunit-8.phar /usr/local/bin/phpunit
+#https://phpunit.de/announcements/phpunit-9.html
+RUN wget -O /usr/local/bin/phpunit-9.phar https://phar.phpunit.de/phpunit-9.phar; chmod +x /usr/local/bin/phpunit-9.phar; \
+ln -s /usr/local/bin/phpunit-9.phar /usr/local/bin/phpunit
 
 
 ## ------------- LDAP ------------------
-#RUN apt-get -y install php7.3-ldap
 #PHP Install LDAP
-#RUN apt-get -y php-ldap
+RUN apt-get -y install php8.0-ldap
 
 #Apache2 enebla LDAP
-#RUN sudo a2enmod authnz_ldap
-#RUN sudo a2enmod ldap
+RUN a2enmod authnz_ldap
+RUN a2enmod ldap
 
-
-##------------ Install Precondition for Drive SQL Server -----------
-# The installation of Drive SQL Server for PHP on Linux is not so simple.
-# You should combine the PHP version with Drive PDO version with the ODBC version
-# with the SQL Server version. Complete information on:
-# https://docs.microsoft.com/pt-br/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-2017#installing-the-drivers-on-debian-8-and-9
-#
-# This installation works with Debian 9, PHP 7.3, Drive PDO_SQLSRV 5.6.1, Microsoft ODBC Driver 17 for SQL Server , MS SQL Server 2008 R2 or higher
-
-RUN apt-get -y install php8.0-dev php8.0-xml php8.0-intl
-
-ENV ACCEPT_EULA=Y
-
-RUN curl -s https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-    && curl -s https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list
-
-RUN apt-get update
-
-RUN apt-get install -y --no-install-recommends \
-        locales \
-        apt-transport-https \
-    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
-    && locale-gen
-
-# install MSODBC 17
-RUN apt-get -y --no-install-recommends install msodbcsql17 mssql-tools
-
-RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
-RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
-RUN exec bash
-
-RUN apt-get -y install unixodbc unixodbc-dev
-RUN apt-get -y install gcc g++ make autoconf libc-dev pkg-config
-
-
-##------------ Install Drive 5.8.1 for SQL Server -----------
-# List version drive PDO https://pecl.php.net/package/pdo_sqlsrv
-# Install Drive: https://docs.microsoft.com/pt-br/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-2017
-
-RUN pecl install sqlsrv-5.8.1
-RUN pecl install pdo_sqlsrv-5.8.1
-
-#For PHP CLI
-RUN echo extension=pdo_sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/30-pdo_sqlsrv.ini
-RUN echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/20-sqlsrv.ini
-
-#For PHP WEB
-RUN echo "extension=pdo_sqlsrv.so" >> /etc/php/7.3/apache2/conf.d/30-pdo_sqlsrv.ini
-RUN echo "extension=sqlsrv.so" >> /etc/php/7.3/apache2/conf.d/20-sqlsrv.ini
-
-#RUN phpenmod -v 7.3 sqlsrv pdo_sqlsrv
-#RUN apt-get install libapache2-mod-php7.3 apache2
-RUN a2dismod mpm_event
-RUN a2enmod mpm_prefork
-RUN a2enmod php7.3
 
 
 ## ------------- Finishing ------------------
