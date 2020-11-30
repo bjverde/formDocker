@@ -31,9 +31,9 @@ RUN apt-get update
 RUN apt-get upgrade -y
 
 #Install facilitators
-RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https lsb-release ca-certificates 
+RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https lsb-release ca-certificates software-properties-common
 
-## ------------- Install Apache2 + PHP 7.3  x86_64 ------------------
+## ------------- Install Apache2 + PHP 8.0  x86_64 ------------------
 #Thread Safety 	disabled 
 #PHP Modules : calendar,Core,ctype,date,exif,fileinfo,filter,ftp,gettext,hash,iconv,json,libxml
 #PHP Modules : ,openssl,pcntl,pcre,PDO,Phar,posix,readline,Reflection,session,shmop,sockets,SPL,standard
@@ -51,7 +51,7 @@ RUN apt-get -y install php8.0 php8.0-cli php8.0-common php8.0-opcache
 RUN apt-get -y install curl php8.0-curl
 
 #PHP Intall DOM, Json, XML e Zip
-RUN apt-get -y install php8.0-dom php8.0-xml php8.0-zip
+RUN apt-get -y install php8.0-dom php8.0-xml php8.0-zip php8.0-gd
 
 #PHP Install MbString
 RUN apt-get -y install php8.0-mbstring
