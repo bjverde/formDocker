@@ -20,7 +20,7 @@ services:
       dockerfile: adianti_debian10_apache_ph7.4.Dockerfile
       context: .
     image: adianti_debian10_apache_ph7.4:last
-    container_name: debian10_php8
+    container_name: adianti_debian10_php7.4
     restart: always
     ports:
       - "80:80"

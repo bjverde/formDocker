@@ -26,12 +26,16 @@ LABEL maintainer="bjverde@yahoo.com.br"
 
 ENV DEBIAN_FRONTEND noninteractive
 
+# Set default environment variables
+ENV TIMEZONE America/Sao_Paulo
+
 #Install update
 RUN apt-get update
 RUN apt-get upgrade -y
 
 #Install facilitators
-RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https lsb-release ca-certificates software-properties-common
+RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https lsb-release \
+    ca-certificates software-properties-common zip unzip vim rpl apt-utils
 
 ## ------------- Install Apache2 + PHP 7.4  x86_64 ------------------
 #Thread Safety 	disabled 
@@ -45,13 +49,21 @@ RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc
 #Install update
 RUN apt-get update
 
-RUN apt-get -y install php7.4 php7.4-cli php7.4-common php7.4-opcache
+
+# Set Timezone
+RUN ln -fs /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends tzdata \
+    && dpkg-reconfigure --frontend noninteractive tzdata
+
+#intall Apache + PHP
+RUN apt-get -y install apache2 php7.4 libapache2-mod-php7.4 php7.4-cli php7.4-common php7.4-opcache
 
 #PHP Install CURl
 RUN apt-get -y install curl php7.4-curl
 
 #PHP Intall DOM, Json, XML e Zip
-RUN apt-get -y install php7.4-dom php7.4-xml php7.4-zip php7.4-gd
+RUN apt-get -y install php7.4-dom php7.4-xml php7.4-zip php7.4-gd php7.4-soap php7.4-intl php7.4-xsl
 
 #PHP Install MbString
 RUN apt-get -y install php7.4-mbstring
@@ -65,7 +77,24 @@ RUN apt-get -y install php7.4-pdo php7.4-pdo-mysql php7.4-mysql
 #PHP Install PDO PostGress
 RUN apt-get -y install php7.4-pdo php7.4-pgsql
 
-RUN apt-get -y -q install apache2 php7.4 libapache2-mod-php7.4
+
+## -------- Config Apache ----------------
+RUN a2dismod mpm_event
+RUN a2dismod mpm_worker
+RUN a2enmod  mpm_prefork
+RUN a2enmod  rewrite
+RUN a2enmod  php7.4
+
+# Enable .htaccess reading
+RUN LANG="en_US.UTF-8" rpl "AllowOverride None" "AllowOverride All" /etc/apache2/apache2.conf
+
+## ------------- LDAP ------------------
+#PHP Install LDAP
+RUN apt-get -y install php7.4-ldap
+
+#Apache2 enebla LDAP
+RUN a2enmod authnz_ldap
+RUN a2enmod ldap
 
 ## ------------- Add-ons ------------------
 #Install GIT
@@ -80,13 +109,30 @@ RUN wget -O /usr/local/bin/phpunit-9.phar https://phar.phpunit.de/phpunit-9.phar
 ln -s /usr/local/bin/phpunit-9.phar /usr/local/bin/phpunit
 
 
-## ------------- LDAP ------------------
-#PHP Install LDAP
-RUN apt-get -y install php7.4-ldap
+## ------------- Config PHP para Adianti ------------------
+# Set PHP custom settings
+RUN echo "\n# Custom settings"                                    >> /etc/php/7.4/apache2/php.ini \
+    && echo "error_log = /tmp/php_errors.log"                     >> /etc/php/7.4/apache2/php.ini \
+    && echo "memory_limit = 256M"                                 >> /etc/php/7.4/apache2/php.ini \
+    && echo "max_execution_time = 120"                            >> /etc/php/7.4/apache2/php.ini \
+    && echo "file_uploads = On"                                   >> /etc/php/7.4/apache2/php.ini \
+    && echo "post_max_size = 100M"                                >> /etc/php/7.4/apache2/php.ini \
+    && echo "upload_max_filesize = 100M"                          >> /etc/php/7.4/apache2/php.ini \
+    && echo "session.gc_maxlifetime = 14000"                      >> /etc/php/7.4/apache2/php.ini \
+    && echo "display_errors = On"                                 >> /etc/php/7.4/apache2/php.ini \
+    && echo "error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT" >> /etc/php/7.4/apache2/php.ini
 
-#Apache2 enebla LDAP
-RUN a2enmod authnz_ldap
-RUN a2enmod ldap
+# Set PHP security settings
+RUN echo "\n# Security settings"                    >> /etc/php/7.4/apache2/php.ini \
+    && echo "session.name = CUSTOMSESSID"           >> /etc/php/7.4/apache2/php.ini \
+    && echo "session.use_only_cookies = 1"          >> /etc/php/7.4/apache2/php.ini \
+    && echo "session.cookie_httponly = true"        >> /etc/php/7.4/apache2/php.ini \
+    && echo "session.use_trans_sid = 0"             >> /etc/php/7.4/apache2/php.ini \
+    && echo "session.entropy_file = /dev/urandom"   >> /etc/php/7.4/apache2/php.ini \
+    && echo "session.entropy_length = 32"           >> /etc/php/7.4/apache2/php.ini
+
+
+
 
 ## ------------- X-DEBUG ------------------
 #PHP Install X-debug
