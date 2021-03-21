@@ -15,7 +15,7 @@
 version: '3.6'
 services:
 
-  apache_php:
+  adianti_debian10_apache_php74:
     build:
       dockerfile: adianti_debian10_apache_ph7.4.Dockerfile
       context: .
