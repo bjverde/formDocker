@@ -135,8 +135,6 @@ RUN echo "\n# Security settings"                    >> /etc/php/7.4/apache2/php.
     && echo "session.entropy_length = 32"           >> /etc/php/7.4/apache2/php.ini
 
 
-
-
 ## ------------- X-DEBUG ------------------
 #PHP Install X-debug
 RUN apt-get -y install php7.4-xdebug
@@ -152,6 +150,61 @@ RUN echo "xdebug.remote_enable=on" >> /etc/php/7.4/mods-available/xdebug.ini  \
 #PHP X-Degub enable log
 RUN echo "xdebug.remote_log=/var/log/apache2/xdebug.log" >> /etc/php/7.4/mods-available/xdebug.ini
 
+
+##------------ Install Precondition for Drive SQL Server -----------
+# The installation of Drive SQL Server for PHP on Linux is not so simple.
+# You should combine the PHP version with Drive PDO version with the ODBC version
+# with the SQL Server version. Complete information on:
+# https://docs.microsoft.com/pt-br/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-2017#installing-the-drivers-on-debian-8-and-9
+#
+# This installation works with Debian 10, PHP 7.4, Drive PDO_SQLSRV 5.6.1, Microsoft ODBC Driver 17 for SQL Server , MS SQL Server 2008 R2 or higher
+
+RUN apt-get -y install php7.4-dev php7.4-xml php7.4-intl
+
+ENV ACCEPT_EULA=Y
+
+RUN curl -s https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl -s https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list
+
+RUN apt-get update
+
+RUN apt-get install -y --no-install-recommends \
+        locales \
+        apt-transport-https \
+    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
+    && locale-gen
+
+# install MSODBC 17
+RUN apt-get -y --no-install-recommends install msodbcsql17 mssql-tools
+
+RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
+RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+RUN exec bash
+
+RUN apt-get -y install unixodbc unixodbc-dev
+RUN apt-get -y install gcc g++ make autoconf libc-dev pkg-config
+
+
+##------------ Install Drive 5.8.1 for SQL Server -----------
+# List version drive PDO https://pecl.php.net/package/pdo_sqlsrv
+# Install Drive: https://docs.microsoft.com/pt-br/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-2017
+
+RUN pecl install sqlsrv-5.8.1
+RUN pecl install pdo_sqlsrv-5.8.1
+
+#For PHP CLI
+RUN echo extension=pdo_sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/30-pdo_sqlsrv.ini
+RUN echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/20-sqlsrv.ini
+
+#For PHP WEB
+RUN echo "extension=pdo_sqlsrv.so" >> /etc/php/7.4/apache2/conf.d/30-pdo_sqlsrv.ini
+RUN echo "extension=sqlsrv.so" >> /etc/php/7.4/apache2/conf.d/20-sqlsrv.ini
+
+#RUN phpenmod -v 7.3 sqlsrv pdo_sqlsrv
+#RUN apt-get install libapache2-mod-php7.3 apache2
+RUN a2dismod mpm_event
+RUN a2enmod mpm_prefork
+RUN a2enmod php7.4
 
 ## ------------- Finishing ------------------
 RUN apt-get clean
