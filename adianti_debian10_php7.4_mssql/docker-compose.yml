@@ -1,0 +1,54 @@
+# sudo docker-compose build
+# sudo docker-compose up
+
+# Subir em background
+# sudo docker-compose -f docker-compose.yml up -d
+
+# How use iterative mode container
+# sudo docker-compose exec ubuntu_apache_php bash
+
+
+#Purging All Unused or Dangling Images, Containers, Volumes, and Networks
+#sudo docker system prune -a
+
+version: '3.2'
+services:
+
+
+  database:
+    image: mcr.microsoft.com/mssql/server:2017-GA-ubuntu
+    container_name: sqlserver
+    restart: always
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: 123456
+      MSSQL_PID: Developer
+    ports:
+      - "1433:1433"
+    networks: 
+      - formdin-network
+    #volumes:
+    # - ./data/db:/var/lib/mysql
+    # - ./database/mysql:/var/lib/mysq
+
+  apache_php:
+    build:
+      dockerfile: debian9_apache_php73.Dockerfile
+      context: .
+    image: debian9_apache_php73:last
+    container_name: debian9_php73
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - formdin-network
+    volumes:
+      #- "d:/wamp/www/formDocker:/var/www/html"  #windows    
+      - ./www:/var/www/html                    #Linux
+    depends_on:
+      - database
+
+
+networks: 
+    formdin-network:
+        driver: bridge
