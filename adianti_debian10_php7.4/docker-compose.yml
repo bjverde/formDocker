@@ -24,12 +24,12 @@ services:
     restart: always
     ports:
       - "80:80"
-      - "443:443"
+      #- "443:443"
     networks:
       - formdin-network
     volumes:
       #- "d:/wamp/www/formDocker:/var/www/html" #Windows 7
-      - ./www:/var/www/html:rw                     #Linux
+      - ./www:/var/www/html:rw                  #Linux
       - ./logs:/var/log/apache2:rw
       #- ./config/:/etc/php
       #- ./config/apache_default.conf:/etc/apache2/sites-enabled/000-default.conf

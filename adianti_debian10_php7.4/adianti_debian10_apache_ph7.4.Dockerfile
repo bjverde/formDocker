@@ -68,6 +68,9 @@ RUN apt-get -y install php7.4-dom php7.4-xml php7.4-zip php7.4-gd php7.4-soap ph
 #PHP Install MbString
 RUN apt-get -y install php7.4-mbstring
 
+#PHP Install GD
+RUN apt-get -y install php7.4-gd
+
 #PHP Install PDO SqLite
 RUN apt-get -y install php7.4-pdo php7.4-pdo-sqlite php7.4-sqlite3
 
