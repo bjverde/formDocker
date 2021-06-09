@@ -4,15 +4,15 @@
 # https://hub.docker.com/_/debian
 
 #How to build
-#sudo docker build -f debian10_apache_php8.Dockerfile . -t debian10_apache_php8
+#sudo docker build -f adianti_debian10_apache_php7.4.Dockerfile . -t debian10_apache_php8
 
 #How use iterative mode
-#sudo docker exec -it debian10_apache_php8:last /bin/bash
+#sudo docker exec -it adianti_debian10_apache_php7.4:last /bin/bash
 
 #How use iterative mode image
-#sudo docker run -it debian10_apache_php8:last /bin/bash           #only bash
-#sudo docker run -p 80:80 -it debian10_apache_php8:last /bin/bash
-#sudo docker run -d -p 80:80 debian10_apache_php8:last
+#sudo docker run -it adianti_debian10_apache_php7.4:last /bin/bash           #only bash
+#sudo docker run -p 80:80 -it adianti_debian10_apache_php7.4:last /bin/bash
+#sudo docker run -d -p 80:80 adianti_debian10_apache_php7.4:last
 
 #Stop all containers
 #sudo docker stop $(sudo docker ps -a -q)
@@ -115,7 +115,6 @@ ln -s /usr/local/bin/phpunit-9.phar /usr/local/bin/phpunit
 ## ------------- Config PHP para Adianti ------------------
 # Set PHP custom settings
 RUN echo "\n# Custom settings"                                    >> /etc/php/7.4/apache2/php.ini \
-    && echo "error_log = /tmp/php_errors.log"                     >> /etc/php/7.4/apache2/php.ini \
     && echo "memory_limit = 256M"                                 >> /etc/php/7.4/apache2/php.ini \
     && echo "max_execution_time = 120"                            >> /etc/php/7.4/apache2/php.ini \
     && echo "file_uploads = On"                                   >> /etc/php/7.4/apache2/php.ini \
@@ -123,7 +122,7 @@ RUN echo "\n# Custom settings"                                    >> /etc/php/7.
     && echo "upload_max_filesize = 100M"                          >> /etc/php/7.4/apache2/php.ini \
     && echo "session.gc_maxlifetime = 14000"                      >> /etc/php/7.4/apache2/php.ini \
     && echo "display_errors = On"                                 >> /etc/php/7.4/apache2/php.ini \
-    && echo "error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT" >> /etc/php/7.4/apache2/php.ini
+    && echo "error_reporting = E_ALL"                             >> /etc/php/7.4/apache2/php.ini
 
 # Set PHP security settings
 RUN echo "\n# Security settings"                    >> /etc/php/7.4/apache2/php.ini \
