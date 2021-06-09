@@ -12,7 +12,7 @@
 #Purging All Unused or Dangling Images, Containers, Volumes, and Networks
 #sudo docker system prune -a
 
-version: '3.2'
+version: '3.8'
 services:
 
 
