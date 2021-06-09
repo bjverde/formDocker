@@ -136,20 +136,16 @@ RUN echo "\n# Security settings"                    >> /etc/php/7.4/apache2/php.
 
 
 
-## ------------- X-DEBUG ------------------
+## ------------- X-DEBUG 3.X ------------------
 #PHP Install X-debug
 RUN apt-get -y install php7.4-xdebug
 
 #PHP X-Degub enable remote debug
-RUN echo "xdebug.remote_enable=on" >> /etc/php/7.4/mods-available/xdebug.ini  \
-    && echo "xdebug.remote_handler=dbgp" >> /etc/php/7.4/mods-available/xdebug.ini  \
-    && echo "xdebug.remote_port=9000" >> /etc/php/7.4/mods-available/xdebug.ini  \
-    && echo "xdebug.remote_autostart=on" >> /etc/php/7.4/mods-available/xdebug.ini  \
-    && echo "xdebug.remote_connect_back=1" >> /etc/php/7.4/mods-available/xdebug.ini  \
-    && echo "xdebug.idekey=docker" >> /etc/php/7.4/mods-available/xdebug.ini 
+RUN echo "xdebug.start_with_request=yes" >> /etc/php/7.4/mods-available/xdebug.ini  \
+    && echo "xdebug.mode = develop,coverage,debug" >> /etc/php/7.4/mods-available/xdebug.ini
 
 #PHP X-Degub enable log
-RUN echo "xdebug.remote_log=/var/log/apache2/xdebug.log" >> /etc/php/7.4/mods-available/xdebug.ini
+RUN echo "xdebug.log=/var/log/apache2/xdebug.log" >> /etc/php/7.4/mods-available/xdebug.ini
 
 
 ## ------------- Finishing ------------------
