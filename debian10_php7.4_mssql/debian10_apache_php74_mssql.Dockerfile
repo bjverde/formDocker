@@ -4,15 +4,15 @@
 # https://hub.docker.com/_/debian
 
 #How to build
-#sudo docker build -f debian10_apache_php8.Dockerfile . -t debian10_apache_php8
+#sudo docker build -f debian10_apache_php74.Dockerfile . -t debian10_apache_php8
 
 #How use iterative mode
-#sudo docker exec -it debian10_apache_php8:last /bin/bash
+#sudo docker exec -it debian10_apache_php74:last /bin/bash
 
 #How use iterative mode image
-#sudo docker run -it debian10_apache_php8:last /bin/bash           #only bash
-#sudo docker run -p 80:80 -it debian10_apache_php8:last /bin/bash
-#sudo docker run -d -p 80:80 debian10_apache_php8:last
+#sudo docker run -it debian10_apache_php74:last /bin/bash           #only bash
+#sudo docker run -p 80:80 -it debian10_apache_php74:last /bin/bash
+#sudo docker run -d -p 80:80 debian10_apache_php74:last
 
 #Stop all containers
 #sudo docker stop $(sudo docker ps -a -q)
@@ -115,7 +115,6 @@ ln -s /usr/local/bin/phpunit-9.phar /usr/local/bin/phpunit
 ## ------------- Config PHP para Adianti ------------------
 # Set PHP custom settings
 RUN echo "\n# Custom settings"                                    >> /etc/php/7.4/apache2/php.ini \
-    && echo "error_log = /tmp/php_errors.log"                     >> /etc/php/7.4/apache2/php.ini \
     && echo "memory_limit = 256M"                                 >> /etc/php/7.4/apache2/php.ini \
     && echo "max_execution_time = 120"                            >> /etc/php/7.4/apache2/php.ini \
     && echo "file_uploads = On"                                   >> /etc/php/7.4/apache2/php.ini \
@@ -189,8 +188,8 @@ RUN apt-get -y install gcc g++ make autoconf libc-dev pkg-config
 # List version drive PDO https://pecl.php.net/package/pdo_sqlsrv
 # Install Drive: https://docs.microsoft.com/pt-br/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-2017
 
-RUN pecl install sqlsrv-5.8.1
-RUN pecl install pdo_sqlsrv-5.8.1
+RUN pecl install sqlsrv-5.9.0
+RUN pecl install pdo_sqlsrv-5.9.0
 
 #For PHP CLI
 RUN echo extension=pdo_sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/30-pdo_sqlsrv.ini
