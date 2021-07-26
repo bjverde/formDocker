@@ -31,7 +31,8 @@ services:
       #- "d:/wamp/www/formDocker:/var/www/html" #Windows 7
       - ./www:/var/www/html:rw                     #Linux
       - ./logs:/var/log/apache2:rw
-      #- ./config/:/etc/php
+      #- ./config/php:/etc/php/8.0:rw
+      #- ./etc:/etc:rw
       #- ./config/apache_default.conf:/etc/apache2/sites-enabled/000-default.conf
 
 networks: 

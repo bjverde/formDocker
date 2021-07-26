@@ -31,7 +31,8 @@ RUN apt-get update
 RUN apt-get upgrade -y
 
 #Install facilitators
-RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https lsb-release ca-certificates software-properties-common
+RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https lsb-release \
+             ca-certificates software-properties-common zip unzip vim rpl apt-utils
 
 ## ------------- Install Apache2 + PHP 8.0  x86_64 ------------------
 #Thread Safety 	disabled 
@@ -45,16 +46,27 @@ RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc
 #Install update
 RUN apt-get update
 
-RUN apt-get -y install php8.0 php8.0-cli php8.0-common php8.0-opcache
+
+# Set Timezone
+RUN ln -fs /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends tzdata \
+    && dpkg-reconfigure --frontend noninteractive tzdata
+
+#intall Apache + PHP
+RUN apt-get -y install apache2 libapache2-mod-php8.0 php8.0 php8.0-cli php8.0-common php8.0-opcache
 
 #PHP Install CURl
 RUN apt-get -y install curl php8.0-curl
 
 #PHP Intall DOM, Json, XML e Zip
-RUN apt-get -y install php8.0-dom php8.0-xml php8.0-zip php8.0-gd
+RUN apt-get -y install php8.0-dom php8.0-xml php8.0-zip php8.0-soap php8.0-intl php8.0-xsl
 
 #PHP Install MbString
 RUN apt-get -y install php8.0-mbstring
+
+#PHP Install GD
+RUN apt-get -y install php8.0-gd
 
 #PHP Install PDO SqLite
 RUN apt-get -y install php8.0-pdo php8.0-pdo-sqlite php8.0-sqlite3
@@ -65,11 +77,23 @@ RUN apt-get -y install php8.0-pdo php8.0-pdo-mysql php8.0-mysql
 #PHP Install PDO PostGress
 RUN apt-get -y install php8.0-pdo php8.0-pgsql
 
-#PHP Install X-debug
-RUN apt-get -y install php8.0-xdebug
+## -------- Config Apache ----------------
+RUN a2dismod mpm_event
+RUN a2dismod mpm_worker
+RUN a2enmod  mpm_prefork
+RUN a2enmod  rewrite
+RUN a2enmod  php8.0
 
+# Enable .htaccess reading
+RUN LANG="en_US.UTF-8" rpl "AllowOverride None" "AllowOverride All" /etc/apache2/apache2.conf
 
-RUN apt-get -y -q install apache2 php8.0 libapache2-mod-php8.0
+## ------------- LDAP ------------------
+#PHP Install LDAP
+RUN apt-get -y install php8.0-ldap
+
+#Apache2 enebla LDAP
+RUN a2enmod authnz_ldap
+RUN a2enmod ldap
 
 ## ------------- Add-ons ------------------
 #Install GIT
@@ -84,13 +108,8 @@ RUN wget -O /usr/local/bin/phpunit-9.phar https://phar.phpunit.de/phpunit-9.phar
 ln -s /usr/local/bin/phpunit-9.phar /usr/local/bin/phpunit
 
 
-## ------------- LDAP ------------------
-#PHP Install LDAP
-RUN apt-get -y install php8.0-ldap
-
-#Apache2 enebla LDAP
-RUN a2enmod authnz_ldap
-RUN a2enmod ldap
+#PHP Install X-debug
+RUN apt-get -y install php8.0-xdebug
 
 
 
