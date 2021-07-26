@@ -107,10 +107,50 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN wget -O /usr/local/bin/phpunit-9.phar https://phar.phpunit.de/phpunit-9.phar; chmod +x /usr/local/bin/phpunit-9.phar; \
 ln -s /usr/local/bin/phpunit-9.phar /usr/local/bin/phpunit
 
-
+## ------------- X-DEBUG 3.X ------------------
 #PHP Install X-debug
 RUN apt-get -y install php8.0-xdebug
 
+#PHP X-Degub enable remote debug
+RUN echo "xdebug.start_with_request=yes" >> /etc/php/8.0/mods-available/xdebug.ini
+RUN echo "xdebug.mode = develop,coverage,debug" >> /etc/php/8.0/mods-available/xdebug.ini
+
+#PHP X-Degub enable log
+RUN echo "xdebug.log=/var/log/apache2/xdebug.log" >> /etc/php/8.0/mods-available/xdebug.ini
+
+
+##------------ Install Precondition for Drive SQL Server -----------
+# The installation of Drive SQL Server for PHP on Linux is not so simple.
+# You should combine the PHP version with Drive PDO version with the ODBC version
+# with the SQL Server version. Complete information on:
+# https://docs.microsoft.com/pt-br/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-2017#installing-the-drivers-on-debian-8-and-9
+#
+# This installation works with Debian 10, PHP 7.4, Drive PDO_SQLSRV 5.6.1, Microsoft ODBC Driver 17 for SQL Server , MS SQL Server 2008 R2 or higher
+
+RUN apt-get -y install php7.4-dev php7.4-xml php7.4-intl
+
+ENV ACCEPT_EULA=Y
+
+RUN curl -s https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl -s https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list
+
+RUN apt-get update
+
+RUN apt-get install -y --no-install-recommends \
+        locales \
+        apt-transport-https \
+    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
+    && locale-gen
+
+# install MSODBC 17
+RUN apt-get -y --no-install-recommends install msodbcsql17 mssql-tools
+
+RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
+RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+RUN exec bash
+
+RUN apt-get -y install unixodbc unixodbc-dev
+RUN apt-get -y install gcc g++ make autoconf libc-dev pkg-config
 
 
 ## ------------- Finishing ------------------
