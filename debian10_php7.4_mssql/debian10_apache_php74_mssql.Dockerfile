@@ -63,7 +63,7 @@ RUN apt-get -y install apache2 php7.4 libapache2-mod-php7.4 php7.4-cli php7.4-co
 RUN apt-get -y install curl php7.4-curl
 
 #PHP Intall DOM, Json, XML e Zip
-RUN apt-get -y install php7.4-dom php7.4-xml php7.4-zip php7.4-gd php7.4-soap php7.4-intl php7.4-xsl
+RUN apt-get -y install php7.4-dom php7.4-xml php7.4-zip php7.4-soap php7.4-intl php7.4-xsl
 
 #PHP Install MbString
 RUN apt-get -y install php7.4-mbstring
@@ -184,7 +184,7 @@ RUN apt-get -y install unixodbc unixodbc-dev
 RUN apt-get -y install gcc g++ make autoconf libc-dev pkg-config
 
 
-##------------ Install Drive 5.8.1 for SQL Server -----------
+##------------ Install Drive 5.9.0 for SQL Server -----------
 # List version drive PDO https://pecl.php.net/package/pdo_sqlsrv
 # Install Drive: https://docs.microsoft.com/pt-br/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-2017
 
