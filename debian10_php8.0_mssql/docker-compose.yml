@@ -12,15 +12,15 @@
 #Purging All Unused or Dangling Images, Containers, Volumes, and Networks
 #sudo docker system prune -a
 
-version: '3.6'
+version: '3.8'
 services:
 
   apache_php:
     build:
-      dockerfile: debian10_apache_php8.Dockerfile
+      dockerfile: debian10_apache_php8_mssql.Dockerfile
       context: .
-    image: debian10_apache_php8:last
-    container_name: debian10_php8
+    image: debian10_apache_php8_mssql:last
+    container_name: debian10_php8_mssql
     restart: always
     ports:
       - "80:80"

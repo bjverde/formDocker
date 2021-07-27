@@ -127,12 +127,12 @@ RUN echo "xdebug.log=/var/log/apache2/xdebug.log" >> /etc/php/8.0/mods-available
 #
 # This installation works with Debian 10, PHP 7.4, Drive PDO_SQLSRV 5.6.1, Microsoft ODBC Driver 17 for SQL Server , MS SQL Server 2008 R2 or higher
 
-RUN apt-get -y install php7.4-dev php7.4-xml php7.4-intl
+RUN apt-get -y install php8.0-dev php8.0-xml php8.0-intl
 
 ENV ACCEPT_EULA=Y
 
 RUN curl -s https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-    && curl -s https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list
+    && curl -s https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list
 
 RUN apt-get update
 
@@ -151,6 +151,28 @@ RUN exec bash
 
 RUN apt-get -y install unixodbc unixodbc-dev
 RUN apt-get -y install gcc g++ make autoconf libc-dev pkg-config
+
+##------------ Install Drive 5.9.0 for SQL Server -----------
+# List version drive PDO https://pecl.php.net/package/pdo_sqlsrv
+# Install Drive: https://docs.microsoft.com/pt-br/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-2017
+
+RUN pecl install sqlsrv-5.9.0
+RUN pecl install pdo_sqlsrv-5.9.0
+
+#For PHP CLI
+RUN echo extension=pdo_sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/30-pdo_sqlsrv.ini
+RUN echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/20-sqlsrv.ini
+
+#For PHP WEB
+RUN echo "extension=pdo_sqlsrv.so" >> /etc/php/7.4/apache2/conf.d/30-pdo_sqlsrv.ini
+RUN echo "extension=sqlsrv.so" >> /etc/php/7.4/apache2/conf.d/20-sqlsrv.ini
+
+#RUN phpenmod -v 8.0 sqlsrv pdo_sqlsrv
+#RUN apt-get install libapache2-mod-php7.3 apache2
+RUN a2dismod mpm_event
+RUN a2enmod mpm_prefork
+RUN a2enmod php8.0
+
 
 
 ## ------------- Finishing ------------------
