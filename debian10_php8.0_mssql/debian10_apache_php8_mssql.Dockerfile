@@ -164,8 +164,8 @@ RUN echo extension=pdo_sqlsrv.so >> `php --ini | grep "Scan for additional .ini 
 RUN echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/20-sqlsrv.ini
 
 #For PHP WEB
-RUN echo "extension=pdo_sqlsrv.so" >> /etc/php/7.4/apache2/conf.d/30-pdo_sqlsrv.ini
-RUN echo "extension=sqlsrv.so" >> /etc/php/7.4/apache2/conf.d/20-sqlsrv.ini
+RUN echo "extension=pdo_sqlsrv.so" >> /etc/php/8.0/apache2/conf.d/30-pdo_sqlsrv.ini
+RUN echo "extension=sqlsrv.so" >> /etc/php/8.0/apache2/conf.d/20-sqlsrv.ini
 
 #RUN phpenmod -v 8.0 sqlsrv pdo_sqlsrv
 #RUN apt-get install libapache2-mod-php7.3 apache2
