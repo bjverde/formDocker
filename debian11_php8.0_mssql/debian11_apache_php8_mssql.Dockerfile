@@ -78,7 +78,7 @@ RUN apt-get -y install php8.0-pdo php8.0-pdo-mysql php8.0-mysql
 RUN apt-get -y install php8.0-pdo php8.0-pgsql
 
 #PHP Install mongodb ext
-RUN pecl install mongodb
+#RUN pecl install mongodb
 
 ## -------- Config Apache ----------------
 RUN a2dismod mpm_event
@@ -128,14 +128,14 @@ RUN echo "xdebug.log=/var/log/apache2/xdebug.log" >> /etc/php/8.0/mods-available
 # with the SQL Server version. Complete information on:
 # https://docs.microsoft.com/pt-br/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-2017#installing-the-drivers-on-debian-8-and-9
 #
-# This installation works with Debian 10, PHP 7.4, Drive PDO_SQLSRV 5.6.1, Microsoft ODBC Driver 17 for SQL Server , MS SQL Server 2008 R2 or higher
+# This installation works with Debian 11, PHP 8.0, Drive PDO_SQLSRV 5.6.1, Microsoft ODBC Driver 17 for SQL Server , MS SQL Server 2008 R2 or higher
 
 RUN apt-get -y install php8.0-dev php8.0-xml php8.0-intl
 
 ENV ACCEPT_EULA=Y
 
 RUN curl -s https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-    && curl -s https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list
+    && curl -s https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list
 
 RUN apt-get update
 
