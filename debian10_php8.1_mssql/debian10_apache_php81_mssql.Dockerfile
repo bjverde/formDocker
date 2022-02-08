@@ -4,7 +4,7 @@
 # https://hub.docker.com/_/debian
 
 #How to build
-#sudo docker build -f debian10_apache_php81.Dockerfile . -t debian10_apache_php81_mssql
+#sudo docker build -f debian10_apache_php81_mssql.Dockerfile . -t debian10_apache_php81_mssql
 
 #How use iterative mode
 #sudo docker exec -it debian10_apache_php81_mssql:last /bin/bash
