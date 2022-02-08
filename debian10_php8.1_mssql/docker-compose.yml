@@ -17,10 +17,10 @@ services:
 
   apache_php:
     build:
-      dockerfile: debian10_apache_php8_mssql.Dockerfile
+      dockerfile: debian10_apache_php81_mssql.Dockerfile
       context: .
-    image: debian10_apache_php8_mssql:last
-    container_name: debian10_php8_mssql
+    image: debian10_apache_php81_mssql:last
+    container_name: debian10_php81_mssql
     restart: always
     ports:
       - "80:80"

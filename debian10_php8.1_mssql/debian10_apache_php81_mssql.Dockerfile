@@ -4,15 +4,15 @@
 # https://hub.docker.com/_/debian
 
 #How to build
-#sudo docker build -f debian10_apache_php8.Dockerfile . -t debian10_apache_php8
+#sudo docker build -f debian10_apache_php81.Dockerfile . -t debian10_apache_php81_mssql
 
 #How use iterative mode
-#sudo docker exec -it debian10_apache_php8:last /bin/bash
+#sudo docker exec -it debian10_apache_php81_mssql:last /bin/bash
 
 #How use iterative mode image
-#sudo docker run -it debian10_apache_php8:last /bin/bash           #only bash
-#sudo docker run -p 80:80 -it debian10_apache_php8:last /bin/bash
-#sudo docker run -d -p 80:80 debian10_apache_php8:last
+#sudo docker run -it debian10_apache_php81_mssql:last /bin/bash           #only bash
+#sudo docker run -p 80:80 -it debian10_apache_php81_mssql:last /bin/bash
+#sudo docker run -d -p 80:80 debian10_apache_php81_mssql:last
 
 #Stop all containers
 #sudo docker stop $(sudo docker ps -a -q)
