@@ -85,7 +85,7 @@ RUN a2dismod mpm_event
 RUN a2dismod mpm_worker
 RUN a2enmod  mpm_prefork
 RUN a2enmod  rewrite
-RUN a2enmod  php8.0
+RUN a2enmod  php8.1
 
 # Enable .htaccess reading
 RUN LANG="en_US.UTF-8" rpl "AllowOverride None" "AllowOverride All" /etc/apache2/apache2.conf
