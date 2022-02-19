@@ -67,7 +67,7 @@ RUN apt-get -y install php7.3-pdo php7.3-pgsql
 
 #PHP Install MongoDb
 RUN apt-get -y install php7.3-dev php-pear
-RUN pecl install mongodb
+#RUN apt-get -y install php7.3-mongodb
 
 #PHP Install X-debug
 #RUN apt-get -y install php-xdebug
