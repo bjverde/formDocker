@@ -77,8 +77,8 @@ RUN apt-get -y install php8.0-pdo php8.0-pdo-mysql php8.0-mysql
 #PHP Install PDO PostGress
 RUN apt-get -y install php8.0-pdo php8.0-pgsql
 
-#PHP Install mongodb ext
-#RUN pecl install mongodb
+#PHP Install Mongodb ext
+#RUN apt-get -y install php8.0-mongodb
 
 ## -------- Config Apache ----------------
 RUN a2dismod mpm_event

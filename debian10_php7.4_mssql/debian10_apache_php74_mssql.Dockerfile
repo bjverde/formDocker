@@ -80,6 +80,8 @@ RUN apt-get -y install php7.4-pdo php7.4-pdo-mysql php7.4-mysql
 #PHP Install PDO PostGress
 RUN apt-get -y install php7.4-pdo php7.4-pgsql
 
+#PHP Install Mongodb ext
+#RUN apt-get -y install php7.4-mongodb
 
 ## -------- Config Apache ----------------
 RUN a2dismod mpm_event
