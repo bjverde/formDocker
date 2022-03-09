@@ -179,6 +179,20 @@ RUN a2dismod mpm_event
 RUN a2enmod mpm_prefork
 RUN a2enmod php8.1
 
+##------------ FIX problem OpenSLL with Last version SqlServer -----------
+## https://askubuntu.com/questions/1102803/how-to-upgrade-openssl-1-1-0-to-1-1-1-in-ubuntu-18-04#
+## https://stackoverflow.com/questions/41887754/why-apt-get-install-openssl-did-not-install-last-version-of-openssl
+## -----------
+
+RUN apt-get install pkg-config 
+RUN wget -c https://www.openssl.org/source/openssl-1.1.1g.tar.gz -P /tmp
+RUN tar -zxf /tmp/openssl-1.1.1g.tar.gz -C /tmp
+RUN /tmp/openssl-1.1.1g/config
+RUN make
+RUN make test
+RUN mv /usr/bin/openssl ~/tmp
+RUN make install
+RUN ln -s /usr/local/bin/openssl /usr/bin/openssl
 
 
 ## ------------- Finishing ------------------
