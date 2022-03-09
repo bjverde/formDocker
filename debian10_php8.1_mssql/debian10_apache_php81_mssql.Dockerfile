@@ -34,6 +34,9 @@ RUN apt-get upgrade -y
 RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https lsb-release \
              ca-certificates software-properties-common zip unzip vim rpl apt-utils
 
+# Fix ‘add-apt-repository command not found’
+RUN apt-get install software-properties-common
+
 ## ------------- Install Apache2 + PHP 8.1  x86_64 ------------------
 #Thread Safety 	disabled 
 #PHP Modules : calendar,Core,ctype,date,exif,fileinfo,filter,ftp,gettext,hash,iconv,json,libxml
