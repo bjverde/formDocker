@@ -171,12 +171,10 @@ RUN echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini file
 RUN echo "extension=pdo_sqlsrv.so" >> /etc/php/8.1/apache2/conf.d/30-pdo_sqlsrv.ini
 RUN echo "extension=sqlsrv.so" >> /etc/php/8.1/apache2/conf.d/20-sqlsrv.ini
 
-#RUN phpenmod -v 8.1 sqlsrv pdo_sqlsrv
-#RUN apt-get install libapache2-mod-php7.3 apache2
+#Config Apache
 RUN a2dismod mpm_event
 RUN a2enmod mpm_prefork
 RUN a2enmod php8.1
-
 
 #PHP Install Mongodb ext
 #RUN pecl install mongodb
