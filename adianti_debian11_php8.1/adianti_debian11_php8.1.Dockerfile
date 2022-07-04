@@ -171,14 +171,24 @@ RUN echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini file
 RUN echo "extension=pdo_sqlsrv.so" >> /etc/php/8.1/apache2/conf.d/30-pdo_sqlsrv.ini
 RUN echo "extension=sqlsrv.so" >> /etc/php/8.1/apache2/conf.d/20-sqlsrv.ini
 
-#Config Apache
-RUN a2dismod mpm_event
-RUN a2enmod mpm_prefork
-RUN a2enmod php8.1
-
 #PHP Install Mongodb ext
 #RUN pecl install mongodb
 RUN apt-get -y install php8.1-mongodb
+
+##------------ Config security settings Apache -----------
+RUN apt-get -y install libapache2-mod-evasive
+RUN a2enmod evasive
+RUN rm /etc/apache2/mods-enabled/evasive.conf
+
+RUN echo '<IfModule mod_evasive20.c>'                >> /etc/apache2/mods-enabled/evasive.conf \
+    && echo '  DOSHashTableSize 2048'                >> /etc/apache2/mods-enabled/evasive.conf \
+    && echo '  DOSPageCount 10'                      >> /etc/apache2/mods-enabled/evasive.conf \
+    && echo '  DOSSiteCount 200'                     >> /etc/apache2/mods-enabled/evasive.conf \
+    && echo '  DOSPageInterval 2'                    >> /etc/apache2/mods-enabled/evasive.conf \
+    && echo '  DOSSiteInterval 2'                    >> /etc/apache2/mods-enabled/evasive.conf \
+    && echo '  DOSBlockingPeriod 10'                 >> /etc/apache2/mods-enabled/evasive.conf \
+    && echo '  DOSLogDir "/var/log/apache2/evasive"' >> /etc/apache2/mods-enabled/evasive.conf \
+    && echo '</IfModule>'                            >> /etc/apache2/mods-enabled/evasive.conf
 
 ##------------ FIX problem OpenSLL with Last version SqlServer -----------
 ## https://askubuntu.com/questions/1102803/how-to-upgrade-openssl-1-1-0-to-1-1-1-in-ubuntu-18-04#
