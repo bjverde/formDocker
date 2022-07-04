@@ -2,6 +2,16 @@
 # Ignore * all files in directories
 # Ignore **/ alll subdirectories 
 
-/www/
+# VsCode files
+.vscode/
+
+# Eclipse files
+/.settings/
+/.vscode/
+/.project
+/.buildpath
+
+# Iginorando arquivos do Adianti
+#/tmp/
+#!/tmp/.htaccess
 /logs/
-/config/
