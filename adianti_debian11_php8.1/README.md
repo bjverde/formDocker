@@ -50,8 +50,8 @@ Altere o arquivo php.ini na raiz da pasta depois rode novamente `docker-compose 
 Configurações mais comuns
 * `display_errors = On` linha 503 - mostra os erros na tela
 * `error_reporting = E_ALL` linha 486 - mostra todos os tipos de erros
-* `post_max_size = 80M` linha 698 - altera o tamanho maximo do post
-* `upload_max_filesize = 20M` linha 850 - altera o tamanho do upload de arquivo
+* `post_max_size = 100M` linha 698 - altera o tamanho maximo do post
+* `upload_max_filesize = 100M` linha 850 - altera o tamanho do upload de arquivo
 
 
 ## X-Debug
