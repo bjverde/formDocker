@@ -28,11 +28,9 @@ services:
     networks:
       - formdin-network
     volumes:
-      #- "d:/wamp/www/formDocker:/var/www/html" #Windows 7
-      - ./www:/var/www/html:rw                     #Linux
+      - ./php.ini:/etc/php/8.1/apache2/php.ini
+      - ./www:/var/www/html:rw
       - ./logs:/var/log/apache2:rw
-      #- ./config/php:/etc/php/8.0:rw
-      #- ./etc:/etc:rw
       #- ./config/apache_default.conf:/etc/apache2/sites-enabled/000-default.conf
 
 networks: 

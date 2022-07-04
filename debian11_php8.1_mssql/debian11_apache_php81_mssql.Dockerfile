@@ -4,15 +4,15 @@
 # https://hub.docker.com/_/debian
 
 #How to build
-#sudo docker build -f debian11_apache_php81_mssql.Dockerfile . -t debian10_apache_php81_mssql
+#sudo docker build -f debian10_apache_php81_mssql.Dockerfile . -t debian10_apache_php81_mssql
 
 #How use iterative mode
-#sudo docker exec -it debian11_apache_php81_mssql:last /bin/bash
+#sudo docker exec -it debian10_apache_php81_mssql:last /bin/bash
 
 #How use iterative mode image
-#sudo docker run -it debian11_apache_php81_mssql:last /bin/bash           #only bash
-#sudo docker run -p 80:80 -it debian11_apache_php81_mssql:last /bin/bash
-#sudo docker run -d -p 80:80 debian11_apache_php81_mssql:last
+#sudo docker run -it debian10_apache_php81_mssql:last /bin/bash           #only bash
+#sudo docker run -p 80:80 -it debian10_apache_php81_mssql:last /bin/bash
+#sudo docker run -d -p 80:80 debian10_apache_php81_mssql:last
 
 #Stop all containers
 #sudo docker stop $(sudo docker ps -a -q)
@@ -33,6 +33,9 @@ RUN apt-get upgrade -y
 #Install facilitators
 RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https lsb-release \
              ca-certificates software-properties-common zip unzip vim rpl apt-utils
+
+# Fix ‘add-apt-repository command not found’
+RUN apt-get install software-properties-common
 
 ## ------------- Install Apache2 + PHP 8.1  x86_64 ------------------
 #Thread Safety 	disabled 
@@ -77,9 +80,6 @@ RUN apt-get -y install php8.1-pdo php8.1-pdo-mysql php8.1-mysql
 #PHP Install PDO PostGress
 RUN apt-get -y install php8.1-pdo php8.1-pgsql
 
-#PHP Install Mongodb ext
-#RUN apt-get -y install php8.1-mongodb
-
 ## -------- Config Apache ----------------
 RUN a2dismod mpm_event
 RUN a2dismod mpm_worker
@@ -112,21 +112,21 @@ ln -s /usr/local/bin/phpunit-9.phar /usr/local/bin/phpunit
 
 ## ------------- X-DEBUG 3.X ------------------
 #PHP Install X-debug
-RUN apt-get -y install php8.1-xdebug
+#RUN apt-get -y install php8.1-xdebug
 
 #PHP X-Degub enable remote debug
-RUN echo "xdebug.start_with_request=yes" >> /etc/php/8.1/mods-available/xdebug.ini
-RUN echo "xdebug.mode = develop,coverage,debug" >> /etc/php/8.1/mods-available/xdebug.ini
+#RUN echo "xdebug.start_with_request=yes" >> /etc/php/8.1/mods-available/xdebug.ini
+#RUN echo "xdebug.mode = develop,coverage,debug" >> /etc/php/8.1/mods-available/xdebug.ini
 
 #PHP X-Degub enable log
-RUN echo "xdebug.log=/var/log/apache2/xdebug.log" >> /etc/php/8.1/mods-available/xdebug.ini
+#RUN echo "xdebug.log=/var/log/apache2/xdebug.log" >> /etc/php/8.1/mods-available/xdebug.ini
 
 
 ##------------ Install Precondition for Drive SQL Server -----------
 # The installation of Drive SQL Server for PHP on Linux is not so simple.
 # You should combine the PHP version with Drive PDO version with the ODBC version
 # with the SQL Server version. Complete information on:
-# https://docs.microsoft.com/pt-br/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-2017#installing-the-drivers-on-debian-8-and-9
+# https://docs.microsoft.com/pt-br/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-2017#installing-on-debian
 #
 # This installation works with Debian 11, PHP 8.1, Drive PDO_SQLSRV 5.10.0, Microsoft ODBC Driver 17 for SQL Server , MS SQL Server 2008 R2 or higher
 
@@ -135,7 +135,7 @@ RUN apt-get -y install php8.1-dev php8.1-xml php8.1-intl
 ENV ACCEPT_EULA=Y
 
 RUN curl -s https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-    && curl -s https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list
+    && curl -s https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list
 
 RUN apt-get update
 
@@ -145,7 +145,8 @@ RUN apt-get install -y --no-install-recommends \
     && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
     && locale-gen
 
-# install MSODBC 17
+# install MS ODBC 17
+# https://docs.microsoft.com/pt-br/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-2017#debian18
 RUN apt-get -y --no-install-recommends install msodbcsql17 mssql-tools
 
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
@@ -177,6 +178,25 @@ RUN a2enmod mpm_prefork
 RUN a2enmod php8.1
 
 
+#PHP Install Mongodb ext
+#RUN pecl install mongodb
+RUN apt-get -y install php8.1-mongodb
+
+##------------ FIX problem OpenSLL with Last version SqlServer -----------
+## https://askubuntu.com/questions/1102803/how-to-upgrade-openssl-1-1-0-to-1-1-1-in-ubuntu-18-04#
+## https://stackoverflow.com/questions/41887754/why-apt-get-install-openssl-did-not-install-last-version-of-openssl
+## -----------
+
+#RUN apt-get install pkg-config 
+#RUN wget -c https://www.openssl.org/source/openssl-1.1.1g.tar.gz -P /tmp
+#RUN tar -zxf /tmp/openssl-1.1.1g.tar.gz -C /tmp
+#RUN /tmp/openssl-1.1.1g/config
+#RUN make
+#RUN make test
+#RUN mv /usr/bin/openssl ~/tmp
+#RUN make install
+#RUN ln -s /usr/local/bin/openssl /usr/bin/openssl
+
 
 ## ------------- Finishing ------------------
 RUN apt-get clean
@@ -185,4 +205,5 @@ RUN apt-get clean
 RUN updatedb
 
 EXPOSE 80
+EXPOSE 443
 CMD apachectl -D FOREGROUND
