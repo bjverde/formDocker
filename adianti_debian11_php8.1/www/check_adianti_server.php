@@ -40,7 +40,7 @@ function listaExtensoesBanco(){
     extensaoCarregada('sqlsrv');
     extensaoCarregada('pdo_mysql');
     extensaoCarregada('PDO_OCI');
-    extensaoCarregada('PDO_ODBC');
+    extensaoCarregada('ODBC');
     extensaoCarregada('pdo_pgsql');
     extensaoCarregada('pdo_sqlite');
 	echo '</ul>';
@@ -50,16 +50,16 @@ function listaExtensoesGerais(){
 	echo '<h3><a href="javascript:toggleDiv(\'listaExtensoesGerais\');">Gerais</a></h3>';
 	echo '<div id="listaExtensoesGerais" class="alert-box warning">';
 	echo '<ul>';
-	extensaoCarregada('mbstring');
-	extensaoCarregada('gd');
 	extensaoCarregada('soap');
+	extensaoCarregada('gd');
+    extensaoCarregada('curl');
+	extensaoCarregada('mbstring');
 	extensaoCarregada('xml');
 	extensaoCarregada('xsl');
     extensaoCarregada('SimpleXML');
     extensaoCarregada('zip');
     extensaoCarregada('ldap');
     extensaoCarregada('json');
-    extensaoCarregada('curl');    
 	echo '</ul>';
 	echo '</div>';
 }
@@ -146,6 +146,10 @@ $frm = new TForm('Configurações do PHP');
 <title>Check Adianti Server</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style type="text/css">
+    body{
+		font-size: 15px;
+		font-family: Verdana,Geneva,Tahoma,Arial,Helvetica,sans-serif;
+    }
 	.main {
 		font-size: 15px;
 		font-family: Verdana,Geneva,Tahoma,Arial,Helvetica,sans-serif;
@@ -172,7 +176,7 @@ $frm = new TForm('Configurações do PHP');
 	.alert-box {
 		color:#555;
 		border-radius:10px;
-		font-family:Tahoma,Geneva,Arial,sans-serif;font-size:11px;
+		font-family:Tahoma,Geneva,Arial,sans-serif;
 		padding:10px 10px 10px 36px;
 		margin:10px;
 	}
@@ -215,6 +219,8 @@ $frm = new TForm('Configurações do PHP');
 </head>
 <body>
 <h1>Check Lista para Adianti FrameWork ou Adianti Template</h1>
+</br>
+</br>Baseado no artigo<a href="https://www.adianti.com.br/forum/pt/view_7397?preparando-um-servidor-gabarito-para-o-adianti-framework-com-ubuntu-2204-e-php-81" target="_blank">Preparando um servidor gabarito para o Adianti Framework (com Ubuntu 22.04 e PHP 8.1)</a> do Pablo Dall'Oglio
 </br>
 </br>
 <?php
