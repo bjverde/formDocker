@@ -43,10 +43,4 @@ Existem diversos arquivos Docker-compose de exemplo. Escolha uma pasta conforme 
 
 # Instalação 
 
-## Linux (Debian / Ubuntu / Mint)
-
-
-
-## Windows 10
-
-
+Instale o Docker Desktop conforme o seu sistema operacional, veja como link https://github.com/bjverde/formDin/wiki/Usando-o-Docker
