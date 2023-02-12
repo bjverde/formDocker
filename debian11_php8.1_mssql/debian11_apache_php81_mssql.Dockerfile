@@ -148,9 +148,9 @@ RUN apt-get install -y --no-install-recommends \
     && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
     && locale-gen
 
-# install MS ODBC 17
+# install MS ODBC 18
 # https://docs.microsoft.com/pt-br/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-2017#debian18
-RUN apt-get -y --no-install-recommends install msodbcsql17 mssql-tools
+RUN apt-get -y install msodbcsql18 mssql-tools18
 
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
