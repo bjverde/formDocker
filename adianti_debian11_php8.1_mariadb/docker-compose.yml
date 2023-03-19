@@ -34,6 +34,7 @@ services:
 
   mariadb:
     image: mariadb
+    container_name: mariadb
     environment:
       MYSQL_ROOT_PASSWORD: changeme
       MYSQL_DATABASE: mybb
@@ -45,12 +46,11 @@ services:
     networks:
       - formdin-network      
     volumes:
-      #- /var/docker/mariadb/conf:/etc/mysql     
-      - "/mariadb/data:/var/lib/mysql/data:rw"
-      - "/mariadb/logs:/var/lib/mysql/logs:rw"
+      - ./mariadb:/var/lib/mysql:rw
 
   adminer:
     image: adminer
+    container_name: adminer
     restart: always
     networks:
       - formdin-network      
