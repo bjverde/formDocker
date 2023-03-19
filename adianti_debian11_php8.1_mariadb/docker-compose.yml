@@ -35,16 +35,17 @@ services:
   mariadb:
     image: mariadb
     container_name: mariadb
+    restart: on-failure
     environment:
-      MYSQL_ROOT_PASSWORD: changeme
+      #MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mybb
       MYSQL_USER: mybb
-      MYSQL_PASSWORD: changeme
-    restart: on-failure
+      MYSQL_PASSWORD: mybb
     ports:
       - "3306:3306"
     networks:
-      - formdin-network      
+      - formdin-network
     volumes:
       - ./mariadb:/var/lib/mysql:rw
 
@@ -53,9 +54,20 @@ services:
     container_name: adminer
     restart: always
     networks:
-      - formdin-network      
+      - formdin-network
     ports:
       - 8080:8080
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - 8081:8081
+    networks:
+      - formdin-network
+    environment:
+      - PMA_ARBITRARY=1
 
 networks: 
     formdin-network:
