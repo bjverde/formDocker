@@ -26,6 +26,9 @@ LABEL maintainer="bjverde@yahoo.com.br"
 
 ENV DEBIAN_FRONTEND noninteractive
 
+# Set default environment variables
+ENV TIMEZONE America/Sao_Paulo
+
 #Install update
 RUN apt-get update
 RUN apt-get upgrade -y

@@ -26,13 +26,16 @@ LABEL maintainer="bjverde@yahoo.com.br"
 
 ENV DEBIAN_FRONTEND noninteractive
 
+# Set default environment variables
+ENV TIMEZONE America/Sao_Paulo
+
 #Install update
 RUN apt-get update
 RUN apt-get upgrade -y
 
 #Install facilitators
 RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https lsb-release \
-             ca-certificates software-properties-common zip unzip vim rpl apt-utils
+             ca-certificates software-properties-common zip unzip vim rpl
 
 # Fix ‘add-apt-repository command not found’
 RUN apt-get install software-properties-common
@@ -145,9 +148,9 @@ RUN apt-get install -y --no-install-recommends \
     && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
     && locale-gen
 
-# install MS ODBC 17
+# install MS ODBC 18
 # https://docs.microsoft.com/pt-br/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-2017#debian18
-RUN apt-get -y --no-install-recommends install msodbcsql17 mssql-tools
+RUN apt-get -y install msodbcsql18 mssql-tools18
 
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
@@ -159,9 +162,9 @@ RUN apt-get -y install gcc g++ make autoconf libc-dev pkg-config
 ##------------ Install Drive 5.10.0 for SQL Server -----------
 # List version drive PDO https://pecl.php.net/package/pdo_sqlsrv
 # Install Drive: https://docs.microsoft.com/pt-br/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-2017
-
-RUN pecl install sqlsrv-5.10.0
-RUN pecl install pdo_sqlsrv-5.10.0
+RUN apt-get install php-pear
+RUN pecl -vvv install sqlsrv-5.10.1
+RUN pecl -vvv install pdo_sqlsrv-5.10.1
 
 #For PHP CLI
 RUN echo extension=pdo_sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/30-pdo_sqlsrv.ini
