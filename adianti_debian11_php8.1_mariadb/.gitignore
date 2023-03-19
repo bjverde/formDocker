@@ -15,3 +15,4 @@
 #/tmp/
 #!/tmp/.htaccess
 /logs/
+/mariadb/
