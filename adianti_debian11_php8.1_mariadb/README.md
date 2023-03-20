@@ -29,7 +29,7 @@ Esse ambiente foi configurado conforme o tutorial [Preparando um servidor gabari
     * PDO - SqLite
     * PDO - MySQL
     * PDO - PostGres
-    * PDO - Sql Server
+    * PDO - Sql Server - no dia 19/03/2023 não está funcionando
         * Drive SqlServer 5.10
         * ODBC 17
         * OpenSSL 1.1.1-g 2020
