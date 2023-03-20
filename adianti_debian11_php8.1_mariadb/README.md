@@ -33,10 +33,14 @@ Esse ambiente foi configurado conforme o tutorial [Preparando um servidor gabari
         * Drive SqlServer 5.10
         * ODBC 17
         * OpenSSL 1.1.1-g 2020
-    * Xdebug 3.X - DESATIVADO por padrão
+    * Xdebug 3.X - ATIVADO por padrão
 * Composer
 * PHPUnit 9.X
 * GIT
+* MariaDB Versão 10.11
+* PHPMyAdmin - http://localhost:9090
+* adminer    - http://localhost:8080
+
 
 ## Rodando
 Para facilitar a vida foi usado um Docker com Docker-compose basta executar  `docker-compose up --build` e aguardar.
