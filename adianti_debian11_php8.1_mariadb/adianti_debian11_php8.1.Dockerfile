@@ -26,13 +26,16 @@ LABEL maintainer="bjverde@yahoo.com.br"
 
 ENV DEBIAN_FRONTEND noninteractive
 
+# Set default environment variables
+ENV TIMEZONE America/Sao_Paulo
+
 #Install update
 RUN apt-get update
 RUN apt-get upgrade -y
 
 #Install facilitators
 RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https lsb-release \
-             ca-certificates software-properties-common zip unzip vim rpl apt-utils
+             ca-certificates software-properties-common zip unzip vim rpl
 
 # Fix ‘add-apt-repository command not found’
 RUN apt-get install software-properties-common
@@ -112,14 +115,14 @@ ln -s /usr/local/bin/phpunit-9.phar /usr/local/bin/phpunit
 
 ## ------------- X-DEBUG 3.X ------------------
 #PHP Install X-debug
-#RUN apt-get -y install php8.1-xdebug
+RUN apt-get -y install php8.1-xdebug
 
 #PHP X-Degub enable remote debug
-#RUN echo "xdebug.start_with_request=yes" >> /etc/php/8.1/mods-available/xdebug.ini
-#RUN echo "xdebug.mode = develop,coverage,debug" >> /etc/php/8.1/mods-available/xdebug.ini
+RUN echo "xdebug.start_with_request=yes" >> /etc/php/8.1/mods-available/xdebug.ini
+RUN echo "xdebug.mode = develop,coverage,debug" >> /etc/php/8.1/mods-available/xdebug.ini
 
 #PHP X-Degub enable log
-#RUN echo "xdebug.log=/var/log/apache2/xdebug.log" >> /etc/php/8.1/mods-available/xdebug.ini
+RUN echo "xdebug.log=/var/log/apache2/xdebug.log" >> /etc/php/8.1/mods-available/xdebug.ini
 
 
 ##------------ Install Precondition for Drive SQL Server -----------
@@ -160,20 +163,28 @@ RUN apt-get -y install gcc g++ make autoconf libc-dev pkg-config
 # List version drive PDO https://pecl.php.net/package/pdo_sqlsrv
 # Install Drive: https://docs.microsoft.com/pt-br/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-2017
 
-#RUN pecl install sqlsrv-5.10.0
-#RUN pecl install pdo_sqlsrv-5.10.0
+RUN apt-get install php-pear
+RUN pecl -vvv install sqlsrv-5.10.1
+RUN pecl -vvv install pdo_sqlsrv-5.10.1
 
 #For PHP CLI
-#RUN echo extension=pdo_sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/30-pdo_sqlsrv.ini
-#RUN echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/20-sqlsrv.ini
+RUN echo extension=pdo_sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/30-pdo_sqlsrv.ini
+RUN echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/20-sqlsrv.ini
 
 #For PHP WEB
-#RUN echo "extension=pdo_sqlsrv.so" >> /etc/php/8.1/apache2/conf.d/30-pdo_sqlsrv.ini
-#RUN echo "extension=sqlsrv.so" >> /etc/php/8.1/apache2/conf.d/20-sqlsrv.ini
+RUN echo "extension=pdo_sqlsrv.so" >> /etc/php/8.1/apache2/conf.d/30-pdo_sqlsrv.ini
+RUN echo "extension=sqlsrv.so" >> /etc/php/8.1/apache2/conf.d/20-sqlsrv.ini
 
 #PHP Install Mongodb ext
-#RUN pecl install mongodb
-#RUN apt-get -y install php8.1-mongodb
+RUN apt-get -y install php8.1-mongodb
+
+#Drive mongo via pecl
+#RUN pecl -vvv install mongodb-1.13.0
+#RUN echo "; configuration for php MongoDb module" >> /etc/php/8.1/mods-available/mongodb.ini
+#RUN echo "; priority=20" >> /etc/php/8.1/mods-available/mongodb.ini
+#RUN echo "extension=mongodb.so" >> /etc/php/8.1/mods-available/mongodb.ini
+#RUN ln -s /etc/php/8.1/mods-available/mongodb.ini /etc/php/8.1/apache2/conf.d/20-mongodb.ini
+
 
 ##------------ Config security settings Apache -----------
 RUN apt-get -y install libapache2-mod-evasive
@@ -189,22 +200,6 @@ RUN echo '<IfModule mod_evasive20.c>'                >> /etc/apache2/mods-enable
     && echo '  DOSBlockingPeriod 10'                 >> /etc/apache2/mods-enabled/evasive.conf \
     && echo '  DOSLogDir "/var/log/apache2/evasive"' >> /etc/apache2/mods-enabled/evasive.conf \
     && echo '</IfModule>'                            >> /etc/apache2/mods-enabled/evasive.conf
-
-##------------ FIX problem OpenSLL with Last version SqlServer -----------
-## https://askubuntu.com/questions/1102803/how-to-upgrade-openssl-1-1-0-to-1-1-1-in-ubuntu-18-04#
-## https://stackoverflow.com/questions/41887754/why-apt-get-install-openssl-did-not-install-last-version-of-openssl
-## -----------
-
-#RUN apt-get install pkg-config 
-#RUN wget -c https://www.openssl.org/source/openssl-1.1.1g.tar.gz -P /tmp
-#RUN tar -zxf /tmp/openssl-1.1.1g.tar.gz -C /tmp
-#RUN /tmp/openssl-1.1.1g/config
-#RUN make
-#RUN make test
-#RUN mv /usr/bin/openssl ~/tmp
-#RUN make install
-#RUN ln -s /usr/local/bin/openssl /usr/bin/openssl
-
 
 ## ------------- Finishing ------------------
 RUN apt-get clean
