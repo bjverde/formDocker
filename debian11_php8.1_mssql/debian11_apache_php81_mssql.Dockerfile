@@ -156,10 +156,14 @@ RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
 RUN exec bash
 
-RUN apt-get -y install unixodbc unixodbc-dev
+# Correção para fazer funcionar com Drive 5.10.1 no Debian 11
+# https://github.com/microsoft/msphpsql/issues/1438#issuecomment-1444773949
+RUN apt-get install -y --allow-downgrades odbcinst=2.3.7 odbcinst1debian2=2.3.7 unixodbc=2.3.7 unixodbc-dev=2.3.7
+
+#RUN apt-get -y install unixodbc unixodbc-dev
 RUN apt-get -y install gcc g++ make autoconf libc-dev pkg-config
 
-##------------ Install Drive 5.10.0 for SQL Server -----------
+##------------ Install Drive 5.10.1 for SQL Server -----------
 # List version drive PDO https://pecl.php.net/package/pdo_sqlsrv
 # Install Drive: https://docs.microsoft.com/pt-br/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-2017
 RUN apt-get install php-pear
