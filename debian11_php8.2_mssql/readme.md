@@ -12,7 +12,7 @@
 * Apache 2.4.X
     * AllowOverride All
     * LDAP Ligado
-* PHP 8.1.X
+* PHP 8.2.X
     * CURL
     * JSON
     * MbString
@@ -23,9 +23,8 @@
     * PDO - MySQL
     * PDO - PostGres
     * PDO - Sql Server
-        * Drive SqlServer 5.10
-        * ODBC 17
-        * OpenSSL 1.1.1-g 2020
+        * Drive SqlServer 5.11
+        * ODBC 18
     * Xdebug 3.X - DESATIVADO por padrão
 * Composer
 * PHPUnit 9.X
