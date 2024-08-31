@@ -1,13 +1,13 @@
 # adianti-gabarito
-Script Docker / Compose baseada em Debian 11 para desenvolvimento PHP com [Adianti Framework](https://www.adianti.com.br/framework). O container rodará Apache/2.4.29 e PHP 8.1.X, bem como todos os módulos e extensões necessárias para a correta execução do framework. 
+Script Docker / Compose baseada em Debian 12 para desenvolvimento PHP com [Adianti Framework](https://www.adianti.com.br/framework). O container rodará Apache/2.4.29 e PHP 8.2.X, bem como todos os módulos e extensões necessárias para a correta execução do framework. 
 
 Esse ambiente foi configurado conforme o tutorial [Preparando um servidor gabarito para o Adianti Framework (com Ubuntu 22.04 e PHP 8.1)](https://www.adianti.com.br/forum/pt/view_7397?preparando-um-servidor-gabarito-para-o-adianti-framework-com-ubuntu-2204-e-php-81) escrito por [Pablo Dall'Oglio](http://www.dalloglio.net/).
 
-
+*ESTA CONFIGURADO PARA DESENVOLVIMENTO COM XDebug*
 
 # Detalhando o Ambiente
 
-* Debian 11
+* Debian 12
     * locate
     * mlocate
     * wget
@@ -19,7 +19,7 @@ Esse ambiente foi configurado conforme o tutorial [Preparando um servidor gabari
 * Apache 2.4.X
     * AllowOverride All
     * LDAP Ligado
-* PHP 8.1.X
+* PHP 8.2.X
     * CURL
     * JSON
     * MbString
@@ -33,9 +33,9 @@ Esse ambiente foi configurado conforme o tutorial [Preparando um servidor gabari
         * Drive SqlServer 5.10
         * ODBC 17
         * OpenSSL 1.1.1-g 2020
-    * Xdebug 3.X - DESATIVADO por padrão
+    * Xdebug 3.X - ATIVADO por padrão
 * Composer
-* PHPUnit 9.X
+* PHPUnit 11.X
 * GIT
 
 ## Rodando
@@ -55,7 +55,15 @@ Configurações mais comuns
 
 
 ## X-Debug
-Vem desativado por padrão para ativar basta descomentar as linhas
-* 115
-* 118 e 119
-* 122
+Vem ativado por padrão para ativar basta comentar as linhas no arquivo `adianti_debian12_php8.2.Dockerfile` para desativar.
+* 131
+* 134,135 e 136
+* 139
+
+
+# Alterando para modo produção.
+
+1. Alterar arquivo php.ini `display_errors = off` na linha 503 - para não mostrar os errados na tela
+1. Alterar arquivo php.ini `error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT` linha 486 - mostra todos os tipos de erros
+1. Alterar arquivo `adianti_debian12_php8.2.Dockerfile` e comentar as linahs 130 até 139
+1. Alterar arquivo `adianti_debian12_php8.2.Dockerfile` e comentar as linahs 222 para desativar a porta 9003
