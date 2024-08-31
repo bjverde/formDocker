@@ -133,6 +133,7 @@ RUN apt-get -y install php8.2-xdebug
 #PHP X-Degub enable remote debug
 RUN echo "xdebug.start_with_request=yes" >> /etc/php/8.2/mods-available/xdebug.ini
 RUN echo "xdebug.mode = develop,coverage,debug" >> /etc/php/8.2/mods-available/xdebug.ini
+RUN echo "xdebug.client_port=9003" >> /etc/php/8.2/mods-available/xdebug.ini
 
 #PHP X-Degub enable log
 RUN echo "xdebug.log=/var/log/apache2/xdebug.log" >> /etc/php/8.2/mods-available/xdebug.ini
@@ -218,4 +219,5 @@ RUN updatedb
 
 EXPOSE 80
 EXPOSE 443
+EXPOSE 9003
 CMD apachectl -D FOREGROUND
