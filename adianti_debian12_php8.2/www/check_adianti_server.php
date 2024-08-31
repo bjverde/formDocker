@@ -1,16 +1,14 @@
 <?php
-
 function phpModulo($extensao=null, $html)
 {
     if (!extension_loaded($extensao)) {
-        $html->add('<b>'.$extensao.'</b>: <span class="vermelho">Não instalada</span><br>');
+        $html->add('<b>'.$extensao.'</b>: <span class="vermelho">Não instalado</span><br>');
         return true;
     } else {
-        $html->add('<b>'.$extensao.'</b>: <span class="verde">Instalada.</span><br>');
+        $html->add('<b>'.$extensao.'</b>: <span class="verde">Instalado</span><br>');
         return false;
     }
 }
-
 function apacheModulo($moduloApache){
     $listModulos = apache_get_modules();
     $result = in_array($moduloApache, $listModulos);
@@ -50,16 +48,16 @@ function listaExtensoesGerais(){
 	echo '<h3><a href="javascript:toggleDiv(\'listaExtensoesGerais\');">Gerais</a></h3>';
 	echo '<div id="listaExtensoesGerais" class="alert-box warning">';
 	echo '<ul>';
-	extensaoCarregada('soap');
-	extensaoCarregada('gd');
     extensaoCarregada('curl');
+	extensaoCarregada('gd');
+    extensaoCarregada('json');
+    extensaoCarregada('ldap');
 	extensaoCarregada('mbstring');
+    extensaoCarregada('SimpleXML');
+	extensaoCarregada('soap');
 	extensaoCarregada('xml');
 	extensaoCarregada('xsl');
-    extensaoCarregada('SimpleXML');
     extensaoCarregada('zip');
-    extensaoCarregada('ldap');
-    extensaoCarregada('json');
 	echo '</ul>';
 	echo '</div>';
 }
@@ -69,56 +67,6 @@ function listaExtensoes(){
 	listaExtensoesBanco();
 	listaExtensoesGerais();
 }
-
-/*
-$frm = new TForm('Configurações do PHP');
-    $frm->setFlat(true);
-    $frm->setAutoSize(true);
-    
-    $html = $frm->addHtmlField('conf', '');
-    $html->setCss('font-size', '14px');
-
-    $html->add(info::phpVersionOK());
-    $html->add('<b>Seu IP</b>: <span class="versao">'.$_SERVER['REMOTE_ADDR'].'</span><br>');
-
-    $html->add('<br><b>Extensções:</b><br>');
-
-    testar('gd', $html);
-    testar('pdf', $html);
-
-    $html->add('<br>');
-    testar('pgsql', $html);
-    testar('SQLite', $html);
-    testar('sqlite3', $html);
-    testar('odbc', $html);
-    testar('mysql', $html);
-    testar('interbase', $html);
-    testar('oci8', $html);
-    testar('sqlsrv', $html);
-
-    $html->add('<br>');
-    testar('pdo', $html);
-    testar('PDO_Firebird', $html);
-    $html->add(info::infoSQLServer()); testar('pdo_sqlsrv', $html);
-    testar('pdo_mysql', $html);
-    testar('PDO_OCI', $html);
-    testar('PDO_ODBC', $html);
-    testar('pdo_pgsql', $html);
-    testar('pdo_sqlite', $html);
-
-    $html->add('<br>');
-    testar('soap', $html);
-    testar('xml', $html);
-    testar('SimpleXML', $html);
-    testar('xsl', $html);
-    testar('zip', $html);
-    testar('zlib', $html);
-    testar('ldap', $html);
-    testar('json', $html);
-    testar('curl', $html);
-
-    $frm->show();
-*/
 
 ?>
 
@@ -218,9 +166,9 @@ $frm = new TForm('Configurações do PHP');
 </script>
 </head>
 <body>
-<h1>Check Lista para Adianti FrameWork ou Adianti Template</h1>
+<h1>CheckList para Adianti FrameWork ou Adianti Template</h1>
 </br>
-</br>Baseado no artigo<a href="https://www.adianti.com.br/forum/pt/view_7397?preparando-um-servidor-gabarito-para-o-adianti-framework-com-ubuntu-2204-e-php-81" target="_blank">Preparando um servidor gabarito para o Adianti Framework (com Ubuntu 22.04 e PHP 8.1)</a> do Pablo Dall'Oglio
+</br>Baseado no artigo <a href="https://www.adianti.com.br/forum/pt/view_7397?preparando-um-servidor-gabarito-para-o-adianti-framework-com-ubuntu-2204-e-php-81" target="_blank">Preparando um servidor gabarito para o Adianti Framework (com Ubuntu 22.04 e PHP 8.1)</a> do Pablo Dall'Oglio
 </br>
 </br>
 <?php
