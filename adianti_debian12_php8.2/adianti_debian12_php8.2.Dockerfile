@@ -123,19 +123,19 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 #PHP Install PHPUnit
 #https://phpunit.de/announcements/phpunit-9.html
-RUN wget -O /usr/local/bin/phpunit-9.phar https://phar.phpunit.de/phpunit-9.phar; chmod +x /usr/local/bin/phpunit-9.phar; \
-ln -s /usr/local/bin/phpunit-9.phar /usr/local/bin/phpunit
+RUN wget -O /usr/local/bin/phpunit-11.phar https://phar.phpunit.de/phpunit-11.phar; chmod +x /usr/local/bin/phpunit-11.phar; \
+ln -s /usr/local/bin/phpunit-11.phar /usr/local/bin/phpunit
 
 ## ------------- X-DEBUG 3.X ------------------
 #PHP Install X-debug
-#RUN apt-get -y install php8.2-xdebug
+RUN apt-get -y install php8.2-xdebug
 
 #PHP X-Degub enable remote debug
-#RUN echo "xdebug.start_with_request=yes" >> /etc/php/8.2/mods-available/xdebug.ini
-#RUN echo "xdebug.mode = develop,coverage,debug" >> /etc/php/8.2/mods-available/xdebug.ini
+RUN echo "xdebug.start_with_request=yes" >> /etc/php/8.2/mods-available/xdebug.ini
+RUN echo "xdebug.mode = develop,coverage,debug" >> /etc/php/8.2/mods-available/xdebug.ini
 
 #PHP X-Degub enable log
-#RUN echo "xdebug.log=/var/log/apache2/xdebug.log" >> /etc/php/8.2/mods-available/xdebug.ini
+RUN echo "xdebug.log=/var/log/apache2/xdebug.log" >> /etc/php/8.2/mods-available/xdebug.ini
 
 
 ##------------ Install Precondition for Drive SQL Server -----------
