@@ -1,0 +1,74 @@
+# sudo docker-compose build
+# sudo docker-compose up
+# sudo docker-compose up --build
+
+# Subir em background
+# sudo docker-compose -f docker-compose.yml up -d
+
+# How use iterative mode container
+# sudo docker-compose exec debian10_php8 bash
+
+
+#Purging All Unused or Dangling Images, Containers, Volumes, and Networks
+#sudo docker system prune -a
+
+version: '3.8'
+services:
+
+  apache_php:
+    build:
+      dockerfile: adianti_debian11_php8.1.Dockerfile
+      context: .
+    image: adianti_debian11_php8.1:last
+    container_name: adianti_debian11_php8.1
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - formdin-network
+    volumes:
+      - ./php.ini:/etc/php/8.1/apache2/php.ini
+      - ./www:/var/www/html:rw
+      - ./logs:/var/log/apache2:rw
+
+  mariadb:
+    image: mariadb:10.11
+    container_name: mariadb
+    restart: on-failure
+    environment:
+      #MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_ROOT_PASSWORD: p123456
+      MYSQL_DATABASE: mybb
+      MYSQL_USER: mybb
+      MYSQL_PASSWORD: mybb
+    ports:
+      - "3306:3306"
+    #volumes:
+      #- ./mariadb:/var/lib/mysql:rw      
+    networks:
+      - formdin-network
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    networks:
+      - formdin-network
+    ports:
+      - 8080:8080
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_ARBITRARY: 1
+    ports:
+      - 9090:80
+    networks:
+      - formdin-network
+
+networks: 
+    formdin-network:
+        driver: bridge
