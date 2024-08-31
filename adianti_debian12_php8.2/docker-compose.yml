@@ -1,0 +1,37 @@
+# sudo docker-compose build
+# sudo docker-compose up
+# sudo docker-compose up --build
+
+# Subir em background
+# sudo docker-compose -f docker-compose.yml up -d
+
+# How use iterative mode container
+# sudo docker-compose exec debian10_php8 bash
+
+
+#Purging All Unused or Dangling Images, Containers, Volumes, and Networks
+#sudo docker system prune -a
+
+services:
+
+  apache_php:
+    build:
+      dockerfile: adianti_debian12_php8.2.Dockerfile
+      context: .
+    image: adianti_debian12_php8.2:last
+    container_name: adianti_debian12_php8.2
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - formdin-network
+    volumes:
+      #- ./000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ./php.ini:/etc/php/8.2/apache2/php.ini
+      - ./www:/var/www/html:rw
+      - ./logs:/var/log/apache2:rw
+
+networks: 
+    formdin-network:
+        driver: bridge
