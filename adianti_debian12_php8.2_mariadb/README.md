@@ -37,6 +37,17 @@ Esse ambiente foi configurado conforme o tutorial [Preparando um servidor gabari
 * Composer
 * PHPUnit 11.X
 * GIT
+* MariaDB Versão 10.11
+* PHPMyAdmin - [http://localhost:9090](http://localhost:9090)
+* adminer    - [http://localhost:8080](http://localhost:8080)
+
+## Banco MariaDb
+* servidor: mariadb
+* MYSQL_ROOT_PASSWORD: p123456
+* MYSQL_DATABASE: mybb
+* MYSQL_USER: mybb
+* MYSQL_PASSWORD: mybb
+
 
 ## Rodando
 Para facilitar a vida foi usado um Docker com Docker-compose basta executar  `docker-compose up --build` e aguardar.
