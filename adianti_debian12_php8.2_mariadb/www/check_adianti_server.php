@@ -1,5 +1,5 @@
 <?php
-function phpModulo($extensao=null, $html)
+function phpModulo($extensao=null, $html=null)
 {
     if (!extension_loaded($extensao)) {
         $html->add('<b>'.$extensao.'</b>: <span class="vermelho">Não instalado</span><br>');
