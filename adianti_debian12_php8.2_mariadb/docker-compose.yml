@@ -46,8 +46,8 @@ services:
       MYSQL_PASSWORD: mybb
     ports:
       - "3306:3306"
-    #volumes:
-      #- ./mariadb:/var/lib/mysql:rw      
+    volumes:
+      - ./mariadb_database:/var/lib/mysql:rw
     networks:
       - formdin-network
 
