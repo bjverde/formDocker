@@ -39,9 +39,8 @@ Ambiente Docker completo baseado em **Debian 13**, **Apache 2.4.X**, **PHP 8.5**
 Na raiz desta pasta (`debian13_php8.5_pgsql`), execute:
 
 ```bash
-docker-compose up --build
+docker-compose -f docker-compose.yml up -d --build
 ```
-*(Ou `docker-compose up -d --build` para rodar em segundo plano)*
 
 ### 🔗 Endereços e Credenciais Padrão
 
@@ -51,6 +50,32 @@ docker-compose up --build
 | **PHPInfo** | [http://localhost/info.php](http://localhost/info.php) | — | — | Exibe todas as extensões e diretivas do PHP |
 | **pgAdmin 4 (Web)** | [http://localhost:8080](http://localhost:8080) | `user@domain.com` | `123456` | Login para entrar na interface web do pgAdmin |
 | **PostgreSQL (Banco)** | Host interno: `database` (ou `localhost:5432` no host) | `postgres` | `postgres` | Banco padrão: `postgres` (alterável no `docker-compose.yml`) |
+
+---
+
+## ⏱️ Tempo Estimado de Build e Inicialização (Benchmark)
+
+Abaixo estão os tempos reais medidos ao executar `docker-compose -f docker-compose.yml up -d --build` do zero (sem imagens ou cache prévio no Docker):
+
+### 💻 Ambiente de Teste
+* **Processador:** 12th Gen Intel® Core™ i7-12700H (14 núcleos / 20 threads)
+* **Memória RAM:** 32 GB
+* **Sistema Operacional:** Windows 11 (Docker Desktop com backend WSL 2)
+* **Conexão de Internet (Download):** ~92,28 Mbps
+
+### 📊 Detalhamento do Tempo por Etapa (1ª Execução — Sem Cache)
+
+| Etapa do Processo | Tempo Medido | Detalhes do que é executado |
+| :--- | :---: | :--- |
+| **1. Download das imagens (`pull`)** | **~1 min 08 s** (`68s`) | Download e extração das imagens oficiais `postgres`, `dpage/pgadmin4` e `debian:13` |
+| **2. Sistema Base Debian 13 (`apt`)** | **~25,3 s** | `apt-get update/upgrade` e utilitários (`plocate`, `curl`, `wget`, `vim`, `rpl`, `gnupg`, `tzdata`) |
+| **3. Apache 2 + PHP 8.5 e Extensões** | **~1 min 08 s** (`68,5s`) | Repositório Sury, Apache 2, PHP 8.5, `curl`, `dom/xml/zip/soap/intl/xsl`, `mbstring`, `gd`, `ldap`, `mongodb` e PDO (`pgsql`, `mysql`, `sqlite`) |
+| **4. Ferramentas Dev e Xdebug** | **~15,9 s** | Instalação do `git`, `composer`, `phpunit-13` e `php8.5-xdebug` |
+| **5. Drivers SQL Server (ODBC 18 + PECL)** | **~1 min 23 s** (`82,8s`) | `php8.5-dev` (`34,5s`), `msodbcsql18` (`6,3s`) e compilação C/C++ via PECL do `sqlsrv-5.13.0` (`16,3s`) e `pdo_sqlsrv-5.13.0` (`17,1s`) |
+| **6. Exportação da Imagem Docker** | **~25,2 s** | Empacotamento e descompactação das camadas da imagem `debian13_apache_php85_pgsql:last` |
+| **7. Subida dos Containers + Healthcheck** | **~2,5 s** | Criação da rede `formdin-network`, inicialização do `postgres` (`Healthy`), `pgAdmin` e `apache_php` |
+| **TOTAL (1ª execução do zero)** | **~5 min 20 s** | **Download completo + compilação das 49 etapas do `Dockerfile` + subida dos 3 containers** |
+| **Execuções seguintes (com cache)** | **~8 a 10 s** | Quando a imagem já está construída localmente |
 
 ---
 
