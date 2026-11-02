@@ -1,8 +1,8 @@
 # Docker PHP
 
-Configuração futura do STI
+Docker com Debian 13, PHP 8.5, Apache 2.4.X, PostgreSQL e pgAdmin
 
-## Config
+## Couraçãonfig
 * Debian 13
     * plocate
     * wget
