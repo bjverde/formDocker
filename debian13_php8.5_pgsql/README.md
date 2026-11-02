@@ -29,7 +29,7 @@ Ambiente Docker completo baseado em **Debian 13**, **Apache 2.4.X**, **PHP 8.5**
   * PHPUnit 13.X
   * Git
 * **Containers Adicionais no `docker-compose.yml`:**
-  * **PostgreSQL (`database`):** Banco de dados relacional rodando na porta `5432`
+  * **PostgreSQL (`database`):** Banco de dados relacional na porta `5432` com persistência em `./postgres_database` e logs em `./logs/postgresql.log`
   * **pgAdmin 4 (`pgadmin`):** Interface web de administração rodando em [http://localhost:8080](http://localhost:8080)
 
 ---
@@ -56,7 +56,7 @@ docker-compose up --build
 
 ## ⚙️ Estrutura de Pastas e Configurações (`config/`)
 
-Todos os arquivos de configuração do ambiente ficam centralizados na pasta **`config/`**, mapeados via volumes no [`docker-compose.yml`](docker-compose.yml). Assim, você pode ajustar parâmetros sem precisar reconstruir a imagem Docker:
+Todos os arquivos de configuração, dados e logs ficam organizados em pastas dedicadas e mapeados via volumes no [`docker-compose.yml`](docker-compose.yml):
 
 ```text
 debian13_php8.5_pgsql/
@@ -67,13 +67,18 @@ debian13_php8.5_pgsql/
 │   ├── apache_default.conf  # VirtualHost padrão do Apache (/etc/apache2/sites-enabled/000-default.conf)
 │   ├── servers.json         # Pré-cadastro automático do servidor PostgreSQL no pgAdmin 4
 │   └── postgresql.conf      # Configurações customizadas opcionais para o PostgreSQL
-├── logs/                    # Logs de acesso e erro do Apache (/var/log/apache2)
+├── logs/                    # Logs do Apache (access.log, error.log) e do PostgreSQL (postgresql.log)
+├── postgres_database/       # Dados persistidos do banco PostgreSQL (/var/lib/postgresql/data)
 ├── www/                     # Código-fonte dos seus projetos (/var/www/html)
 ├── debian13_apache_php85_pgsql.Dockerfile
 └── docker-compose.yml
 ```
 
-### 1. `config/php-apache.ini` e `config/php-cli.ini`
+### 1. Persistência e Logs do PostgreSQL (`postgres_database/` e `logs/`)
+* **Persistência (`./postgres_database`):** Ativada por padrão no `docker-compose.yml` com `PGDATA=/var/lib/postgresql/data/pgdata`, garantindo que seus bancos e tabelas não sejam perdidos ao parar ou recriar o container.
+* **Logs (`./logs/postgresql.log`):** Por padrão a imagem oficial do Postgres envia logs apenas para o console do Docker (`stderr`). Neste `docker-compose.yml`, o `logging_collector=on` foi ativado apontando para `/var/log/postgresql`, gravando o arquivo `postgresql.log` diretamente na pasta `./logs/` junto com os logs do Apache.
+
+### 2. `config/php-apache.ini` e `config/php-cli.ini`
 Permitem customizar separadamente o comportamento do PHP no servidor web (`php-apache.ini`) e na linha de comando (`php-cli.ini`). Após editar, basta reiniciar o container:
 ```bash
 docker-compose restart apache_php
@@ -84,10 +89,10 @@ docker-compose restart apache_php
 * `post_max_size = 80M` (linha 698) — limite máximo de dados via POST.
 * `upload_max_filesize = 20M` (linha 850) — tamanho máximo de upload de arquivos.
 
-### 2. `config/apache_default.conf`
+### 3. `config/apache_default.conf`
 Define o `VirtualHost *:80` do Apache apontando para `/var/www/html` com `AllowOverride All`. Ideal caso você precise configurar redirecionamentos, cabeçalhos customizados ou alterar o `DocumentRoot`.
 
-### 3. `config/xdebug.ini` (Ativando / Desativando o Xdebug)
+### 4. `config/xdebug.ini` (Ativando / Desativando o Xdebug)
 O Xdebug vem **desativado por padrão** para garantir máxima velocidade no dia a dia.
 * **Para ativar:**
   1. Caso a extensão ainda não esteja instalada na imagem, descomente a linha `RUN apt-get -y install php8.5-xdebug` no `.Dockerfile` e faça o build uma única vez.
@@ -98,11 +103,11 @@ O Xdebug vem **desativado por padrão** para garantir máxima velocidade no dia 
      ```
 * **Para desativar (ou em produção):** Comente novamente `;zend_extension=xdebug.so` em `config/xdebug.ini` e reinicie o container.
 
-### 4. `config/servers.json` (Servidor Pré-Cadastrado no pgAdmin)
+### 5. `config/servers.json` (Servidor Pré-Cadastrado no pgAdmin)
 Este arquivo é montado automaticamente no container do pgAdmin (`/pgadmin4/servers.json`). Graças a ele, ao fazer login no pgAdmin (`http://localhost:8080`), o servidor **`PostgreSQL Docker (database)`** já estará cadastrado na lista de servidores — bastando informar a senha `postgres` na primeira conexão.
 
-### 5. `config/postgresql.conf`
-Arquivo opcional com parâmetros do banco PostgreSQL (`max_connections`, `shared_buffers`, `timezone = 'America/Sao_Paulo'`). Para utilizá-lo, basta descomentar as linhas de volume e comando correspondentes no serviço `database` dentro do [`docker-compose.yml`](docker-compose.yml).
+### 6. `config/postgresql.conf`
+Arquivo opcional com parâmetros do banco PostgreSQL (`max_connections`, `shared_buffers`, `timezone = 'America/Sao_Paulo'`, `log_statement`). Para utilizá-lo por completo, basta descomentar a linha do volume `./config/postgresql.conf` no serviço `database` dentro do [`docker-compose.yml`](docker-compose.yml).
 
 ---
 

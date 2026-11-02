@@ -49,12 +49,21 @@ services:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
-    #volumes:
-      #- ./postgres_database:/var/lib/postgresql/data:rw
+    volumes:
+      - ./postgres_database:/var/lib/postgresql/data:rw # Persistência dos dados do PostgreSQL
+      - ./logs:/var/log/postgresql:rw # Logs do PostgreSQL na pasta logs/
       #- ./config/postgresql.conf:/etc/postgresql/postgresql.conf:ro
-    #command: postgres -c config_file=/etc/postgresql/postgresql.conf
+    command:
+      - "postgres"
+      - "-c"
+      - "logging_collector=on"
+      - "-c"
+      - "log_directory=/var/log/postgresql"
+      - "-c"
+      - "log_filename=postgresql.log"
     networks:
       - formdin-network
 

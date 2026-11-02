@@ -11,7 +11,8 @@
 /.project
 /.buildpath
 
-# Iginorando arquivos do Adianti
+# Ignorando arquivos de logs e banco de dados local
 #/tmp/
 #!/tmp/.htaccess
 /logs/
+/postgres_database/
