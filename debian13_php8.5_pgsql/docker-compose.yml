@@ -13,6 +13,55 @@
 
 services:
 
+  database:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_database:/var/lib/postgresql/data:rw # Persistência dos dados do PostgreSQL
+      #- ./logs:/var/log/postgresql:rw # Descomente junto com o 'command' abaixo se quiser log em arquivo
+      #- ./config/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+    #command:
+      #- "postgres"
+      #- "-c"
+      #- "logging_collector=on"
+      #- "-c"
+      #- "log_directory=/var/log/postgresql"
+      #- "-c"
+      #- "log_filename=postgresql.log"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - formdin-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgAdmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@domain.com
+      PGADMIN_DEFAULT_PASSWORD: 123456
+      PGADMIN_REPLACE_SERVERS_ON_STARTUP: "True"
+    ports:
+      - "8080:80"
+    volumes:
+      - ./config/servers.json:/pgadmin4/servers.json:ro
+    networks:
+      - formdin-network
+    depends_on:
+      database:
+        condition: service_healthy
+
   apache_php:
     build:
       dockerfile: debian13_apache_php85_pgsql.Dockerfile
@@ -38,49 +87,8 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
-      - database
-
-  database:
-    image: postgres
-    container_name: postgres
-    restart: always
-    environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      PGDATA: /var/lib/postgresql/data/pgdata
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./postgres_database:/var/lib/postgresql/data:rw # Persistência dos dados do PostgreSQL
-      #- ./logs:/var/log/postgresql:rw # Descomente junto com o 'command' abaixo se quiser log em arquivo
-      #- ./config/postgresql.conf:/etc/postgresql/postgresql.conf:ro
-    #command:
-      #- "postgres"
-      #- "-c"
-      #- "logging_collector=on"
-      #- "-c"
-      #- "log_directory=/var/log/postgresql"
-      #- "-c"
-      #- "log_filename=postgresql.log"
-    networks:
-      - formdin-network
-
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgAdmin
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: user@domain.com
-      PGADMIN_DEFAULT_PASSWORD: 123456
-    ports:
-      - "8080:80"
-    volumes:
-      - ./config/servers.json:/pgadmin4/servers.json:ro
-    networks:
-      - formdin-network
-    depends_on:
-      - database
+      database:
+        condition: service_healthy
 
 
 networks:
