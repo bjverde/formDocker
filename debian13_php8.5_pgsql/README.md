@@ -1,63 +1,113 @@
-# Docker PHP
+# 🐳 Docker PHP 8.5 + PostgreSQL + pgAdmin (Debian 13)
 
-Docker com Debian 13, PHP 8.5, Apache 2.4.X, PostgreSQL e pgAdmin
+Ambiente Docker completo baseado em **Debian 13**, **Apache 2.4.X**, **PHP 8.5**, **PostgreSQL** e **pgAdmin 4**, pronto para desenvolvimento local.
 
-## Config
-* Debian 13
-    * plocate
-    * wget
-    * curl
-    * apt-transport-https
-    * lsb-release
-    * vim 
-    * rpl
-* Apache 2.4.X
-    * AllowOverride All
-    * LDAP Ligado
-* PHP 8.5.X
-    * PDO
-        * SqLite
-        * MySQL
-        * PostGres
-    * MbString
-    * CURL
-    * JSON
-    * XML
-    * ZIP
-    * PDO - Sql Server
-        * Drive SqlServer 5.13
-        * ODBC 18
-    * Xdebug - DESATIVADO por padrão
-* Composer
-* PHPUnit 13.x
-* GIT
+> [!WARNING]
+> **Ambiente de Desenvolvimento:**
+> Este ambiente vem configurado para facilitar o desenvolvimento e depuração local (com exibição de erros ativa no Apache). Para uso em **produção**, desative o `display_errors` no `config/php-apache.ini`, mantenha o **Xdebug desligado** em `config/xdebug.ini` e altere as senhas padrão no `docker-compose.yml`.
 
+---
 
-## Rodando
-Para facilitar a vida foi usado um Docker com Docker-compose basta executar  `docker-compose up --build` e aguardar.
+## 📦 Detalhamento do Ambiente
 
-* pasta `www` local do seu projeto. Equivale a pasta `/var/www/html`
-* pasta `log` contem todos os arquivos de log de `/var/log/apache2`
+* **Sistema Operacional:** Debian 13 (`trixie`)
+  * Utilitários: `plocate`, `wget`, `curl`, `apt-transport-https`, `lsb-release`, `vim`, `rpl`, `zip`, `unzip`, `gnupg`
+* **Servidor Web:** Apache 2.4.X
+  * `mod_rewrite` ativado e `AllowOverride All` habilitado para leitura de `.htaccess`
+  * Módulo LDAP (`authnz_ldap` e `ldap`) habilitado
+* **PHP 8.5.X:**
+  * **Drivers PDO de Banco de Dados:**
+    * PostgreSQL (`pdo_pgsql` e `pgsql`)
+    * MySQL / MariaDB (`pdo_mysql` e `mysql`)
+    * SQLite (`pdo_sqlite` e `sqlite3`)
+    * Microsoft SQL Server (`sqlsrv` e `pdo_sqlsrv` 5.13.0 + Microsoft ODBC Driver 18)
+  * **NoSQL:** Extensão MongoDB (`php8.5-mongodb`)
+  * **Extensões adicionais:** `mbstring`, `curl`, `dom`, `json`, `xml`, `zip`, `gd`, `soap`, `intl`, `xsl`, `ldap`
+  * **Xdebug 3.X:** Desativado por padrão (configurável em `config/xdebug.ini`)
+* **Ferramentas de Desenvolvimento:**
+  * Composer
+  * PHPUnit 13.X
+  * Git
+* **Containers Adicionais no `docker-compose.yml`:**
+  * **PostgreSQL (`database`):** Banco de dados relacional rodando na porta `5432`
+  * **pgAdmin 4 (`pgadmin`):** Interface web de administração rodando em [http://localhost:8080](http://localhost:8080)
 
-### Alterando o PHP.INI
-Altere o arquivo php.ini na raiz da pasta depois rode novamente `docker-compose up --build` com isso as novas configurações estarão disponiveis. 
+---
 
-Configurações mais comuns
-* `display_errors = On` linha 503 - mostra os erros na tela
-* `error_reporting = E_ALL` linha 486 - mostra todos os tipos de erros
-* `post_max_size = 80M` linha 698 - altera o tamanho maximo do post
-* `upload_max_filesize = 20M` linha 850 - altera o tamanho do upload de arquivo
+## 🚀 Subindo o Ambiente
 
+Na raiz desta pasta (`debian13_php8.5_pgsql`), execute:
 
-## X-Debug
-Vem desativado por padrão para ativar basta descomentar as linhas abaixo no arquivo  `.Dockerfile`
-* 115
-* 118 e 119
-* 122
+```bash
+docker-compose up --build
+```
+*(Ou `docker-compose up -d --build` para rodar em segundo plano)*
 
-# Comandos úteis
+### 🔗 Endereços e Credenciais Padrão
 
-Veja uma lista de comandos uteis em [../docs/commands.md](../docs/commands.md)
+| Serviço | URL / Host | Usuário | Senha | Observação |
+| :--- | :--- | :--- | :--- | :--- |
+| **Apache / PHP** | [http://localhost](http://localhost) | — | — | Página inicial com links e listagem de projetos em `www/` |
+| **PHPInfo** | [http://localhost/info.php](http://localhost/info.php) | — | — | Exibe todas as extensões e diretivas do PHP |
+| **pgAdmin 4 (Web)** | [http://localhost:8080](http://localhost:8080) | `user@domain.com` | `123456` | Login para entrar na interface web do pgAdmin |
+| **PostgreSQL (Banco)** | Host interno: `database` (ou `localhost:5432` no host) | `postgres` | `postgres` | Banco padrão: `postgres` (alterável no `docker-compose.yml`) |
 
+---
 
-[<-- Voltar para inicio](../README.md)
+## ⚙️ Estrutura de Pastas e Configurações (`config/`)
+
+Todos os arquivos de configuração do ambiente ficam centralizados na pasta **`config/`**, mapeados via volumes no [`docker-compose.yml`](docker-compose.yml). Assim, você pode ajustar parâmetros sem precisar reconstruir a imagem Docker:
+
+```text
+debian13_php8.5_pgsql/
+├── config/
+│   ├── php-apache.ini       # Configurações do PHP para o Apache (/etc/php/8.5/apache2/php.ini)
+│   ├── php-cli.ini          # Configurações do PHP para o terminal CLI (/etc/php/8.5/cli/php.ini)
+│   ├── xdebug.ini           # Ativação e ajustes do Xdebug (/etc/php/8.5/apache2/conf.d/20-xdebug.ini)
+│   ├── apache_default.conf  # VirtualHost padrão do Apache (/etc/apache2/sites-enabled/000-default.conf)
+│   ├── servers.json         # Pré-cadastro automático do servidor PostgreSQL no pgAdmin 4
+│   └── postgresql.conf      # Configurações customizadas opcionais para o PostgreSQL
+├── logs/                    # Logs de acesso e erro do Apache (/var/log/apache2)
+├── www/                     # Código-fonte dos seus projetos (/var/www/html)
+├── debian13_apache_php85_pgsql.Dockerfile
+└── docker-compose.yml
+```
+
+### 1. `config/php-apache.ini` e `config/php-cli.ini`
+Permitem customizar separadamente o comportamento do PHP no servidor web (`php-apache.ini`) e na linha de comando (`php-cli.ini`). Após editar, basta reiniciar o container:
+```bash
+docker-compose restart apache_php
+```
+**Configurações mais comuns no `config/php-apache.ini`:**
+* `display_errors = On` (linha 503) — exibe erros na tela durante o desenvolvimento (mude para `Off` em produção).
+* `error_reporting = E_ALL` (linha 486) — nível de detalhamento dos erros.
+* `post_max_size = 80M` (linha 698) — limite máximo de dados via POST.
+* `upload_max_filesize = 20M` (linha 850) — tamanho máximo de upload de arquivos.
+
+### 2. `config/apache_default.conf`
+Define o `VirtualHost *:80` do Apache apontando para `/var/www/html` com `AllowOverride All`. Ideal caso você precise configurar redirecionamentos, cabeçalhos customizados ou alterar o `DocumentRoot`.
+
+### 3. `config/xdebug.ini` (Ativando / Desativando o Xdebug)
+O Xdebug vem **desativado por padrão** para garantir máxima velocidade no dia a dia.
+* **Para ativar:**
+  1. Caso a extensão ainda não esteja instalada na imagem, descomente a linha `RUN apt-get -y install php8.5-xdebug` no `.Dockerfile` e faça o build uma única vez.
+  2. No arquivo [`config/xdebug.ini`](config/xdebug.ini), descomente a linha `;zend_extension=xdebug.so` (removendo o `;`).
+  3. Reinicie o container sem precisar reconstruir a imagem:
+     ```bash
+     docker-compose restart apache_php
+     ```
+* **Para desativar (ou em produção):** Comente novamente `;zend_extension=xdebug.so` em `config/xdebug.ini` e reinicie o container.
+
+### 4. `config/servers.json` (Servidor Pré-Cadastrado no pgAdmin)
+Este arquivo é montado automaticamente no container do pgAdmin (`/pgadmin4/servers.json`). Graças a ele, ao fazer login no pgAdmin (`http://localhost:8080`), o servidor **`PostgreSQL Docker (database)`** já estará cadastrado na lista de servidores — bastando informar a senha `postgres` na primeira conexão.
+
+### 5. `config/postgresql.conf`
+Arquivo opcional com parâmetros do banco PostgreSQL (`max_connections`, `shared_buffers`, `timezone = 'America/Sao_Paulo'`). Para utilizá-lo, basta descomentar as linhas de volume e comando correspondentes no serviço `database` dentro do [`docker-compose.yml`](docker-compose.yml).
+
+---
+
+## 🛠️ Comandos Úteis
+
+Veja a lista de comandos úteis do Docker em [../docs/commands.md](../docs/commands.md).
+
+[<-- Voltar para o início](../README.md)
