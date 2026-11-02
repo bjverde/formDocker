@@ -1,0 +1,41 @@
+# sudo docker-compose build
+# sudo docker-compose up
+# sudo docker-compose up --build
+
+# Subir em background
+# sudo docker-compose -f docker-compose.yml up -d
+
+# How use iterative mode container
+# sudo docker-compose exec debian11_php8 bash
+
+#Purging All Unused or Dangling Images, Containers, Volumes, and Networks
+#sudo docker system prune -a
+
+version: '3.8'
+services:
+
+  apache_php:
+    build:
+      dockerfile: debian13_apache_php85_mssql.Dockerfile
+      context: .
+    image: debian13_apache_php85_mssql:last
+    container_name: debian13_apache_php85_mssql
+    restart: always
+    ports:
+      - "80:80" # Porta para acessar o Apache com HTTP
+      - "443:443" # Porta para acessar o Apache com HTTPS
+      - "9003:9003" # Porta para o Xdebug (padrão na versão 3)
+    networks:
+      - formdin-network
+    volumes:
+      - ./php.ini:/etc/php/8.5/apache2/php.ini
+      - ./www:/var/www/html:rw
+      #- c:/wamp64/www:/var/www/html:rw
+      - ./logs:/var/log/apache2:rw
+      #- ./config/apache_default.conf:/etc/apache2/sites-enabled/000-default.conf
+    environment:
+      XDEBUG_CONFIG: "client_host=host.docker.internal" # Define o IP do host para depuração
+
+networks:
+  formdin-network:
+    driver: bridge
