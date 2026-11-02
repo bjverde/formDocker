@@ -48,6 +48,7 @@ Escolha a pasta que melhor atende ao seu projeto:
    ```
    *(ou `docker-compose up -d --build` para rodar em segundo plano)*
 3. Coloque os arquivos da sua aplicação dentro da pasta `www/` do ambiente escolhido.
+4. Veja uma lista de comandos uteis em [/docs/commands.md](/docs/commands.md)
 
 ---
 
