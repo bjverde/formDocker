@@ -36,6 +36,28 @@ services:
     environment:
       XDEBUG_CONFIG: "client_host=host.docker.internal" # Define o IP do host para depuração
 
+  database:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgAdmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@domain.com
+      PGADMIN_DEFAULT_PASSWORD: 123456
+    ports:
+      - "8080:80"  
+
+
 networks:
   formdin-network:
     driver: bridge
