@@ -29,7 +29,7 @@ Ambiente Docker completo baseado em **Debian 13**, **Apache 2.4.X**, **PHP 8.5**
   * PHPUnit 13.X
   * Git
 * **Containers Adicionais no `docker-compose.yml`:**
-  * **PostgreSQL (`database`):** Banco de dados relacional na porta `5432` com persistência em `./postgres_database` e logs em `./logs/postgresql.log`
+  * **PostgreSQL (`database`):** Banco de dados relacional na porta `5432` com persistência em `./postgres_database`
   * **pgAdmin 4 (`pgadmin`):** Interface web de administração rodando em [http://localhost:8080](http://localhost:8080)
 
 ---
@@ -67,16 +67,16 @@ debian13_php8.5_pgsql/
 │   ├── apache_default.conf  # VirtualHost padrão do Apache (/etc/apache2/sites-enabled/000-default.conf)
 │   ├── servers.json         # Pré-cadastro automático do servidor PostgreSQL no pgAdmin 4
 │   └── postgresql.conf      # Configurações customizadas opcionais para o PostgreSQL
-├── logs/                    # Logs do Apache (access.log, error.log) e do PostgreSQL (postgresql.log)
+├── logs/                    # Logs de acesso e erro do Apache (access.log, error.log)
 ├── postgres_database/       # Dados persistidos do banco PostgreSQL (/var/lib/postgresql/data)
 ├── www/                     # Código-fonte dos seus projetos (/var/www/html)
 ├── debian13_apache_php85_pgsql.Dockerfile
 └── docker-compose.yml
 ```
 
-### 1. Persistência e Logs do PostgreSQL (`postgres_database/` e `logs/`)
+### 1. Persistência e Logs do PostgreSQL (`postgres_database/`)
 * **Persistência (`./postgres_database`):** Ativada por padrão no `docker-compose.yml` com `PGDATA=/var/lib/postgresql/data/pgdata`, garantindo que seus bancos e tabelas não sejam perdidos ao parar ou recriar o container.
-* **Logs (`./logs/postgresql.log`):** Por padrão a imagem oficial do Postgres envia logs apenas para o console do Docker (`stderr`). Neste `docker-compose.yml`, o `logging_collector=on` foi ativado apontando para `/var/log/postgresql`, gravando o arquivo `postgresql.log` diretamente na pasta `./logs/` junto com os logs do Apache.
+* **Logs do PostgreSQL:** Segue o padrão oficial da imagem Docker (`logging_collector=off`), enviando os logs para a saída padrão do Docker (você pode acompanhá-los via `docker logs -f postgres` ou pelo painel do Docker Desktop). Caso queira gravar em arquivo (`./logs/postgresql.log`), basta descomentar o volume `./logs:/var/log/postgresql:rw` e o bloco `command` no [`docker-compose.yml`](docker-compose.yml).
 
 ### 2. `config/php-apache.ini` e `config/php-cli.ini`
 Permitem customizar separadamente o comportamento do PHP no servidor web (`php-apache.ini`) e na linha de comando (`php-cli.ini`). Após editar, basta reiniciar o container:
