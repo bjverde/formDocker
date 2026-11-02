@@ -54,3 +54,10 @@ Vem desativado por padrão para ativar basta descomentar as linhas abaixo no arq
 * 115
 * 118 e 119
 * 122
+
+# Comandos úteis
+
+Veja uma lista de comandos uteis em [../docs/commands.md](../docs/commands.md)
+
+
+[<-- Voltar para inicio](../README.md)

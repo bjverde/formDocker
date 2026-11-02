@@ -78,3 +78,10 @@ Vem ativado por padrão para ativar basta comentar as linhas no arquivo `adianti
 1. Alterar arquivo php.ini `error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT` linha 486 - mostra todos os tipos de erros
 1. Alterar arquivo `adianti_debian12_php8.2.Dockerfile` e comentar as linahs 130 até 139
 1. Alterar arquivo `adianti_debian12_php8.2.Dockerfile` e comentar as linahs 222 para desativar a porta 9003
+
+# Comandos úteis
+
+Veja uma lista de comandos uteis em [../docs/commands.md](../docs/commands.md)
+
+
+[<-- Voltar para inicio](../README.md)
