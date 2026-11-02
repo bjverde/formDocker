@@ -4,15 +4,15 @@
 # https://hub.docker.com/_/debian
 
 #How to build
-#sudo docker build -f debian10_apache_php81_mssql.Dockerfile . -t debian10_apache_php81_mssql
+#sudo docker build -f debian13_apache_php85_pgsql.Dockerfile . -t debian13_apache_php85_pgsql
 
 #How use iterative mode
-#sudo docker exec -it debian10_apache_php81_mssql:last /bin/bash
+#sudo docker exec -it debian13_apache_php85_pgsql:last /bin/bash
 
 #How use iterative mode image
-#sudo docker run -it debian10_apache_php81_mssql:last /bin/bash           #only bash
-#sudo docker run -p 80:80 -it debian10_apache_php81_mssql:last /bin/bash
-#sudo docker run -d -p 80:80 debian10_apache_php81_mssql:last
+#sudo docker run -it debian13_apache_php85_pgsql:last /bin/bash           #only bash
+#sudo docker run -p 80:80 -it debian13_apache_php85_pgsql:last /bin/bash
+#sudo docker run -d -p 80:80 debian13_apache_php85_pgsql:last
 
 #Stop all containers
 #sudo docker stop $(sudo docker ps -a -q)
@@ -114,15 +114,8 @@ RUN wget -O /usr/local/bin/phpunit-13.phar https://phar.phpunit.de/phpunit-13.ph
     ln -s /usr/local/bin/phpunit-13.phar /usr/local/bin/phpunit
 
 ## ------------- X-DEBUG 3.X ------------------
-#PHP Install X-debug
-#RUN apt-get -y install php8.5-xdebug
-
-#PHP X-Degub enable remote debug
-#RUN echo "xdebug.start_with_request=yes" >> /etc/php/8.5/mods-available/xdebug.ini
-#RUN echo "xdebug.mode = develop,coverage,debug" >> /etc/php/8.5/mods-available/xdebug.ini
-
-#PHP X-Degub enable log
-#RUN echo "xdebug.log=/var/log/apache2/xdebug.log" >> /etc/php/8.5/mods-available/xdebug.ini
+#PHP Install X-debug (configurado e controlado via volume em ./config/xdebug.ini)
+RUN apt-get -y install php8.5-xdebug
 
 
 ##------------ Install Precondition for Drive SQL Server -----------

@@ -3,8 +3,8 @@
 Ambiente Docker completo baseado em **Debian 13**, **Apache 2.4.X**, **PHP 8.5**, **PostgreSQL** e **pgAdmin 4**, pronto para desenvolvimento local.
 
 > [!WARNING]
-> **Ambiente de Desenvolvimento:**
-> Este ambiente vem configurado para facilitar o desenvolvimento e depuração local (com exibição de erros ativa no Apache). Para uso em **produção**, desative o `display_errors` no `config/php-apache.ini`, mantenha o **Xdebug desligado** em `config/xdebug.ini` e altere as senhas padrão no `docker-compose.yml`.
+> **Ambiente de Desenvolvimento (com Xdebug Ativo):**
+> Este ambiente vem configurado para facilitar o desenvolvimento e depuração local (com **Xdebug ativado** e exibição de erros ativa no Apache). Para uso em **produção**, desative o Xdebug em `config/xdebug.ini`, mude `display_errors = Off` em `config/php-apache.ini`, remova a porta `9003` e altere as senhas padrão no `docker-compose.yml`.
 
 ---
 
@@ -23,7 +23,7 @@ Ambiente Docker completo baseado em **Debian 13**, **Apache 2.4.X**, **PHP 8.5**
     * Microsoft SQL Server (`sqlsrv` e `pdo_sqlsrv` 5.13.0 + Microsoft ODBC Driver 18)
   * **NoSQL:** Extensão MongoDB (`php8.5-mongodb`)
   * **Extensões adicionais:** `mbstring`, `curl`, `dom`, `json`, `xml`, `zip`, `gd`, `soap`, `intl`, `xsl`, `ldap`
-  * **Xdebug 3.X:** Desativado por padrão (configurável em `config/xdebug.ini`)
+  * **Xdebug 3.X:** **ATIVADO por padrão** (controlado via `config/xdebug.ini`)
 * **Ferramentas de Desenvolvimento:**
   * Composer
   * PHPUnit 13.X
@@ -63,7 +63,7 @@ debian13_php8.5_pgsql/
 ├── config/
 │   ├── php-apache.ini       # Configurações do PHP para o Apache (/etc/php/8.5/apache2/php.ini)
 │   ├── php-cli.ini          # Configurações do PHP para o terminal CLI (/etc/php/8.5/cli/php.ini)
-│   ├── xdebug.ini           # Ativação e ajustes do Xdebug (/etc/php/8.5/apache2/conf.d/20-xdebug.ini)
+│   ├── xdebug.ini           # Configuração do Xdebug (/etc/php/8.5/apache2/conf.d/20-xdebug.ini)
 │   ├── apache_default.conf  # VirtualHost padrão do Apache (/etc/apache2/sites-enabled/000-default.conf)
 │   ├── servers.json         # Pré-cadastro automático do servidor PostgreSQL no pgAdmin 4
 │   └── postgresql.conf      # Configurações customizadas opcionais para o PostgreSQL
@@ -76,7 +76,7 @@ debian13_php8.5_pgsql/
 
 ### 1. Persistência e Logs do PostgreSQL (`postgres_database/`)
 * **Persistência (`./postgres_database`):** Ativada por padrão no `docker-compose.yml` com `PGDATA=/var/lib/postgresql/data/pgdata`, garantindo que seus bancos e tabelas não sejam perdidos ao parar ou recriar o container.
-* **Logs do PostgreSQL:** Segue o padrão oficial da imagem Docker (`logging_collector=off`), enviando os logs para a saída padrão do Docker (você pode acompanhá-los via `docker logs -f postgres` ou pelo painel do Docker Desktop). Caso queira gravar em arquivo (`./logs/postgresql.log`), basta descomentar o volume `./logs:/var/log/postgresql:rw` e o bloco `command` no [`docker-compose.yml`](docker-compose.yml).
+* **Logs do PostgreSQL:** Segue o padrão oficial da imagem Docker (`logging_collector=off`), enviando os logs para a saída padrão do Docker (acompanhe via `docker logs -f postgres` ou pelo painel do Docker Desktop). Caso queira gravar em arquivo (`./logs/postgresql.log`), basta descomentar o volume `./logs:/var/log/postgresql:rw` e o bloco `command` no [`docker-compose.yml`](docker-compose.yml).
 
 ### 2. `config/php-apache.ini` e `config/php-cli.ini`
 Permitem customizar separadamente o comportamento do PHP no servidor web (`php-apache.ini`) e na linha de comando (`php-cli.ini`). Após editar, basta reiniciar o container:
@@ -92,16 +92,16 @@ docker-compose restart apache_php
 ### 3. `config/apache_default.conf`
 Define o `VirtualHost *:80` do Apache apontando para `/var/www/html` com `AllowOverride All`. Ideal caso você precise configurar redirecionamentos, cabeçalhos customizados ou alterar o `DocumentRoot`.
 
-### 4. `config/xdebug.ini` (Ativando / Desativando o Xdebug)
-O Xdebug vem **desativado por padrão** para garantir máxima velocidade no dia a dia.
-* **Para ativar:**
-  1. Caso a extensão ainda não esteja instalada na imagem, descomente a linha `RUN apt-get -y install php8.5-xdebug` no `.Dockerfile` e faça o build uma única vez.
-  2. No arquivo [`config/xdebug.ini`](config/xdebug.ini), descomente a linha `;zend_extension=xdebug.so` (removendo o `;`).
-  3. Reinicie o container sem precisar reconstruir a imagem:
+### 4. `config/xdebug.ini` (Como Desativar o Xdebug)
+O Xdebug já é instalado no `Dockerfile` e vem **ATIVADO por padrão** em [`config/xdebug.ini`](config/xdebug.ini) na porta `9003`.
+* **Para desativar (ganhar performance ou preparar para produção) sem reconstruir a imagem:**
+  1. Abra o arquivo [`config/xdebug.ini`](config/xdebug.ini).
+  2. Comente a linha `zend_extension=xdebug.so` adicionando `;` no início (`;zend_extension=xdebug.so`) — ou altere `xdebug.mode = off`.
+  3. Reinicie o container:
      ```bash
      docker-compose restart apache_php
      ```
-* **Para desativar (ou em produção):** Comente novamente `;zend_extension=xdebug.so` em `config/xdebug.ini` e reinicie o container.
+* **Para reativar:** Descomente novamente `zend_extension=xdebug.so` em `config/xdebug.ini` e reinicie o container `apache_php`.
 
 ### 5. `config/servers.json` (Servidor Pré-Cadastrado no pgAdmin)
 Este arquivo é montado automaticamente no container do pgAdmin (`/pgadmin4/servers.json`). Graças a ele, ao fazer login no pgAdmin (`http://localhost:8080`), o servidor **`PostgreSQL Docker (database)`** já estará cadastrado na lista de servidores — bastando informar a senha `postgres` na primeira conexão.
